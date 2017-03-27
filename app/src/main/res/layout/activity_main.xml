@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="90sp"
+        android:layout_gravity="top"
+        android:gravity="top">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="90sp"
+            android:src="@drawable/manna"
+            android:gravity="center"
+            android:layout_weight="0.2"
+            android:onClick="ChangeFragment"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300sp"
+            android:layout_gravity="top"
+            android:gravity="top">
+
+            <fragment
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:name="org.ssutown.manna.HomeFragment"
+                android:id="@+id/main_fragment"
+                android:layout_weight="1"
+                tools:layout="@layout/home_fragment" />
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:weightSum="1">
+
+        <ImageButton
+            android:text="meeting"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:id="@+id/button0"
+            android:src="@drawable/person3"
+            android:layout_gravity="bottom"
+            android:background="@android:color/transparent"
+            android:gravity="bottom|center"
+            android:layout_weight="0.2"
+            tools:ignore="ContentDescription,HardcodedText"
+            android:onClick="ChangeFragment"/>
+
+        <ImageButton
+            android:text="meeting"
+            android:layout_width="wrap_content"
+            android:src="@drawable/meeting_group2"
+            android:layout_height="90dp"
+            android:id="@+id/button1"
+            android:layout_gravity="bottom"
+            android:background="@android:color/transparent"
+            android:gravity="bottom|center"
+            android:layout_weight="0.2"
+            android:onClick="ChangeFragment"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+        <ImageButton
+            android:text="HOME"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:src="@drawable/home1"
+            android:id="@+id/button2"
+            android:layout_gravity="bottom"
+            android:background="@android:color/transparent"
+            android:gravity="bottom|center"
+            android:layout_weight="0.2"
+            android:onClick="ChangeFragment"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+        <ImageButton
+            android:text="schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:src="@drawable/calendar1"
+            android:id="@+id/button3"
+            android:layout_gravity="bottom"
+            android:background="@android:color/transparent"
+            android:gravity="bottom|center"
+            android:layout_weight="0.2"
+            android:onClick="ChangeFragment"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+        <ImageButton
+            android:text="setting"
+            android:layout_width="wrap_content"
+            android:layout_height="90sp"
+            android:src="@drawable/settings1"
+            android:id="@+id/button4"
+            android:layout_gravity="bottom"
+            android:background="@android:color/transparent"
+            android:gravity="bottom|center"
+            android:layout_weight="0.2"
+            android:onClick="ChangeFragment"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
