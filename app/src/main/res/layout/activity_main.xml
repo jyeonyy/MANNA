@@ -6,20 +6,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="#ffffffff"
 
     android:orientation="vertical"
-    android:weightSum="1">
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90sp"
-        android:layout_gravity="top"
-        android:gravity="top">
+        android:layout_height="0dp"
+
+        android:layout_gravity="bottom"
+        android:layout_weight="2.2"
+        android:gravity="center">
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="90sp"
+            android:layout_height="70sp"
+
             android:src="@drawable/manna"
             android:gravity="center"
             android:layout_weight="0.2"
@@ -31,7 +34,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300sp"
+            android:layout_height="0dp"
+            android:layout_weight="11"
             android:layout_gravity="top"
             android:gravity="top">
 
@@ -46,72 +50,79 @@
         </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_gravity="bottom"
-        android:gravity="bottom"
+        android:layout_height="0dp"
+        android:layout_weight="2.2"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:weightSum="1">
 
         <ImageButton
             android:text="meeting"
-            android:layout_width="wrap_content"
-            android:layout_height="90dp"
+            android:layout_width="50dp"
+
+            android:layout_height="50dp"
             android:id="@+id/button0"
             android:src="@drawable/person3"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
             android:background="@android:color/transparent"
-            android:gravity="bottom|center"
+            android:gravity="center"
             android:layout_weight="0.2"
             tools:ignore="ContentDescription,HardcodedText"
             android:onClick="ChangeFragment"/>
 
         <ImageButton
             android:text="meeting"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:src="@drawable/meeting_group2"
-            android:layout_height="90dp"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
             android:id="@+id/button1"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
             android:background="@android:color/transparent"
-            android:gravity="bottom|center"
+            android:gravity="center"
             android:layout_weight="0.2"
             android:onClick="ChangeFragment"
             tools:ignore="ContentDescription,HardcodedText" />
 
         <ImageButton
             android:text="HOME"
-            android:layout_width="wrap_content"
-            android:layout_height="90dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:src="@drawable/home1"
             android:id="@+id/button2"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
             android:background="@android:color/transparent"
-            android:gravity="bottom|center"
+            android:gravity="center"
             android:layout_weight="0.2"
             android:onClick="ChangeFragment"
             tools:ignore="ContentDescription,HardcodedText" />
 
         <ImageButton
             android:text="schedule"
-            android:layout_width="wrap_content"
-            android:layout_height="90dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/calendar1"
+            android:scaleType="centerInside"
             android:id="@+id/button3"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
             android:background="@android:color/transparent"
-            android:gravity="bottom|center"
+            android:gravity="center"
             android:layout_weight="0.2"
             android:onClick="ChangeFragment"
             tools:ignore="ContentDescription,HardcodedText" />
 
         <ImageButton
             android:text="setting"
-            android:layout_width="wrap_content"
-            android:layout_height="90sp"
+            android:layout_width="50dp"
+            android:scaleType="centerInside"
+            android:layout_height="50dp"
             android:src="@drawable/settings1"
             android:id="@+id/button4"
-            android:layout_gravity="bottom"
+            android:layout_gravity="center"
             android:background="@android:color/transparent"
-            android:gravity="bottom|center"
+            android:gravity="center"
             android:layout_weight="0.2"
             android:onClick="ChangeFragment"
             tools:ignore="ContentDescription,HardcodedText" />
