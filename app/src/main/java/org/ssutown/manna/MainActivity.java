@@ -27,9 +27,13 @@ public class MainActivity extends Activity{
         }else if(view == findViewById(R.id.button1)){
             fr = new MeetingFragment();
 
-        }else if(view == findViewById(R.id.button2)){
+        }else if(view == findViewById(R.id.button2)) {
             fr = new HomeFragment();
 
+        }else if(view == findViewById(R.id.button3)){
+            fr = new ScheduleFragment();
+        } else if (view == findViewById(R.id.button4)) {
+            fr = new SettingFragment();
         }
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
