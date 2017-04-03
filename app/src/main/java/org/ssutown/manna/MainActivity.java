@@ -1,23 +1,25 @@
 package org.ssutown.manna;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.app.Fragment;
 
 /**
  * Created by Jiyeon on 2017-03-25.
  */
 
-public class MainActivity extends Activity{
+public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
 
     }
+
+
 
     public void ChangeFragment(View view){
         Fragment fr = new Fragment();
