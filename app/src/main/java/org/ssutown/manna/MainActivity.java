@@ -3,6 +3,7 @@ package org.ssutown.manna;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -17,8 +18,14 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
 
-    }
+        login();
 
+    }
+    
+    public void login(){
+        Intent loginIntent = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivityForResult(loginIntent,0);
+    }
 
 
     public void ChangeFragment(View view){
