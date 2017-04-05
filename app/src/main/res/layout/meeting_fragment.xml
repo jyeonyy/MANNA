@@ -12,4 +12,13 @@
         android:layout_alignParentTop="true"
         android:textSize="30sp"
         android:background="#98ffae" />
+
+    <Button
+        android:text="미팅 방"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="89dp"
+        android:id="@+id/meetingroom" />
 </RelativeLayout>

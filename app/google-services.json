@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1000414884756",
+    "firebase_url": "https://manna-163600.firebaseio.com",
+    "project_id": "manna-163600",
+    "storage_bucket": "manna-163600.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1000414884756:android:9b5dfa5506d1d95d",
+        "android_client_info": {
+          "package_name": "org.ssutown.manna"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1000414884756-ild8m7gtk7koro5fclp7lrn4p4j1ifv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7yMEofxkGRGiKqpGLDCpizkG3ySNpAUs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1000414884756-ild8m7gtk7koro5fclp7lrn4p4j1ifv0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
