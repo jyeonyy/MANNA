@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -17,7 +18,15 @@ public class MainActivity extends Activity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
 
+        login();
+
     }
+    
+    public void login(){
+        Intent loginIntent = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivityForResult(loginIntent,0);
+    }
+
 
     public void ChangeFragment(View view){
         Fragment fr = new Fragment();

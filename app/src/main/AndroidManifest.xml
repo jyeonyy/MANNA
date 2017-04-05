@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ssutown.manna">
+
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".KakaoLogin.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,6 +21,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".MeetingActivity"/>
+
+
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="76afc3d1dfb9b431bbea2a63ebf3e28f" />
+
+        <activity android:name=".LoginActivity"></activity>
+
+
     </application>
 
 </manifest>
