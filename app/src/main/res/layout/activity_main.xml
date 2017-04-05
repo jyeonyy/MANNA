@@ -16,7 +16,7 @@
         android:layout_height="0dp"
 
         android:layout_gravity="bottom"
-        android:layout_weight="2"
+        android:layout_weight="1.5"
         android:gravity="center">
 
         <ImageView
@@ -51,15 +51,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="1.2"
         android:layout_gravity="center"
         android:gravity="center"
         android:weightSum="1">
 
         <ImageButton
             android:text="meeting"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/button0"
             android:src="@drawable/person3"
             android:layout_gravity="center"
@@ -72,9 +72,9 @@
 
         <ImageButton
             android:text="meeting"
-            android:layout_width="30dp"
+            android:layout_width="20dp"
             android:src="@drawable/meeting_group2"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:scaleType="centerInside"
             android:id="@+id/button1"
             android:layout_gravity="center"
@@ -86,8 +86,8 @@
 
         <ImageButton
             android:text="HOME"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/home1"
             android:id="@+id/button2"
             android:layout_gravity="center"
@@ -100,8 +100,8 @@
 
         <ImageButton
             android:text="schedule"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@drawable/calendar1"
             android:scaleType="centerInside"
             android:id="@+id/button3"
@@ -114,9 +114,9 @@
 
         <ImageButton
             android:text="setting"
-            android:layout_width="30dp"
+            android:layout_width="20dp"
             android:scaleType="centerInside"
-            android:layout_height="30dp"
+            android:layout_height="20dp"
             android:src="@drawable/settings1"
             android:id="@+id/button4"
             android:layout_gravity="center"

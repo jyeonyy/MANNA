@@ -28,3 +28,4 @@ dependencies {
     compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'

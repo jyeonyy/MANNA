@@ -1,20 +1,20 @@
 package org.ssutown.manna;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 /**
  * Created by Jiyeon on 2017-03-25.
  */
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends Activity {
     @Override
-    protected void onCreate(Bundle saveInstanceState){
+    protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -30,13 +30,11 @@ public class MainActivity extends FragmentActivity {
 
     public void ChangeFragment(View view){
         Fragment fr = new Fragment();
+
         if(view == findViewById(R.id.button0)){
             fr = new PersonFragment();
 
-        }else if(view == findViewById(R.id.button1)){
-            fr = new MeetingFragment();
-
-        }else if(view == findViewById(R.id.button2)) {
+        } else if(view == findViewById(R.id.button2)) {
             fr = new HomeFragment();
 
         }else if(view == findViewById(R.id.button3)){
@@ -44,9 +42,15 @@ public class MainActivity extends FragmentActivity {
         } else if (view == findViewById(R.id.button4)) {
             fr = new SettingFragment();
         }
+        else if(view == findViewById(R.id.button1)){
+            fr = new MeetingFragment();
+        }
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.main_fragment, fr);
         fragmentTransaction.commit();
+
+
+
     }
 }
