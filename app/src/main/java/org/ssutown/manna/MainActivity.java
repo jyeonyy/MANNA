@@ -21,7 +21,7 @@ public class MainActivity extends FragmentActivity {
         login();
 
     }
-    
+
     public void login(){
         Intent loginIntent = new Intent(getApplicationContext(),LoginActivity.class);
         startActivityForResult(loginIntent,0);
