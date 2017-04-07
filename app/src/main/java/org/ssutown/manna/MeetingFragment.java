@@ -7,12 +7,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
 
 
 public class MeetingFragment extends Fragment {
 
-
+    static final String[] LIST_MENU = {"LIST1","LIST2","LIST3"};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState ) {
         View view = inflater.inflate( R.layout.meeting_fragment, container, false );
@@ -30,6 +34,22 @@ public class MeetingFragment extends Fragment {
 
              }
         });
+
+        ArrayAdapter Adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, LIST_MENU);
+
+        ListView listview = (ListView)view.findViewById(R.id.listview);
+        listview.setAdapter(Adapter);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+
+                // get TextView's Text.
+                String strText = (String) parent.getItemAtPosition(position) ;
+
+                Toast.makeText(getActivity().getApplication(),"gg",Toast.LENGTH_SHORT).show();
+            }
+        }) ;
 
 
         return view;
