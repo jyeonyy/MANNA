@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MemoListItem {
     private String memo;
+    public MemoListItem(){}
     public MemoListItem(String content){
         this.memo = content;
     }
@@ -24,6 +25,7 @@ public class MemoListItem {
         MemoListItem newmemo = new MemoListItem(content);
         mDatabase.child(memo);
     }
+
 
 
 }

@@ -64,4 +64,7 @@ public class MemoListAdapter extends BaseAdapter {
 
         listViewItemList.add(item);
     }
+    public void clear(){
+        listViewItemList.clear();
+    }
 }
