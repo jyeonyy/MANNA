@@ -20,7 +20,6 @@ public class MeetingFragment extends Fragment {
 
 
 
-
         ListViewAdapter adapter;
         adapter = new ListViewAdapter();
         ListView listview = (ListView)view.findViewById(R.id.listview);
