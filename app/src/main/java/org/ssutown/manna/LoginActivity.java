@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     SessionCallback callback;
     private static final String TAG = "KakaoLoginActivity";
     private boolean login = false;
+    public KakaoProfile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +114,16 @@ public class LoginActivity extends AppCompatActivity {
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
                     Log.e("UserProfile", userProfile.toString());
                     Toast.makeText(getApplicationContext(),"sucess",Toast.LENGTH_LONG).show();
-                    KakaoProfile profile = new KakaoProfile(userProfile.getId(), userProfile.getNickname(), userProfile.getThumbnailImagePath(), userProfile.getProfileImagePath());
+                    profile = new KakaoProfile(userProfile.getId(), userProfile.getNickname(), userProfile.getThumbnailImagePath(), userProfile.getProfileImagePath());
                     finish();
                 }
 
             });
 
+        }
+
+        public KakaoProfile sendProfile(){
+            return profile;
         }
 
         @Override

@@ -1,10 +1,10 @@
 package org.ssutown.manna.Data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
-/**
- * Created by JeongHun on 16. 7. 15..
- */
 public class KakaoProfile implements Serializable {
 
     private long id;

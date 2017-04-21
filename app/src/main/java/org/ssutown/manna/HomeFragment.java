@@ -1,6 +1,7 @@
 package org.ssutown.manna;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -30,10 +31,11 @@ import java.util.List;
 public class HomeFragment extends Fragment {
   //  private ImageView kakaoprofile;
     String userID;
+    private KakaoProfile profile;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference memodatabase = database.getReference("Memo");
-    private ArrayList<MemoListItem> memo = new ArrayList<>();
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -41,11 +43,11 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate( R.layout.home_fragment, container, false );
         userID = "11111";
 
+
         final MemoListAdapter adapter;
         adapter = new MemoListAdapter();
         final ListView listview = (ListView)view.findViewById(R.id.memolistview);
         listview.setAdapter(adapter);
-
 
 
        memodatabase.child(userID.toString()).addValueEventListener(new ValueEventListener() {
