@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
 
         final MemoListAdapter adapter;
         adapter = new MemoListAdapter();
-        ListView listview = (ListView)view.findViewById(R.id.memolistview);
+        final ListView listview = (ListView)view.findViewById(R.id.memolistview);
         listview.setAdapter(adapter);
 
 
@@ -51,9 +51,10 @@ public class HomeFragment extends Fragment {
        memodatabase.child(userID.toString()).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
-               for(DataSnapshot ds: dataSnapshot.getChildren())
+               adapter.clear();
+               for(DataSnapshot ds: dataSnapshot.getChildren()) {
                    adapter.addItem(ds.getValue(MemoListItem.class).getMemo());
-                   adapter.notifyDataSetChanged();
+               }adapter.notifyDataSetChanged();
            }
 
            @Override

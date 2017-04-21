@@ -44,6 +44,9 @@ public class MemoListAdapter extends BaseAdapter {
         return convertView;
     }
 
+    public void clear(){
+        listViewItemList.clear();
+    }
     // 지정한 위치(position)에 있는 데이터와 관계된 아이템(row)의 ID를 리턴. : 필수 구현
     @Override
     public long getItemId(int position) {
