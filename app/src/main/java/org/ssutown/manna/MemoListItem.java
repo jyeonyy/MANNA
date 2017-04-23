@@ -11,17 +11,19 @@ public class MemoListItem {
 
     private String memo;
 
-    public MemoListItem(){}
-    public MemoListItem(String content){
+    public MemoListItem() {
+    }
+
+    public MemoListItem(String content) {
         this.memo = content;
     }
 
-    public void setMemo(String memo){
+    public void setMemo(String memo) {
         this.memo = memo;
+
     }
 
-    public String getMemo(){
+    public String getMemo() {
         return this.memo;
     }
-
 }
