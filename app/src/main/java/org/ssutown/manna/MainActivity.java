@@ -7,20 +7,25 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.os.Handler;
+import android.widget.Toast;
 
 /**
  * Created by Jiyeon on 2017-03-25.
  */
 
 public class MainActivity extends Activity {
+
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
 
-        login();
+    }
 
-
+    public long getUserID(){
+        Intent intent = getIntent();
+        return intent.getExtras().getLong("userID");
     }
 
     public void login(){

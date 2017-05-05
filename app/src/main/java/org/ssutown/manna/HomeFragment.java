@@ -31,9 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment {
   //  private ImageView kakaoprofile;
-    String userID;
-    private KakaoProfile profile;
-
+    long userID;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference memodatabase = database.getReference("Memo");
 
@@ -42,8 +40,8 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View view = inflater.inflate( R.layout.home_fragment, container, false );
-        userID = "11111";
 
+        userID = getUserID();
 
         final MemoListAdapter adapter;
         adapter = new MemoListAdapter();
@@ -51,7 +49,7 @@ public class HomeFragment extends Fragment {
         listview.setAdapter(adapter);
 
 
-       memodatabase.child(userID.toString()).addValueEventListener(new ValueEventListener() {
+       memodatabase.child(String.valueOf(userID)).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
                adapter.clear();
@@ -75,8 +73,8 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 EditText editmemo = (EditText)getView().findViewById(R.id.memoedit);
                 MemoListItem memo = new MemoListItem(editmemo.getText().toString());
-                String key = memodatabase.child(userID.toString()).push().getKey();
-                memodatabase.child(userID.toString()).child(key).setValue(memo);
+                String key = memodatabase.child(String.valueOf(userID)).push().getKey();
+                memodatabase.child(String.valueOf(userID)).child(key).setValue(memo);
                 editmemo.setText("");
 
             }
@@ -105,6 +103,10 @@ public class HomeFragment extends Fragment {
 
 
 
+    }
+
+    public long getUserID(){
+        return ((MainActivity)getActivity()).getUserID();
     }
 
 

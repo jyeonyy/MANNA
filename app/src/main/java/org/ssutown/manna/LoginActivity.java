@@ -1,5 +1,6 @@
 package org.ssutown.manna;
 
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -34,7 +35,8 @@ import com.kakao.util.helper.log.Logger;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int KAKAO_LOGIN_SUCCESS = 200;
-
+    private Handler handler;
+    private ProgressDialog progressDialog;
     SessionCallback callback;
     private static final String TAG = "KakaoLoginActivity";
     private boolean login = false;
@@ -45,7 +47,33 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kakaologin);
 
-        Toast.makeText(getApplicationContext(),"login",Toast.LENGTH_SHORT).show();
+        TextView textView = (TextView)findViewById(R.id.splash);
+        final LoginButton loginButton = (LoginButton)findViewById(R.id.com_kakao_login);
+        final Button exitButton = (Button)findViewById(R.id.exitButton);
+
+        SessionCallback sessionCallback;
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("로그인 중입니다.");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
+        handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Kakao Callback
+                Log.e(TAG, "MainActivity Before new SessionCallback");
+                callback = new SessionCallback();
+                Log.e(TAG, "MainActivity After new SessionCallback");
+                Session.getCurrentSession().addCallback(callback);
+                if(!Session.getCurrentSession().checkAndImplicitOpen()){
+                    loginButton.setVisibility(View.VISIBLE);
+                    exitButton.setVisibility(View.VISIBLE);
+                    Toast.makeText(getApplicationContext(),"login",Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, 2500);
+
 
         /**카카오톡 로그아웃 요청**/
         //한번 로그인이 성공하면 세션 정보가 남아있어서 로그인창이 뜨지 않고 바로 onSuccess()메서드를 호출합니다.
@@ -56,10 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                 //로그아웃 성공 후 하고싶은 내용 코딩 ~
             }
         });
-
-        callback = new SessionCallback();
-        Session.getCurrentSession().addCallback(callback);
-        Session.getCurrentSession().checkAndImplicitOpen();
 
     }
 
@@ -73,10 +97,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void onClick(View v) {
+        setResult(100, null);
+        finish();
+    }
 
     protected void onDestroy() {
         super.onDestroy();
         Session.getCurrentSession().removeCallback(callback);
+    }
+
+    public void onBackPressed() {
+        setResult(100, null);
+        finish();
     }
 
 
@@ -102,19 +135,24 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
+                    Log.e(TAG, "MainActivity onSessionClosed");
                 }
 
                 @Override
                 public void onNotSignedUp() {
+                    Log.e(TAG, "MainActivity onNotSignedUp");
                 }
 
                 @Override
                 public void onSuccess(UserProfile userProfile) {
                     //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
-                    Log.e("UserProfile", userProfile.toString());
-                    Toast.makeText(getApplicationContext(),"sucess",Toast.LENGTH_LONG).show();
-                    profile = new KakaoProfile(userProfile.getId(), userProfile.getNickname(), userProfile.getThumbnailImagePath(), userProfile.getProfileImagePath());
+                    Log.i("UserProfile", userProfile.toString() + "id : " + userProfile.getId());
+                    Log.e(TAG, "MainActivity OnSuccess");
+                    Toast.makeText(getApplicationContext(),String.valueOf(userProfile.getId()),Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    intent.putExtra("userID",userProfile.getId());
+                    startActivity(intent);
                     finish();
                 }
 
@@ -122,17 +160,13 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-        public KakaoProfile sendProfile(){
-            return profile;
-        }
-
         @Override
         public void onSessionOpenFailed(KakaoException exception) {
             Log.d("myLog","onSessionOpenFailed"+"onSessionOpenFaild");
-
             if(exception != null){
                 Logger.e(exception);
             }
         }
+
     }
 }
