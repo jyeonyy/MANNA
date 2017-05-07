@@ -1,31 +1,18 @@
 package org.ssutown.manna;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.kakao.util.exception.KakaoException;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -41,7 +28,7 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.home_fragment, container, false );
 
-        userID = getUserID();
+        userID = 1111;
 
         final MemoListAdapter adapter;
         adapter = new MemoListAdapter();
