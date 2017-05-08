@@ -2,6 +2,7 @@ package org.ssutown.manna.CustomCalendar;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,8 +14,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import org.ssutown.manna.AddAppointActivity;
 import org.ssutown.manna.R;
 
 import java.util.ArrayList;
@@ -114,6 +115,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
             mAdd = (Button)rootView.findViewById(R.id.add_appointment);
             if(mAdd != null){
+                mAdd.setOnClickListener(this);
 
             }
 
@@ -140,10 +142,10 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    public void func(){
-        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
-        toast.show();
-    }
+//    public void func(){
+//        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
+//        toast.show();
+//    }
 
 
     @Override
@@ -159,7 +161,8 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
                     break;
 
                 case R.id.add_appointment:
-                    func();
+                    Intent intent = new Intent(getActivity(),AddAppointActivity.class);
+                    startActivity(intent);
                     break;
 
                 default:
