@@ -1,20 +1,29 @@
 package org.ssutown.manna;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.view.View;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import org.ssutown.manna.CustomCalendar.MaterialCalendarFragment;
 
 /**
  * Created by Maximilian on 9/1/14.
  */
+
+import java.util.ArrayList;
+
 public class PersonFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+
 
         super.onCreate(savedInstanceState);
         View view = inflater.inflate( R.layout.layout_main, container, false );
@@ -47,7 +56,10 @@ public class PersonFragment extends Fragment {
 //    }
 
 
-}
+       // return inflater.inflate(R.layout.person_fragment, container, false);
+    }
+
+
 
 
 
