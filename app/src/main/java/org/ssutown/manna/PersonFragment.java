@@ -102,6 +102,6 @@ public class PersonFragment extends Fragment {
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
     }
-    
+
 }
 
