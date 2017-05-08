@@ -8,10 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.ssutown.manna.R;
 
@@ -31,6 +33,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     ImageView mNext;
     TextView mMonthName;
     GridView mCalendar;
+    Button mAdd;
 
     // Calendar Adapter
     private MaterialCalendarAdapter mMaterialCalendarAdapter;
@@ -53,6 +56,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -108,6 +112,11 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
                 }
             }
 
+            mAdd = (Button)rootView.findViewById(R.id.add_appointment);
+            if(mAdd != null){
+
+            }
+
             // ListView for saved events in calendar
             mSavedEventsListView = (ListView) rootView.findViewById(R.id.saved_events_listView);
         }
@@ -131,6 +140,12 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         }
     }
 
+    public void func(){
+        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+
     @Override
     public void onClick(View view) {
         if (view != null) {
@@ -142,8 +157,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
                 case R.id.material_calendar_next:
                     MaterialCalendar.nextOnClick(mNext, mMonthName, mCalendar, mMaterialCalendarAdapter);
                     break;
-                case R.id.add_appointment:
 
+                case R.id.add_appointment:
+                    func();
                     break;
 
                 default:
@@ -151,6 +167,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             }
         }
     }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

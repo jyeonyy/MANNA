@@ -26,7 +26,7 @@
         android:contentDescription="@string/calendar_next"/>
 
 
-    <ImageView
+    <Button
         android:id="@+id/add_appointment"
         android:layout_width="32dp"
         android:layout_height="32dp"
@@ -34,8 +34,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="20dp"
         android:layout_marginTop="12dp"
-        android:src="@drawable/plusbutton"
-        android:contentDescription="add"/>
+        android:background="@drawable/plusbutton"
+        android:contentDescription="add" />
 
     <TextView
         android:id="@+id/material_calendar_month_name"
