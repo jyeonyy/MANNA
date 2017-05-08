@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.home_fragment, container, false );
 
-        userID = getUserID();
+        userID = 11111;
 
         final MemoListAdapter adapter;
         adapter = new MemoListAdapter();
