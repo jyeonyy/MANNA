@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">MANNA</string>
+
+
+    <!-- Material Calendar -->
+    <string name="monday">MON</string>
+    <string name="tuesday">TUE</string>
+    <string name="wednesday">WED</string>
+    <string name="thursday">THU</string>
+    <string name="friday">FRI</string>
+    <string name="saturday">SAT</string>
+    <string name="sunday">SUN</string>
+    <string name="calendar_previous">previous</string>
+    <string name="calendar_next">next</string>
+    <string name="saved_event_image">saved event image</string>
+
 </resources>
