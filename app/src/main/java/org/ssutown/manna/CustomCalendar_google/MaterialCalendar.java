@@ -1,4 +1,4 @@
-package org.ssutown.manna.CustomCalendar;
+package org.ssutown.manna.CustomCalendar_google;
 
 import android.util.Log;
 import android.widget.GridView;

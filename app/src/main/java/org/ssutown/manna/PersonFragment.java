@@ -1,6 +1,5 @@
 package org.ssutown.manna;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,12 +7,11 @@ import android.view.View;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import java.text.SimpleDateFormat;
 
 
-import org.ssutown.manna.CustomCalendar.MaterialCalendarFragment;
+import org.ssutown.manna.CustomCalendar_google.MaterialCalendarFragment;
 
 /**
  * Created by Maximilian on 9/1/14.
@@ -21,7 +19,6 @@ import org.ssutown.manna.CustomCalendar.MaterialCalendarFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.StringTokenizer;
 
 public class PersonFragment extends Fragment {
 
