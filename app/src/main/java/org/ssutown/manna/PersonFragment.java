@@ -1,24 +1,24 @@
 package org.ssutown.manna;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.view.View;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import java.text.SimpleDateFormat;
-
 
 import org.ssutown.manna.CustomCalendar_google.MaterialCalendarFragment;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Maximilian on 9/1/14.
  */
-
-import java.util.ArrayList;
-import java.util.Calendar;
 
 public class PersonFragment extends Fragment {
 
@@ -32,7 +32,11 @@ public class PersonFragment extends Fragment {
 
 
         super.onCreate(savedInstanceState);
+
         View view = inflater.inflate( R.layout.layout_main, container, false );
+
+        Intent intent = new Intent(getActivity(),SelectCalendar.class);
+        startActivity(intent);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.main_container, new MaterialCalendarFragment()).commit();
