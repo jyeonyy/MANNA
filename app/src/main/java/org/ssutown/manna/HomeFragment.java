@@ -31,8 +31,8 @@ public class HomeFragment extends Fragment {
         userID = 1111;
      //  userID = getUserID();
 
-        final MemoListAdapter adapter;
-        adapter = new MemoListAdapter();
+        final org.ssutown.manna.MemoListAdapter adapter;
+        adapter = new org.ssutown.manna.MemoListAdapter();
         final ListView listview = (ListView)view.findViewById(R.id.memolistview);
         listview.setAdapter(adapter);
 

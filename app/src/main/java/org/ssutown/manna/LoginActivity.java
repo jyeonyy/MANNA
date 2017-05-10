@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -157,6 +158,11 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("UserProfile", userProfile.toString() + "id : " + userProfile.getId());
                     Log.e(TAG, "MainActivity OnSuccess");
                     Toast.makeText(getApplicationContext(),String.valueOf(userProfile.getId()),Toast.LENGTH_SHORT).show();
+                    if(Session.getCurrentSession().isClosed()){
+                        Toast.makeText(getApplicationContext(),"exist",Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(),"not exist",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     intent.putExtra("userID",userProfile.getId());
                     startActivity(intent);

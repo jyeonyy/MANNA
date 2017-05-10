@@ -37,6 +37,8 @@ public class PersonFragment extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate( R.layout.layout_main, container, false );
 
+        
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.main_container, new MaterialCalendarFragment()).commit();
         }
@@ -102,6 +104,6 @@ public class PersonFragment extends Fragment {
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
     }
-
+    
 }
 

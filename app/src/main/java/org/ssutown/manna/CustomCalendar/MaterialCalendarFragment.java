@@ -2,7 +2,10 @@ package org.ssutown.manna.CustomCalendar;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,10 +17,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.ssutown.manna.AddAppointActivity;
 import org.ssutown.manna.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -35,6 +40,11 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     TextView mMonthName;
     GridView mCalendar;
     Button mAdd;
+
+    public static ArrayList<String> nameOfEvent = new ArrayList<String>();
+    public static ArrayList<String> startDates = new ArrayList<String>();
+    public static ArrayList<String> endDates = new ArrayList<String>();
+    public static ArrayList<String> descriptions = new ArrayList<String>();
 
     // Calendar Adapter
     private MaterialCalendarAdapter mMaterialCalendarAdapter;
@@ -57,6 +67,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        readCalendar(getActivity());
+        Toast.makeText(getActivity(),nameOfEvent.get(0),Toast.LENGTH_SHORT).show();
 
     }
 
@@ -146,7 +159,6 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 //        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
 //        toast.show();
 //    }
-
 
     @Override
     public void onClick(View view) {
@@ -242,11 +254,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         mSavedEventDays = new ArrayList<Integer>();
 
         // This is just used for testing purposes to show saved events on the calendar
-        Random random = new Random();
-        int randomNumOfEvents = random.nextInt(10 - 1) + 1;
 
-        for (int i = 0; i < randomNumOfEvents; i++) {
-            int day = random.nextInt(MaterialCalendar.mNumDaysInMonth - 1) + 1;
+     /*   for (int i = 0; i < mNumEventsOnDay; i++) {
+            int day = MaterialCalendar.mNumDaysInMonth + 1;
             int eventPerDay = random.nextInt(5 - 1) + 1;
 
             HashMap<String, Integer> dayInfo = new HashMap<String, Integer>();
@@ -258,7 +268,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             Log.d("EVENTS_PER DAY", String.valueOf(dayInfo));
         }
 
-        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));
+        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));*/
     }
 
     protected static void showSavedEventsListView(int position) {
@@ -301,6 +311,44 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             mSavedEventsListView.setSelection(0);
         }
     }
+
+    public ArrayList<String> readCalendar(Context context){
+        Cursor cursor = context.getContentResolver()
+                .query(
+                        Uri.parse("content://com.android.calendar/events"),
+                        new String[] { "calendar_id", "title", "description",
+                                "dtstart", "dtend", "eventLocation" }, null,
+                        null, null);
+        cursor.moveToFirst();
+
+        String CNames[] = new String[cursor.getCount()];
+
+        nameOfEvent.clear();
+        startDates.clear();
+        endDates.clear();
+        descriptions.clear();
+
+        for(int i = 0 ; i<CNames.length; i++){
+            nameOfEvent.add(cursor.getString(1));
+            startDates.add(getDate(Long.parseLong(cursor.getString(3))));
+            endDates.add(getDate(Long.parseLong(cursor.getString(4))));
+            descriptions.add(cursor.getString(2));
+            CNames[i] = cursor.getString(1);
+            cursor.moveToNext();
+        }
+
+        return nameOfEvent;
+    }
+
+    public static String getDate(long milliSeconds) {
+        SimpleDateFormat formatter = new SimpleDateFormat(
+                "dd/MM/yyyy hh:mm:ss a");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
+
 }
 
 
