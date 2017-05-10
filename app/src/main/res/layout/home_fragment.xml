@@ -120,6 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50sp"
             android:id="@+id/memoedit"
+            android:hint="메모를 입력하세요"
             android:textSize="20sp"
             android:layout_marginLeft="30sp"/>
 

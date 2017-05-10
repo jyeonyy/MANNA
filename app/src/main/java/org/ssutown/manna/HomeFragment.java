@@ -1,12 +1,15 @@
 package org.ssutown.manna;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -55,6 +58,9 @@ public class HomeFragment extends Fragment {
 // Write a message to the database
 
 
+
+
+
         final Button addmemo =(Button)view.findViewById(R.id.memoplus);
         addmemo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +69,10 @@ public class HomeFragment extends Fragment {
                 MemoListItem memo = new MemoListItem(editmemo.getText().toString());
                 String key = memodatabase.child(String.valueOf(userID)).push().getKey();
                 memodatabase.child(String.valueOf(userID)).child(key).setValue(memo);
+
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editmemo.getWindowToken(), 0);
+
                 editmemo.setText("");
 
             }
