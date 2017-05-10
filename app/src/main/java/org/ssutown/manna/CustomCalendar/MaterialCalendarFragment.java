@@ -68,8 +68,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        readCalendar(getActivity());
-        Toast.makeText(getActivity(),nameOfEvent.get(0),Toast.LENGTH_SHORT).show();
+
 
     }
 
