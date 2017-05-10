@@ -41,6 +41,8 @@ public class SelectCalendar extends Activity {
                         finish();
                         break;
                 }
+
+
             }
 
         };
@@ -54,5 +56,10 @@ public class SelectCalendar extends Activity {
     public int getCalNum()
     {
         return cal_num;
+    }
+
+    public void setCalNum(int num)
+    {
+        this.cal_num = num;
     }
 }

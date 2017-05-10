@@ -20,13 +20,14 @@ import java.util.Calendar;
  * Created by Maximilian on 9/1/14.
  */
 
+
 public class PersonFragment extends Fragment {
 
     public static ArrayList<String> nameOfEvent = new ArrayList<String>();
     public static ArrayList<String> startDates = new ArrayList<String>();
     public static ArrayList<String> endDates = new ArrayList<String>();
     public static ArrayList<String> descriptions = new ArrayList<String>();
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -37,6 +38,8 @@ public class PersonFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(),SelectCalendar.class);
         startActivity(intent);
+
+
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.main_container, new MaterialCalendarFragment()).commit();
@@ -103,6 +106,7 @@ public class PersonFragment extends Fragment {
         calendar.setTimeInMillis(milliSeconds);
         return formatter.format(calendar.getTime());
     }
+
     
 }
 

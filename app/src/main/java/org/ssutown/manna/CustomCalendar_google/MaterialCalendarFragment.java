@@ -241,6 +241,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
          */
         mSavedEventDays = new ArrayList<Integer>();
 
+
         // This is just used for testing purposes to show saved events on the calendar
         Random random = new Random();
         int randomNumOfEvents = random.nextInt(10 - 1) + 1;
