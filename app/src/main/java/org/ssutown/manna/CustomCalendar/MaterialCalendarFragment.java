@@ -1,8 +1,11 @@
-package org.ssutown.manna.CustomCalendar_google;
+package org.ssutown.manna.CustomCalendar;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,10 +17,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.ssutown.manna.AddAppointActivity;
 import org.ssutown.manna.R;
+import org.ssutown.manna.SelectCalendar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -36,6 +42,11 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     GridView mCalendar;
     Button mAdd;
 
+    public static ArrayList<String> nameOfEvent = new ArrayList<String>();
+    public static ArrayList<String> startDates = new ArrayList<String>();
+    public static ArrayList<String> endDates = new ArrayList<String>();
+    public static ArrayList<String> descriptions = new ArrayList<String>();
+
     // Calendar Adapter
     private MaterialCalendarAdapter mMaterialCalendarAdapter;
 
@@ -48,6 +59,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
     protected static int mNumEventsOnDay = 0;
 
+    protected static int select;
 
     @Override
     public void onAttach(Activity activity) {
@@ -63,10 +75,16 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+
+        Intent intent = new Intent(getActivity(),SelectCalendar.class);
+        startActivity(intent);
+
+        select = getArguments().getInt("num");
+
         if (rootView != null) {
             // Get Calendar info
             // Get Calendar info
-            MaterialCalendar.getInitialCalendarInfo();
+            org.ssutown.manna.CustomCalendar.MaterialCalendar.getInitialCalendarInfo();
             getSavedEventsForCurrentMonth();
 
             // Previous ImageView
@@ -80,8 +98,8 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             if (mMonthName != null) {
                 Calendar cal = Calendar.getInstance();
                 if (cal != null) {
-                mMonthName.setText(cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
-                        Locale.getDefault()) + " " + cal.get(Calendar.YEAR));
+                    mMonthName.setText(cal.getDisplayName(Calendar.MONTH, Calendar.LONG,
+                            Locale.getDefault()) + " " + cal.get(Calendar.YEAR));
                 }
             }
 
@@ -100,9 +118,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
 
                 // Set current day to be auto selected when first opened
-                if (MaterialCalendar.mCurrentDay != -1 && MaterialCalendar.mFirstDay != -1){
-                    int startingPosition = 6 + MaterialCalendar.mFirstDay;
-                    int currentDayPosition = startingPosition + MaterialCalendar.mCurrentDay;
+                if (org.ssutown.manna.CustomCalendar.MaterialCalendar.mCurrentDay != -1 && org.ssutown.manna.CustomCalendar.MaterialCalendar.mFirstDay != -1){
+                    int startingPosition = 6 + org.ssutown.manna.CustomCalendar.MaterialCalendar.mFirstDay;
+                    int currentDayPosition = startingPosition + org.ssutown.manna.CustomCalendar.MaterialCalendar.mCurrentDay;
 
 //                    Log.d("INITIAL_SELECTED_POSITION", String.valueOf(currentDayPosition));
                     mCalendar.setItemChecked(currentDayPosition, true);
@@ -137,27 +155,26 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             Log.d("EVENTS_ADAPTER", "set adapter");
 
             // Show current day saved events on load
-            int today = MaterialCalendar.mCurrentDay + 6 + MaterialCalendar.mFirstDay;
+            int today = org.ssutown.manna.CustomCalendar.MaterialCalendar.mCurrentDay + 6 + org.ssutown.manna.CustomCalendar.MaterialCalendar.mFirstDay;
             showSavedEventsListView(today);
         }
     }
 
-//    public void func(){
-//        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
-//        toast.show();
-//    }
-
+    public void func(){
+        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
     @Override
     public void onClick(View view) {
         if (view != null) {
             switch (view.getId()) {
                 case R.id.material_calendar_previous:
-                    MaterialCalendar.previousOnClick(mPrevious, mMonthName, mCalendar, mMaterialCalendarAdapter);
+                    org.ssutown.manna.CustomCalendar.MaterialCalendar.previousOnClick(mPrevious, mMonthName, mCalendar, mMaterialCalendarAdapter);
                     break;
 
                 case R.id.material_calendar_next:
-                    MaterialCalendar.nextOnClick(mNext, mMonthName, mCalendar, mMaterialCalendarAdapter);
+                    org.ssutown.manna.CustomCalendar.MaterialCalendar.nextOnClick(mNext, mMonthName, mCalendar, mMaterialCalendarAdapter);
                     break;
 
                 case R.id.add_appointment:
@@ -202,12 +219,12 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 //        });
 //
 //        // 창 띄우기
-//        ad.show();
+        //       ad.show();
 
 
         switch (parent.getId()) {
             case R.id.material_calendar_gridView:
-                MaterialCalendar.selectCalendarDay(mMaterialCalendarAdapter, position);
+                org.ssutown.manna.CustomCalendar.MaterialCalendar.selectCalendarDay(mMaterialCalendarAdapter, position);
 
                 // Reset event list
                 mNumEventsOnDay = -1;
@@ -227,10 +244,21 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
          *  This is where you get saved event info
          */
 
+        if(select == 1)
+        {
+            Log.d("test", "number 1");
+        }
+        else if(select == 2)
+        {
+            Log.d("test", "number 2");
+        }
+        else if(select == 3)
+        {
+            Log.d("test", "number 3");
+        }
         // -- Ideas on what could be done here --
         // Probably pull from some database
         // cross check event dates with current calendar month and year
-
         // For loop adding each event date to ArrayList
         // Also get ArrayList<SavedEvents>
 
@@ -241,13 +269,12 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
          */
         mSavedEventDays = new ArrayList<Integer>();
 
-
         // This is just used for testing purposes to show saved events on the calendar
-        Random random = new Random();
-        int randomNumOfEvents = random.nextInt(10 - 1) + 1;
 
-        for (int i = 0; i < randomNumOfEvents; i++) {
-            int day = random.nextInt(MaterialCalendar.mNumDaysInMonth - 1) + 1;
+        Random random = new Random();
+
+        for (int i = 0; i < mNumEventsOnDay; i++) {
+            int day = org.ssutown.manna.CustomCalendar.MaterialCalendar.mNumDaysInMonth + 1;
             int eventPerDay = random.nextInt(5 - 1) + 1;
 
             HashMap<String, Integer> dayInfo = new HashMap<String, Integer>();
@@ -266,9 +293,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         Boolean savedEventsOnThisDay = false;
         int selectedDate = -1;
 
-        if (MaterialCalendar.mFirstDay != -1 && mSavedEventDays != null && mSavedEventDays.size
+        if (org.ssutown.manna.CustomCalendar.MaterialCalendar.mFirstDay != -1 && mSavedEventDays != null && mSavedEventDays.size
                 () > 0) {
-            selectedDate = position - (6 + MaterialCalendar.mFirstDay);
+            selectedDate = position - (6 + org.ssutown.manna.CustomCalendar.MaterialCalendar.mFirstDay);
             Log.d("SELECTED_SAVED_DATE", String.valueOf(selectedDate));
 
             for (int i = 0; i < mSavedEventDays.size(); i++) {
@@ -302,6 +329,43 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             mSavedEventsListView.setSelection(0);
         }
     }
-}
 
+    public ArrayList<String> readCalendar(Context context){
+        Cursor cursor = context.getContentResolver()
+                .query(
+                        Uri.parse("content://com.android.calendar/events"),
+                        new String[] { "calendar_id", "title", "description",
+                                "dtstart", "dtend", "eventLocation" }, null,
+                        null, null);
+        cursor.moveToFirst();
+
+        String CNames[] = new String[cursor.getCount()];
+
+        nameOfEvent.clear();
+        startDates.clear();
+        endDates.clear();
+        descriptions.clear();
+
+        for(int i = 0 ; i<CNames.length; i++){
+            nameOfEvent.add(cursor.getString(1));
+            startDates.add(getDate(Long.parseLong(cursor.getString(3))));
+            endDates.add(getDate(Long.parseLong(cursor.getString(4))));
+            descriptions.add(cursor.getString(2));
+            CNames[i] = cursor.getString(1);
+            cursor.moveToNext();
+        }
+
+        return nameOfEvent;
+    }
+
+    public static String getDate(long milliSeconds) {
+        SimpleDateFormat formatter = new SimpleDateFormat(
+                "dd/MM/yyyy hh:mm:ss a");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
+    }
+
+
+}
 

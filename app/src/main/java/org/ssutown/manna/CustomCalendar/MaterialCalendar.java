@@ -1,4 +1,4 @@
-package org.ssutown.manna.CustomCalendar_google;
+package org.ssutown.manna.CustomCalendar;
 
 import android.util.Log;
 import android.widget.GridView;
@@ -211,4 +211,3 @@ public class MaterialCalendar {
         Log.d("SELECTED_DATE", String.valueOf(month + "/" + dateNumber + "/" + year));
     }
 }
-

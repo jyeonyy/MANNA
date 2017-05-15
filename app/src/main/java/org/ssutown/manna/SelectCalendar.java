@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import org.ssutown.manna.CustomCalendar.MaterialCalendarFragment;
+
 /**
  * Created by YNH on 2017. 5. 9..
  */
@@ -17,6 +19,11 @@ public class SelectCalendar extends Activity {
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.layout_select_calendar);
+
+        MaterialCalendarFragment cal_frag = new MaterialCalendarFragment();
+        Bundle num = new Bundle();
+        num.putInt("num",getCalNum());
+        cal_frag.setArguments(num);
 
         Button gCalBtn = (Button)findViewById(R.id.select_googleCal);
         Button oCalBtn = (Button)findViewById(R.id.select_outlookCal);

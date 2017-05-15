@@ -1,4 +1,4 @@
-package org.ssutown.manna.CustomCalendar_google;
+package org.ssutown.manna.CustomCalendar;
 
 import android.content.Context;
 import android.graphics.Typeface;
