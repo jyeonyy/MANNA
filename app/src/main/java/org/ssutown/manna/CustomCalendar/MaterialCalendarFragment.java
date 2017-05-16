@@ -69,7 +69,6 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         super.onCreate(savedInstanceState);
 
 
-
     }
 
     @Override
@@ -213,7 +212,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 //        });
 //
 //        // 창 띄우기
-//        ad.show();
+ //       ad.show();
 
 
         switch (parent.getId()) {
@@ -237,11 +236,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
          *  -- IMPORTANT --
          *  This is where you get saved event info
          */
-
         // -- Ideas on what could be done here --
         // Probably pull from some database
         // cross check event dates with current calendar month and year
-
         // For loop adding each event date to ArrayList
         // Also get ArrayList<SavedEvents>
 
@@ -254,7 +251,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
         // This is just used for testing purposes to show saved events on the calendar
 
-     /*   for (int i = 0; i < mNumEventsOnDay; i++) {
+        Random random = new Random();
+
+        for (int i = 0; i < mNumEventsOnDay; i++) {
             int day = MaterialCalendar.mNumDaysInMonth + 1;
             int eventPerDay = random.nextInt(5 - 1) + 1;
 
@@ -267,7 +266,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             Log.d("EVENTS_PER DAY", String.valueOf(dayInfo));
         }
 
-        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));*/
+        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));
     }
 
     protected static void showSavedEventsListView(int position) {
