@@ -211,4 +211,3 @@ public class MaterialCalendar {
         Log.d("SELECTED_DATE", String.valueOf(month + "/" + dateNumber + "/" + year));
     }
 }
-

@@ -7,15 +7,50 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name of Appointment"/>
+        android:text="ADD APPOINTMENT"
+        android:gravity="center"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#808080"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Name of Appointment"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#d3d3d3"/>
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter name of appointment"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#d3d3d3"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Date/Time"/>
+        android:text="Start Date/Time"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#d3d3d3"/>
 
     <DatePicker
         android:id="@+id/datePicker_start"
@@ -30,11 +65,22 @@
         android:layout_height="100dp"
         android:timePickerMode="spinner"/>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#d3d3d3"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="End Date/Time"/>
+        android:text="End Date/Time"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#d3d3d3"/>
 
 
     <DatePicker
@@ -54,7 +100,7 @@
         android:id="@+id/addBtn"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="ADD"/>
+        android:text="ADD" />
 
 
 </LinearLayout>

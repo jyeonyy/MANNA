@@ -10,7 +10,6 @@ import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
