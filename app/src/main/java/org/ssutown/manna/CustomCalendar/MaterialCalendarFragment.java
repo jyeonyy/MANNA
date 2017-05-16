@@ -88,6 +88,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
 
 
+//        select = getArguments().getInt("num");
+
+
         if (rootView != null) {
             // Get Calendar info
             // Get Calendar info
