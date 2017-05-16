@@ -1,9 +1,12 @@
 package org.ssutown.manna;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.UserInfo;
 import com.kakao.auth.ErrorCode;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -21,7 +25,14 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
+import com.kakao.util.helper.SharedPreferencesCache;
 import com.kakao.util.helper.log.Logger;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,8 +41,6 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     SessionCallback callback;
     private static final String TAG = "KakaoLoginActivity";
-    private boolean login = false;
-    public KakaoProfile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +51,16 @@ public class LoginActivity extends AppCompatActivity {
         final LoginButton loginButton = (LoginButton)findViewById(R.id.com_kakao_login);
         final Button exitButton = (Button)findViewById(R.id.exitButton);
 
-        SessionCallback sessionCallback;
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("로그인 중입니다.");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        SharedPreferences login = getSharedPreferences("login", Activity.MODE_PRIVATE);
+
+        if(login.getBoolean("loginState",false)){
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        SessionCallback sessionCallback;
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -57,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                 callback = new SessionCallback();
                 Log.e(TAG, "MainActivity After new SessionCallback");
                 Session.getCurrentSession().addCallback(callback);
+                Toast.makeText(getApplicationContext(),"check",Toast.LENGTH_SHORT).show();
+                //여기서 캐쉬에 기록이 있는지 없는지 검사한다
                 if(!Session.getCurrentSession().checkAndImplicitOpen()){
                     loginButton.setVisibility(View.VISIBLE);
                     exitButton.setVisibility(View.VISIBLE);
@@ -157,11 +173,17 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("UserProfile", userProfile.toString() + "id : " + userProfile.getId());
                     Log.e(TAG, "MainActivity OnSuccess");
                     Toast.makeText(getApplicationContext(),String.valueOf(userProfile.getId()),Toast.LENGTH_SHORT).show();
-                    if(Session.getCurrentSession().isClosed()){
-                        Toast.makeText(getApplicationContext(),"exist",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                        Toast.makeText(getApplicationContext(),"not exist",Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences login = getSharedPreferences("login", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = login.edit();
+                    editor.putBoolean("loginState",true);
+                    editor.commit();
+
+                    userInfo info = new userInfo(userProfile.getId());
+                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                    DatabaseReference databaseReference = firebaseDatabase.getReference();
+                    databaseReference.child(String.valueOf(userProfile.getId())).push().setValue(info);
+
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     intent.putExtra("userID",userProfile.getId());
                     startActivity(intent);

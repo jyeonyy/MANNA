@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ssutown.manna.AddAppointActivity;
+import org.ssutown.manna.LoginActivity;
+import org.ssutown.manna.MainActivity;
 import org.ssutown.manna.R;
 import org.ssutown.manna.SelectCalendar;
 
@@ -29,6 +31,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
+import android.content.SharedPreferences;
+
 
 /**
  * Created by Maximilian on 9/1/14.
@@ -59,7 +63,6 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
     protected static int mNumEventsOnDay = 0;
 
-    protected static int select;
 
     @Override
     public void onAttach(Activity activity) {
@@ -71,7 +74,6 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         super.onCreate(savedInstanceState);
 
 
-
     }
 
     @Override
@@ -81,7 +83,10 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         Intent intent = new Intent(getActivity(),SelectCalendar.class);
         startActivity(intent);
 
-        select = getArguments().getInt("num");
+        SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
+        int select = selectedCalendar.getInt("cal_num",0);
+        Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
+
 
         if (rootView != null) {
             // Get Calendar info
@@ -221,6 +226,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 //        });
 //
 //        // 창 띄우기
+
+ //       ad.show();
+
         //       ad.show();
 
 
@@ -241,18 +249,12 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
     // Saved Events
     protected static void getSavedEventsForCurrentMonth() {
+
         /**
          *  -- IMPORTANT --
          *  This is where you get saved event info
          */
 
-        if (select == 1) {
-            Log.d("test", "number 1");
-        } else if (select == 2) {
-            Log.d("test", "number 2");
-        } else if (select == 3) {
-            Log.d("test", "number 3");
-        }
         // -- Ideas on what could be done here --
         // Probably pull from some database
         // cross check event dates with current calendar month and year
@@ -268,16 +270,10 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
         // This is just used for testing purposes to show saved events on the calendar
 
-
         Random random = new Random();
 
         for (int i = 0; i < mNumEventsOnDay; i++) {
             int day = org.ssutown.manna.CustomCalendar.MaterialCalendar.mNumDaysInMonth + 1;
-
-
-     /*   for (int i = 0; i < mNumEventsOnDay; i++) {
-            int day = MaterialCalendar.mNumDaysInMonth + 1;
->>>>>>> c8e1c4726954ea96736243f4d44c8f7101a0a83d
             int eventPerDay = random.nextInt(5 - 1) + 1;
 
             HashMap<String, Integer> dayInfo = new HashMap<String, Integer>();
@@ -289,8 +285,8 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             Log.d("EVENTS_PER DAY", String.valueOf(dayInfo));
         }
 
-        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));*/
-        }
+        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));
+
     }
 
     protected static void showSavedEventsListView(int position) {

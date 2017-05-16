@@ -34,7 +34,6 @@ public class PersonFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.layout_main, container, false );
 
-        
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.main_container, new MaterialCalendarFragment()).commit();

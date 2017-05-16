@@ -57,10 +57,6 @@ public class HomeFragment extends Fragment {
 
 // Write a message to the database
 
-
-
-
-
         final Button addmemo =(Button)view.findViewById(R.id.memoplus);
         addmemo.setOnClickListener(new View.OnClickListener() {
             @Override
