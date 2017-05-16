@@ -79,7 +79,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         Intent intent = new Intent(getActivity(),SelectCalendar.class);
         startActivity(intent);
 
-        select = getArguments().getInt("num");
+//        select = getArguments().getInt("num");
 
         if (rootView != null) {
             // Get Calendar info
