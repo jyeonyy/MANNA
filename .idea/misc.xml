@@ -3,22 +3,6 @@
   <component name="ProjectDictionaryState">
     <dictionary name="YNH" />
   </component>
-  <component name="ProjectInspectionProfilesVisibleTreeState">
-    <entry key="Project Default">
-      <profile-state>
-        <expanded-state>
-          <State>
-            <id />
-          </State>
-        </expanded-state>
-        <selected-state>
-          <State>
-            <id>Android</id>
-          </State>
-        </selected-state>
-      </profile-state>
-    </entry>
-  </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
@@ -35,6 +19,7 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+<<<<<<< HEAD
   <component name="SpellCheckerSettings" BundledDictionaries="4" BundledDictionary0="android.dic" BundledDictionary1="jetbrains.dic" BundledDictionary2="english.dic" BundledDictionary3="objc.dic" Folders="0" Dictionaries="0" />
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
@@ -65,4 +50,6 @@
       </state>
     </states>
   </component>
+=======
+>>>>>>> c8e1c4726954ea96736243f4d44c8f7101a0a83d
 </project>

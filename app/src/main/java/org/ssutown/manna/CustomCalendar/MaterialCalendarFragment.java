@@ -70,6 +70,8 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
     }
 
     @Override
@@ -244,16 +246,11 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
          *  This is where you get saved event info
          */
 
-        if(select == 1)
-        {
+        if (select == 1) {
             Log.d("test", "number 1");
-        }
-        else if(select == 2)
-        {
+        } else if (select == 2) {
             Log.d("test", "number 2");
-        }
-        else if(select == 3)
-        {
+        } else if (select == 3) {
             Log.d("test", "number 3");
         }
         // -- Ideas on what could be done here --
@@ -271,10 +268,16 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
         // This is just used for testing purposes to show saved events on the calendar
 
+
         Random random = new Random();
 
         for (int i = 0; i < mNumEventsOnDay; i++) {
             int day = org.ssutown.manna.CustomCalendar.MaterialCalendar.mNumDaysInMonth + 1;
+
+
+     /*   for (int i = 0; i < mNumEventsOnDay; i++) {
+            int day = MaterialCalendar.mNumDaysInMonth + 1;
+>>>>>>> c8e1c4726954ea96736243f4d44c8f7101a0a83d
             int eventPerDay = random.nextInt(5 - 1) + 1;
 
             HashMap<String, Integer> dayInfo = new HashMap<String, Integer>();
@@ -286,7 +289,8 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
             Log.d("EVENTS_PER DAY", String.valueOf(dayInfo));
         }
 
-        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));
+        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));*/
+        }
     }
 
     protected static void showSavedEventsListView(int position) {

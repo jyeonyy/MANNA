@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
     }
 
     public void login(){
-        Intent loginIntent = new Intent(getApplicationContext(),LoginActivity.class);
+        Intent loginIntent = new Intent(getApplicationContext(), org.ssutown.manna.LoginActivity.class);
         startActivityForResult(loginIntent,0);
     }
 
@@ -38,18 +38,18 @@ public class MainActivity extends Activity {
         Fragment fr = new Fragment();
 
         if(view == findViewById(R.id.button0)){
-            fr = new PersonFragment();
+            fr = new org.ssutown.manna.PersonFragment();
 
         } else if(view == findViewById(R.id.button2)) {
-            fr = new HomeFragment();
+            fr = new org.ssutown.manna.HomeFragment();
 
         }else if(view == findViewById(R.id.button3)){
-            fr = new ScheduleFragment();
+            fr = new org.ssutown.manna.ScheduleFragment();
         } else if (view == findViewById(R.id.button4)) {
-            fr = new SettingFragment();
+            fr = new org.ssutown.manna.SettingFragment();
         }
         else if(view == findViewById(R.id.button1)){
-            fr = new MeetingFragment();
+            fr = new org.ssutown.manna.MeetingFragment();
         }
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
