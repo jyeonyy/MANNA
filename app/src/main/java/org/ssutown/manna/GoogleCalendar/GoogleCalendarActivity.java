@@ -66,6 +66,11 @@ public class GoogleCalendarActivity extends Activity
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR };
 
+    String name ;
+    String start ;
+    String end ;
+
+
     /**
      * Create the main activity.
      * @param savedInstanceState previously saved instance data.
@@ -116,6 +121,13 @@ public class GoogleCalendarActivity extends Activity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+
+        Intent intent = getIntent();
+
+        name = intent.getStringExtra("NameOfAppoint");
+        start = intent.getStringExtra("Start");
+        end = intent.getStringExtra("End");
+
     }
 
 
@@ -373,7 +385,7 @@ public class GoogleCalendarActivity extends Activity
             DateTime now = new DateTime(System.currentTimeMillis());
             List<String> eventStrings = new ArrayList<String>();
             Events events = mService.events().list("primary")
-                    .setMaxResults(20)
+                    .setMaxResults(50)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
@@ -448,17 +460,17 @@ public class GoogleCalendarActivity extends Activity
 
 
             Event event = new Event()
-                    .setSummary("뜌발쀼달~~~~ 드디어 된다!")
+                    .setSummary(name)
                     .setLocation("Dhaka")
                     .setDescription("New Event 1");
 
-            DateTime startDateTime = new DateTime("2017-05-17T18:10:00+09:00");
+            DateTime startDateTime = new DateTime(start);
             EventDateTime start = new EventDateTime()
                     .setDateTime(startDateTime)
                     .setTimeZone("Asia/Seoul");
             event.setStart(start);
 
-            DateTime endDateTime = new DateTime("2017-05-17T18:40:00+09:00");
+            DateTime endDateTime = new DateTime(end);
             EventDateTime end = new EventDateTime()
                     .setDateTime(endDateTime)
                     .setTimeZone("Asia/Seoul");

@@ -31,11 +31,6 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate( R.layout.home_fragment, container, false );
 
         userID= 1111 ;
-
-
-
-       userID = 1111;
-
         final org.ssutown.manna.MemoListAdapter adapter;
         adapter = new org.ssutown.manna.MemoListAdapter();
         final ListView listview = (ListView)view.findViewById(R.id.memolistview);
