@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +29,9 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
         View view = inflater.inflate( R.layout.home_fragment, container, false );
+
+        userID= 1111 ;
+
 
 
        userID = 1111;
