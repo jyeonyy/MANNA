@@ -54,11 +54,11 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences login = getSharedPreferences("login", Activity.MODE_PRIVATE);
 
-        if(login.getBoolean("loginState",false)){
+        /*if(login.getBoolean("loginState",false)){
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
             finish();
-        }
+        }*/
 
         SessionCallback sessionCallback;
 
