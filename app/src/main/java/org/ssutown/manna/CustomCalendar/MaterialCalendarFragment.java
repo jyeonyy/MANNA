@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ssutown.manna.AddAppointActivity;
-import org.ssutown.manna.LoginActivity;
-import org.ssutown.manna.MainActivity;
 import org.ssutown.manna.R;
 import org.ssutown.manna.SelectCalendar;
 
@@ -31,7 +30,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
-import android.content.SharedPreferences;
 
 
 /**
@@ -170,10 +168,10 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    public void func(){
-        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
-        toast.show();
-    }
+//    public void func(){
+//        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
+//        toast.show();
+//    }
 
     @Override
     public void onClick(View view) {
