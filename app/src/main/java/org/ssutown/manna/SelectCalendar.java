@@ -25,7 +25,6 @@ public class SelectCalendar extends Activity {
         cal_frag = new MaterialCalendarFragment();
 
         Button gCalBtn = (Button)findViewById(R.id.select_googleCal);
-        Button oCalBtn = (Button)findViewById(R.id.select_outlookCal);
         Button aCalBtn = (Button)findViewById(R.id.select_androidCal);
 
         View.OnClickListener listener = new View.OnClickListener(){
@@ -39,13 +38,8 @@ public class SelectCalendar extends Activity {
                         sendInfo(cal_num);
                         finish();
                         break;
-                    case R.id.select_outlookCal :
-                        cal_num = 2;
-                        sendInfo(cal_num);
-                        finish();
-                        break;
                     case R.id.select_androidCal :
-                        cal_num = 3;
+                        cal_num = 2;
                         sendInfo(cal_num);
                         finish();
                         break;
@@ -55,7 +49,6 @@ public class SelectCalendar extends Activity {
         };
 
         gCalBtn.setOnClickListener(listener);
-        oCalBtn.setOnClickListener(listener);
         aCalBtn.setOnClickListener(listener);
 
     }
