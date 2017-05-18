@@ -31,8 +31,8 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.home_fragment, container, false );
 
-        userID = 1111;
-     //  userID = getUserID();
+
+       userID = getUserID();
 
         final org.ssutown.manna.MemoListAdapter adapter;
         adapter = new org.ssutown.manna.MemoListAdapter();
@@ -56,10 +56,6 @@ public class HomeFragment extends Fragment {
        });
 
 // Write a message to the database
-
-
-
-
 
         final Button addmemo =(Button)view.findViewById(R.id.memoplus);
         addmemo.setOnClickListener(new View.OnClickListener() {

@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
 
     <application
         android:name=".KakaoLogin.GlobalApplication"
@@ -28,8 +31,11 @@
 
         </activity>
 
+        <activity android:name=".GoogleCalendar.GoogleCalendarActivity"/>
         <activity android:name=".AddAppointActivity"/>
+        <activity android:name=".SelectCalendar"/>
 
     </application>
 
 </manifest>
+
