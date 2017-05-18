@@ -452,16 +452,16 @@ public class GoogleCalendarActivity extends Activity
                     .setLocation("Dhaka")
                     .setDescription("New Event 1");
 
-            DateTime startDateTime = new DateTime("2017-05-17T18:10:00+06:00");
+            DateTime startDateTime = new DateTime("2017-05-17T18:10:00+09:00");
             EventDateTime start = new EventDateTime()
                     .setDateTime(startDateTime)
-                    .setTimeZone("America/Los_Angeles");
+                    .setTimeZone("Asia/Seoul");
             event.setStart(start);
 
-            DateTime endDateTime = new DateTime("2017-05-17T18:40:00+06:00");
+            DateTime endDateTime = new DateTime("2017-05-17T18:40:00+09:00");
             EventDateTime end = new EventDateTime()
                     .setDateTime(endDateTime)
-                    .setTimeZone("America/Los_Angeles");
+                    .setTimeZone("Asia/Seoul");
             event.setEnd(end);
 
             String calendarId = "primary";
