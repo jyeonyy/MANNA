@@ -77,8 +77,6 @@ public class AddAppointActivity extends Activity {
                 intent.putExtra("Start",start);
                 intent.putExtra("End",end);
 
-                startActivity(intent);
-
 
 //                Toast toast = Toast.makeText(getApplicationContext(),start,Toast.LENGTH_SHORT);
 //                toast.show();
@@ -93,10 +91,5 @@ public class AddAppointActivity extends Activity {
 
     }
 
-//    protected int getHour(int baseLine,int hour)
-//    {
-//        if(baseLine == 1900)
-//            return 1;
-//    }
 
 }

@@ -66,9 +66,9 @@ public class GoogleCalendarActivity extends Activity
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR };
 
-    String name ;
-    String start ;
-    String end ;
+//    String name ;
+//    String start ;
+//    String end ;
 
 
     /**
@@ -103,6 +103,7 @@ public class GoogleCalendarActivity extends Activity
         });
         activityLayout.addView(mCallApiButton);
 
+
         mOutputText = new TextView(this);
         mOutputText.setLayoutParams(tlp);
         mOutputText.setPadding(16, 16, 16, 16);
@@ -111,6 +112,7 @@ public class GoogleCalendarActivity extends Activity
         mOutputText.setText(
                 "Click the \'" + BUTTON_TEXT +"\' button to test the API.");
         activityLayout.addView(mOutputText);
+
 
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
@@ -122,11 +124,12 @@ public class GoogleCalendarActivity extends Activity
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
 
-        Intent intent = getIntent();
+//        Intent intent = getIntent();
+//
+//        name = intent.getStringExtra("NameOfAppoint");
+//        start = intent.getStringExtra("Start");
+//        end = intent.getStringExtra("End");
 
-        name = intent.getStringExtra("NameOfAppoint");
-        start = intent.getStringExtra("Start");
-        end = intent.getStringExtra("End");
 
     }
 
@@ -148,6 +151,8 @@ public class GoogleCalendarActivity extends Activity
             mOutputText.setText("No network connection available.");
         } else {
             new MakeRequestTask(mCredential).execute();
+//            Intent intent = new Intent(getApplicationContext(),MaterialCalendarFragment.class);
+//            startActivity(intent);
         }
     }
 
@@ -349,10 +354,12 @@ public class GoogleCalendarActivity extends Activity
                     transport, jsonFactory, credential)
                     .setApplicationName("Google Calendar API Android Quickstart")
                     .build();
+
 //            service = new com.google.api.services.calendar.Calendar.Builder(
 //                    transport, jsonFactory, credential)
 //                    .setApplicationName("Google Calendar API Android Quickstart")
 //                    .build();
+
         }
 
         /**
@@ -458,19 +465,18 @@ public class GoogleCalendarActivity extends Activity
                 e.printStackTrace();
             }
 
-
             Event event = new Event()
-                    .setSummary(name)
+                    .setSummary("우선 이게 될까?")
                     .setLocation("Dhaka")
                     .setDescription("New Event 1");
 
-            DateTime startDateTime = new DateTime(start);
+            DateTime startDateTime = new DateTime("2017-05-28T09:00:00-09:00");
             EventDateTime start = new EventDateTime()
                     .setDateTime(startDateTime)
                     .setTimeZone("Asia/Seoul");
             event.setStart(start);
 
-            DateTime endDateTime = new DateTime(end);
+            DateTime endDateTime = new DateTime("2017-05-28T10:00:00-09:00");
             EventDateTime end = new EventDateTime()
                     .setDateTime(endDateTime)
                     .setTimeZone("Asia/Seoul");
