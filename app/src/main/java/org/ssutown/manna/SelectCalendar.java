@@ -1,10 +1,8 @@
 package org.ssutown.manna;
 
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -82,13 +80,15 @@ public class SelectCalendar extends Activity
                             acquireGooglePlayServices();
                         } else if (mCredential.getSelectedAccountName() == null) {
                             chooseAccount();
+//                            Intent intent = new Intent(getApplicationContext(), AddAppointActivity.class);
+//                            intent.putExtra("credential", mCredential.getSelectedAccount());
+//                            startActivityForResult(intent,0);
                         } else if (!isDeviceOnline()) {
                             mOutputText.setText("No network connection available.");
                         } else {
 //                            new GoogleCalendarActivity.MakeRequestTask(mCredential).execute();
-                            Intent intent = new Intent(getApplicationContext(),MaterialCalendarFragment.class);
-                            startActivity(intent);
                         }
+
                         break;
                     case R.id.select_androidCal :
                         cal_num = 2;
@@ -129,13 +129,15 @@ public class SelectCalendar extends Activity
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
 //                getResultsFromApi();
-                Intent intent = new Intent(getApplicationContext(), MaterialCalendarFragment.class);
-                startActivity(intent);
+//                Toast toast = Toast.makeText(getApplicationContext(),"this",Toast.LENGTH_SHORT);
+//                toast.show();
+
             } else {
                 // Start a dialog from which the user can choose an account
                 startActivityForResult(
                         mCredential.newChooseAccountIntent(),
                         REQUEST_ACCOUNT_PICKER);
+
             }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
@@ -158,49 +160,51 @@ public class SelectCalendar extends Activity
      * @param data        Intent (containing result data) returned by incoming
      *                    activity result.
      */
-    @Override
-    protected void onActivityResult(
-            int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_GOOGLE_PLAY_SERVICES:
-                if (resultCode != RESULT_OK) {
-                    mOutputText.setText(
-                            "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.");
-                } else {
-//                    getResultsFromApi();
-                    Intent intent = new Intent(getApplicationContext(), MaterialCalendarFragment.class);
-                    startActivity(intent);
-                }
-                break;
-            case REQUEST_ACCOUNT_PICKER:
-                if (resultCode == RESULT_OK && data != null &&
-                        data.getExtras() != null) {
-                    String accountName =
-                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-                    if (accountName != null) {
-                        SharedPreferences settings =
-                                getPreferences(Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putString(PREF_ACCOUNT_NAME, accountName);
-                        editor.apply();
-                        mCredential.setSelectedAccountName(accountName);
-//                        getResultsFromApi();
-                        Intent intent = new Intent(getApplicationContext(), MaterialCalendarFragment.class);
-                        startActivity(intent);
-                    }
-                }
-                break;
-            case REQUEST_AUTHORIZATION:
-                if (resultCode == RESULT_OK) {
-//                    getResultsFromApi();
-                    Intent intent = new Intent(getApplicationContext(), MaterialCalendarFragment.class);
-                    startActivity(intent);
-                }
-                break;
-        }
-    }
+//    @Override
+//    protected void onActivityResult(
+//            int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        switch (requestCode) {
+//            case REQUEST_GOOGLE_PLAY_SERVICES:
+//                if (resultCode != RESULT_OK) {
+//                    mOutputText.setText(
+//                            "This app requires Google Play Services. Please install " +
+//                                    "Google Play Services on your device and relaunch this app.");
+//                } else {
+////                    getResultsFromApi();
+//
+//                    Toast toast = Toast.makeText(getApplicationContext(),"that",Toast.LENGTH_SHORT);
+//                    toast.show();
+//
+//                    Intent intent = new Intent(getApplicationContext(), MaterialCalendarFragment.class);
+//                    startActivity(intent);
+//                }
+//                break;
+//            case REQUEST_ACCOUNT_PICKER:
+//                if (resultCode == RESULT_OK && data != null &&
+//                        data.getExtras() != null) {
+//                    String accountName =
+//                            data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+//                    if (accountName != null) {
+//                        SharedPreferences settings =
+//                                getPreferences(Context.MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = settings.edit();
+//                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+//                        editor.apply();
+//                        mCredential.setSelectedAccountName(accountName);
+////                        getResultsFromApi();
+
+//
+//                    }
+//                }
+//                break;
+//            case REQUEST_AUTHORIZATION:
+//                if (resultCode == RESULT_OK) {
+////                    getResultsFromApi();
+//                }
+//                break;
+//        }
+//    }
 
     /**
      * Respond to requests for permissions at runtime for API 23 and above.

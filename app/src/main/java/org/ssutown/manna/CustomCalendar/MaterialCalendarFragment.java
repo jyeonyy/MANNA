@@ -79,6 +79,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
         Log.i("i'm matcalendarFrag", "");
 
+
         SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
         int select = selectedCalendar.getInt("cal_num",0);
         Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
@@ -191,6 +192,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
                     break;
 
                 case R.id.add_appointment:
+
+//                    Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
+//                    toast.show();
                     Intent intent = new Intent(getActivity(),AddAppointActivity.class);
                     startActivity(intent);
                     break;
