@@ -74,6 +74,7 @@ public class SelectCalendar extends Activity
                         mCredential = GoogleAccountCredential.usingOAuth2(
                                 getApplicationContext(), Arrays.asList(SCOPES))
                                 .setBackOff(new ExponentialBackOff());
+
                         if (!isGooglePlayServicesAvailable()) {
                             acquireGooglePlayServices();
                         } else if (mCredential.getSelectedAccountName() == null) {
