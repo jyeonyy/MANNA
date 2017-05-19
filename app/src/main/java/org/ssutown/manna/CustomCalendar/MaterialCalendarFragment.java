@@ -77,13 +77,18 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
-
-        Intent intent = new Intent(getActivity(),SelectCalendar.class);
-        startActivity(intent);
+        Log.i("i'm matcalendarFrag", "");
 
         SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
         int select = selectedCalendar.getInt("cal_num",0);
         Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
+
+        if(select == 0) {
+            Intent intent = new Intent(getActivity(), SelectCalendar.class);
+            startActivity(intent);
+        }
+
+
 
 
 //        select = getArguments().getInt("num");
