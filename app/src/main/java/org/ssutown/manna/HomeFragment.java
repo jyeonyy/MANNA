@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment {
   //  private ImageView kakaoprofile;
-    long userID;
+    static long userID;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference memodatabase = database.getReference("Memo");
 
