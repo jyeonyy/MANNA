@@ -83,7 +83,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
         int select = selectedCalendar.getInt("cal_num",0);
         Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
-        
+
         if(select == 0) {
             Intent intent = new Intent(getActivity(), SelectCalendar.class);
             startActivity(intent);

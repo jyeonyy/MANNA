@@ -1,9 +1,0 @@
-diff a/app/src/main/java/org/ssutown/manna/HomeFragment.java b/app/src/main/java/org/ssutown/manna/HomeFragment.java	(rejected hunks)
-@@ -36,6 +36,7 @@
- 
-        userID = 1111;
- =======
-+>>>>>>> e08eff75c9770be1a9dcf126e0d96391873aaf6b
- 
-         final org.ssutown.manna.MemoListAdapter adapter;
-         adapter = new org.ssutown.manna.MemoListAdapter();

@@ -58,7 +58,6 @@ public class SelectCalendar extends Activity
 
 
         Button gCalBtn = (Button) findViewById(R.id.select_googleCal);
-//        Button oCalBtn = (Button) findViewById(R.id.select_outlookCal);
         Button aCalBtn = (Button) findViewById(R.id.select_androidCal);
 
 
