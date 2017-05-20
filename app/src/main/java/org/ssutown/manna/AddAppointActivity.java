@@ -1,6 +1,8 @@
 package org.ssutown.manna;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -41,11 +43,9 @@ public class AddAppointActivity extends Activity {
                     getApplicationContext(), Arrays.asList(SCOPES))
                     .setBackOff(new ExponentialBackOff());
 
-    com.google.api.services.calendar.Calendar mService =
-            new com.google.api.services.calendar.Calendar.Builder(transport, jsonFactory, mCredential)
-            .setApplicationName("Google Calendar API Android Quickstart")
-            .build();
+    com.google.api.services.calendar.Calendar mService ;
 
+    String accountName;
 
 
     @Override
@@ -57,6 +57,8 @@ public class AddAppointActivity extends Activity {
 //        Intent intent = getIntent();
 //
 //        mCredential.setSelectedAccount((Account) intent.getSerializableExtra("credential"));
+        SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
+        accountName = selectedAccountName.getString("accountName","");
 
         View.OnClickListener listener = new View.OnClickListener()
         {
@@ -70,6 +72,11 @@ public class AddAppointActivity extends Activity {
 //                name.putChar("NameOfAppoint",getText(name));
 //                google_cal.setArguments(name);
 
+                mCredential.setSelectedAccountName(accountName);
+
+                mService = new com.google.api.services.calendar.Calendar.Builder(transport, jsonFactory, mCredential)
+                        .setApplicationName("Google Calendar API Android Quickstart")
+                        .build();
 
                 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
@@ -132,7 +139,7 @@ public class AddAppointActivity extends Activity {
 
     }
 
-    public void insertEvent(com.google.api.services.calendar.Calendar mService,String insert_name,String insert_start,String insert_end) throws IOException {
+    public void insertEvent(com.google.api.services.calendar.Calendar Service,String insert_name,String insert_start,String insert_end) throws IOException {
 
 //            HttpTransport transport = AndroidHttp.newCompatibleTransport();
 //            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -146,7 +153,7 @@ public class AddAppointActivity extends Activity {
 
         try {
             com.google.api.services.calendar.model.Calendar calendar =
-                    mService.calendars().get("primary").execute();
+                    Service.calendars().get("primary").execute();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,7 +178,7 @@ public class AddAppointActivity extends Activity {
 
         String calendarId = "primary";
         try {
-            mService.events().insert(calendarId, event).execute();
+            Service.events().insert(calendarId, event).execute();
 //                mService.events().update(calendarId,event.getId(),event).execute();
 
         } catch (IOException e) {

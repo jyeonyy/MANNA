@@ -88,6 +88,8 @@ public class SelectCalendar extends Activity
 //                            new GoogleCalendarActivity.MakeRequestTask(mCredential).execute();
                         }
 
+                        sendAccountName(mCredential.getSelectedAccountName());
+
                         break;
                     case R.id.select_outlookCal:
                         cal_num = 2;
@@ -122,6 +124,13 @@ public class SelectCalendar extends Activity
         SharedPreferences selectedCalendar = getSharedPreferences("selectedCalendar", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = selectedCalendar.edit();
         editor.putInt("cal_num", cal_num);
+        editor.commit();
+    }
+
+    public void sendAccountName(String accountName) {
+        SharedPreferences selectedAccountName = getSharedPreferences("selectedAccountName", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = selectedAccountName.edit();
+        editor.putString("accountName", accountName);
         editor.commit();
     }
 

@@ -86,7 +86,6 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         int select = selectedCalendar.getInt("cal_num",0);
         Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
 
-
 //        select = getArguments().getInt("num");
 
 
