@@ -76,6 +76,7 @@ public class SelectCalendar extends Activity
                         mCredential = GoogleAccountCredential.usingOAuth2(
                                 getApplicationContext(), Arrays.asList(SCOPES))
                                 .setBackOff(new ExponentialBackOff());
+
                         if (!isGooglePlayServicesAvailable()) {
                             acquireGooglePlayServices();
                         } else if (mCredential.getSelectedAccountName() == null) {
@@ -88,6 +89,8 @@ public class SelectCalendar extends Activity
                         } else {
 //                            new GoogleCalendarActivity.MakeRequestTask(mCredential).execute();
                         }
+
+                        sendAccountName(mCredential.getSelectedAccountName());
 
                         break;
                     case R.id.select_androidCal :
@@ -117,6 +120,13 @@ public class SelectCalendar extends Activity
         SharedPreferences selectedCalendar = getSharedPreferences("selectedCalendar", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = selectedCalendar.edit();
         editor.putInt("cal_num", cal_num);
+        editor.commit();
+    }
+
+    public void sendAccountName(String accountName) {
+        SharedPreferences selectedAccountName = getSharedPreferences("selectedAccountName", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = selectedAccountName.edit();
+        editor.putString("accountName", accountName);
         editor.commit();
     }
 
