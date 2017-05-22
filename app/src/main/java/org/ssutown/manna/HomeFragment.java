@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment {
   //  private ImageView kakaoprofile;
-    static long userID;
+    public static long userID;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference memodatabase = database.getReference("Memo");
 
@@ -43,7 +42,6 @@ public class HomeFragment extends Fragment {
         final ListView listview = (ListView)view.findViewById(R.id.memolistview);
         listview.setAdapter(adapter);
 
-        Log.i("1번째","");
        memodatabase.child(String.valueOf(userID)).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {

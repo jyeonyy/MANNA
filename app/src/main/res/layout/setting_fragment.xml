@@ -31,4 +31,14 @@
         android:layout_marginTop="5dp"
         android:id="@+id/bar52"
         />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bar52"
+        android:layout_alignEnd="@+id/setting"
+        android:layout_marginEnd="71dp"
+        android:layout_marginTop="53dp"
+        android:id="@+id/getCalendar1"/>
 </RelativeLayout>

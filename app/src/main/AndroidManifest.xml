@@ -34,6 +34,8 @@
         <activity android:name=".GoogleCalendar.GoogleCalendarActivity"/>
         <activity android:name=".AddAppointActivity"/>
         <activity android:name=".SelectCalendar"/>
+        <activity android:name=".GoogleCalendar.saveGoogleCalendarActivity"/>
+
 
     </application>
 
