@@ -1,5 +1,6 @@
 package org.ssutown.manna;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,12 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.app.AlertDialog;
-
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -110,7 +109,7 @@ public class HomeFragment extends Fragment {
             }
         }) ;
 
-        final Button addmemo =(Button)view.findViewById(R.id.memoplus);
+        final ImageButton addmemo =(ImageButton) view.findViewById(R.id.memoplus);
         addmemo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
