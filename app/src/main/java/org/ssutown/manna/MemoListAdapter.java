@@ -1,4 +1,5 @@
 package org.ssutown.manna;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  */
 
 public class MemoListAdapter extends BaseAdapter {
-    private ArrayList<MemoListItem> listViewItemList = new ArrayList<MemoListItem>();
+    static ArrayList<MemoListItem> listViewItemList = new ArrayList<MemoListItem>();
 
     public MemoListAdapter(){} @Override
     public int getCount() {
@@ -33,13 +34,28 @@ public class MemoListAdapter extends BaseAdapter {
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView memocontent = (TextView) convertView.findViewById(R.id.memoitem) ;
+        final TextView memocontent = (TextView) convertView.findViewById(R.id.memoitem);
+
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        MemoListItem listViewItem = listViewItemList.get(position);
+        final MemoListItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
         memocontent.setText(listViewItem.getMemo());
+
+    /*    convertView.findViewById(R.id.memodelete).setOnClickListener(
+                new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listViewItemList.remove(pos);
+
+                    }
+                }
+        );
+*/
+
+
+
 
         return convertView;
     }
@@ -58,11 +74,12 @@ public class MemoListAdapter extends BaseAdapter {
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
 
-    public void addItem(String content) {
-        MemoListItem item = new MemoListItem(content);
-        item.setMemo(content);
+    public void addItem(String content, String unique) {
+        MemoListItem item = new MemoListItem(content, unique);
+        item.setMemo(content, unique);
         listViewItemList.add(item);
     }
+
 
     public void clear(){
         listViewItemList.clear();
