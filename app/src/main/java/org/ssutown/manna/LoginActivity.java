@@ -51,10 +51,9 @@ public class LoginActivity extends AppCompatActivity {
         final LoginButton loginButton = (LoginButton)findViewById(R.id.com_kakao_login);
         final Button exitButton = (Button)findViewById(R.id.exitButton);
 
+/*        SharedPreferences login = getSharedPreferences("login", Activity.MODE_PRIVATE);
 
-        SharedPreferences login = getSharedPreferences("login", Activity.MODE_PRIVATE);
-
-        /*if(login.getBoolean("loginState",false)){
+        if(login.getBoolean("loginState",false)){
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
             finish();
@@ -174,15 +173,20 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e(TAG, "MainActivity OnSuccess");
                     Toast.makeText(getApplicationContext(),String.valueOf(userProfile.getId()),Toast.LENGTH_SHORT).show();
 
-                    SharedPreferences login = getSharedPreferences("login", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = login.edit();
-                    editor.putBoolean("loginState",true);
+                    SharedPreferences kakao_id = getSharedPreferences("KAKAO_ID",Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = kakao_id.edit();
+                    editor.putLong("KAKAO_ID",userProfile.getId());
                     editor.commit();
+
+            /*      SharedPreferences kakao_login = getSharedPreferences("KAKAO_LOGIN", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = kakao_login.edit();
+                    editor.putString("KAKAO_LOGINB_STATE","LOGIN");
+                    editor.commit();*/
 
                     userInfo info = new userInfo(userProfile.getId());
                     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                     DatabaseReference databaseReference = firebaseDatabase.getReference();
-                    databaseReference.child(String.valueOf(userProfile.getId())).push().setValue(info);
+                    databaseReference.child("userList").child(String.valueOf(userProfile.getId())).setValue(info);
 
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     intent.putExtra("userID",userProfile.getId());

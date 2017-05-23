@@ -1,5 +1,7 @@
 package org.ssutown.manna;
 
+import java.util.ArrayList;
+
 /**
  * Created by HyeMin on 2017. 5. 10..
  */
@@ -7,6 +9,7 @@ package org.ssutown.manna;
 public class userInfo {
 
     long userID;
+    ArrayList<String> meetinglist = new ArrayList<>();
 
     public userInfo() { }
 
@@ -18,10 +21,12 @@ public class userInfo {
         this.userID = userID;
     }
 
+    public void addMeetingList(String meetingid){
+        meetinglist.add(meetingid);
+    }
+
     public long getuserID() {
         return userID;
     }
-
-
 
 }

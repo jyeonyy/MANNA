@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+
 public class HomeFragment extends Fragment {
   //  private ImageView kakaoprofile;
     long userID;
@@ -31,8 +32,8 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.home_fragment, container, false );
 
-
-       userID = getUserID();
+        userID = 398410773;
+       //userID = getUserID();
 
         final org.ssutown.manna.MemoListAdapter adapter;
         adapter = new org.ssutown.manna.MemoListAdapter();
