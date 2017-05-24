@@ -213,42 +213,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-//        AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
-//
-//        ad.setTitle("Appointment");       // 제목 설정
-//        ad.setMessage("Do you want to add appointment?");   // 내용 설정
-//
-//        // 확인 버튼 설정
-//        ad.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Log.v("TAG","Yes Btn Click");
-//                dialog.dismiss();     //닫기
-//                // Event
-//            }
-//        });
-//
-//
-//        // 취소 버튼 설정
-//        ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Log.v("TAG","No Btn Click");
-//                dialog.dismiss();     //닫기
-//                // Event
-//            }
-//        });
-//
-//        // 창 띄우기
-
- //       ad.show();
-
-        //       ad.show();
-
-
         switch (parent.getId()) {
             case R.id.material_calendar_gridView:
-                org.ssutown.manna.CustomCalendar.MaterialCalendar.selectCalendarDay(mMaterialCalendarAdapter, position);
+                MaterialCalendar.selectCalendarDay(mMaterialCalendarAdapter, position);
 
                 // Reset event list
                 mNumEventsOnDay = -1;
@@ -304,12 +271,13 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     }
 
     protected static void showSavedEventsListView(int position) {
+
         Boolean savedEventsOnThisDay = false;
         int selectedDate = -1;
 
-        if (org.ssutown.manna.CustomCalendar.MaterialCalendar.mFirstDay != -1 && mSavedEventDays != null && mSavedEventDays.size
+        if (MaterialCalendar.mFirstDay != -1 && mSavedEventDays != null && mSavedEventDays.size
                 () > 0) {
-            selectedDate = position - (6 + org.ssutown.manna.CustomCalendar.MaterialCalendar.mFirstDay);
+            selectedDate = position - (6 + MaterialCalendar.mFirstDay);
             Log.d("SELECTED_SAVED_DATE", String.valueOf(selectedDate));
 
             for (int i = 0; i < mSavedEventDays.size(); i++) {
