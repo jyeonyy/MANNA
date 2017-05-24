@@ -123,19 +123,24 @@
             android:hint="메모를 입력하세요"
             android:textSize="20sp"
             android:layout_marginLeft="30sp"/>
-
-        <Button
-            android:layout_width="60sp"
-            android:layout_height="wrap_content"
-            android:text="추가"
+        <ImageButton
             android:id="@+id/memoplus"
-            android:layout_marginRight="30sp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.2"
+            android:background="@android:color/transparent"
             android:gravity="center"
-            android:layout_gravity="right"
             android:onClick="addmemo"
+            android:scaleType="centerInside"
+            android:src="@drawable/plus1"
+            android:text="meeting"
+            tools:ignore="ContentDescription,HardcodedText"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="18dp"
-            android:layout_alignParentTop="true" />
+            android:layout_alignParentTop="true"/>
+
+
     </RelativeLayout>
 
 

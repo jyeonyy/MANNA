@@ -6,9 +6,15 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40sp"
+        android:layout_weight="3"
+        android:id="@+id/userid"
+        android:textSize="30dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
         android:layout_weight="1"
-        android:id="@+id/memoitem"
+        android:id="@+id/announececontent"
         android:textSize="30dp"/>
 
-    
+
 </LinearLayout>

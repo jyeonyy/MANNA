@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * Created by Jiyeon on 2017-04-16.
  */
 
-public class MemoListAdapter extends BaseAdapter {
-    static ArrayList<MemoListItem> listViewItemList = new ArrayList<MemoListItem>();
+public class AnnounceListAdapter extends BaseAdapter {
+    static ArrayList<AnnounceListItem> listViewItemList = new ArrayList<AnnounceListItem>();
 
-    public MemoListAdapter(){} @Override
+    public AnnounceListAdapter(){} @Override
     public int getCount() {
         return listViewItemList.size() ;
     }
@@ -30,18 +30,21 @@ public class MemoListAdapter extends BaseAdapter {
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.memo_item, parent, false);
+            convertView = inflater.inflate(R.layout.announcement_item, parent, false);
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        final TextView memocontent = (TextView) convertView.findViewById(R.id.memoitem);
+        final TextView announceUserid = (TextView) convertView.findViewById(R.id.userid);
+        final TextView announcecontent = (TextView)convertView.findViewById(R.id.announececontent);
 
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        final MemoListItem listViewItem = listViewItemList.get(position);
+        final AnnounceListItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영
-        memocontent.setText(listViewItem.getMemo());
+        announceUserid.setText(String.valueOf( listViewItem.getUserID()));
+        announcecontent.setText(listViewItem.getContent());
+
 
     /*    convertView.findViewById(R.id.memodelete).setOnClickListener(
                 new Button.OnClickListener() {
@@ -74,9 +77,11 @@ public class MemoListAdapter extends BaseAdapter {
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
 
-    public void addItem(String content, String unique) {
-        MemoListItem item = new MemoListItem(content, unique);
-        item.setMemo(content, unique);
+
+
+    public void addItem(long userID, String content, String uni) {
+        AnnounceListItem item = new AnnounceListItem(userID,content, uni);
+        item.setAnnouncement(userID, content, uni);
         listViewItemList.add(item);
     }
 

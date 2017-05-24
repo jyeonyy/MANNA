@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#99000000"
+        android:id="@+id/bar61"
+        />
 
     <TextView
-        android:text="Announcement"
-        android:textSize="30sp"
+        android:text="공지사항"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        android:layout_weight="1" />
-</LinearLayout>
+        android:textSize="30sp"
+        android:layout_gravity="center"
+        android:id="@+id/announcement"
+        android:background="#ffffffff"
+        android:layout_below="@+id/bar61"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#99000000"
+        android:layout_below="@+id/announcement"
+        android:layout_marginTop="5dp"
+        android:id="@+id/bar62"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공지사항 추가"
+        android:textSize="40sp"
+        android:textColor="#aaaaaa"
+        android:layout_below="@+id/bar62"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/test61"
+
+        />
+
+    <ImageButton
+        android:id="@+id/addannounce"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:scaleType="centerInside"
+        android:src="@drawable/plus1"
+        android:text="meeting"
+        android:layout_alignBottom="@+id/test61"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="21dp" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/test61"
+        android:layout_height="wrap_content"
+        android:id="@+id/announcementlist"/>
+
+
+</RelativeLayout>

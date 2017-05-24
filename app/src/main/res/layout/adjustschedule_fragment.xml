@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffffff">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#99000000"
+        android:id="@+id/bar71"
+        />
 
     <TextView
-        android:text="adjust"
-        android:textSize="30sp"
+        android:text="스케쥴 조정"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:layout_weight="1" />
-</LinearLayout>
+        android:textSize="30sp"
+        android:layout_gravity="center"
+        android:id="@+id/adjust"
+        android:background="#ffffffff"
+        android:layout_below="@+id/bar71"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#99000000"
+        android:layout_below="@+id/adjust"
+        android:layout_marginTop="5dp"
+        android:id="@+id/bar72"
+        />
+
+</RelativeLayout>

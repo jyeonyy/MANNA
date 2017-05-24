@@ -36,6 +36,7 @@ public class MeetingFragment extends Fragment {
 
                 ListViewItem item = (ListViewItem)parent.getItemAtPosition(position);
                 String titleStr = item.getTitle();
+
                // Toast.makeText(getActivity().getApplication(),"gg",Toast.LENGTH_SHORT).show();
 
                 if(titleStr.equals("first") == true){

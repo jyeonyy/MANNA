@@ -6,9 +6,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.os.Handler;
-import android.widget.Toast;
 
 /**
  * Created by Jiyeon on 2017-03-25.
@@ -46,7 +45,9 @@ public class MainActivity extends Activity {
         }else if(view == findViewById(R.id.button3)){
             fr = new org.ssutown.manna.ScheduleFragment();
         } else if (view == findViewById(R.id.button4)) {
+            Log.i("clickbutton4","D");
             fr = new org.ssutown.manna.SettingFragment();
+
         }
         else if(view == findViewById(R.id.button1)){
             fr = new org.ssutown.manna.MeetingFragment();
