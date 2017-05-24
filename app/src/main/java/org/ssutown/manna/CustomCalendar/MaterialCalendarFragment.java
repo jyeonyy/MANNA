@@ -84,11 +84,17 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         int select = selectedCalendar.getInt("cal_num",0);
         Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
 
-        if(select == 0) {
+//        if(select == 0) {
             Intent intent = new Intent(getActivity(), SelectCalendar.class);
             startActivity(intent);
-        }
+//        }
 
+//        SharedPreferences selectedAccountName = getActivity().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
+//        String accountName = selectedAccountName.getString("accountName","");
+//
+//
+//        Toast toast = Toast.makeText(getActivity(),accountName,Toast.LENGTH_LONG);
+//        toast.show();
 
 //        select = getArguments().getInt("num");
 

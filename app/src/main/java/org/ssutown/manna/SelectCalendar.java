@@ -45,6 +45,7 @@ public class SelectCalendar extends Activity
     private TextView mOutputText;
 
 
+
     int cal_num;
     Boolean select = false;
     MaterialCalendarFragment cal_frag;
@@ -79,7 +80,18 @@ public class SelectCalendar extends Activity
                         if (!isGooglePlayServicesAvailable()) {
                             acquireGooglePlayServices();
                         } else if (mCredential.getSelectedAccountName() == null) {
-                            chooseAccount();
+                                chooseAccount();
+//                                sendAccountName(mCredential.getSelectedAccountName());
+
+//
+//                            SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
+//                            String accountName = selectedAccountName.getString("accountName","");
+////
+//
+//                            Toast toast = Toast.makeText(getApplicationContext(),accountName,Toast.LENGTH_LONG);
+//                            toast.show();
+
+
 //                            Intent intent = new Intent(getApplicationContext(), AddAppointActivity.class);
 //                            intent.putExtra("credential", mCredential.getSelectedAccount());
 //                            startActivityForResult(intent,0);
@@ -89,7 +101,6 @@ public class SelectCalendar extends Activity
 //                            new GoogleCalendarActivity.MakeRequestTask(mCredential).execute();
                         }
 
-                        sendAccountName(mCredential.getSelectedAccountName());
 
                         break;
                     case R.id.select_androidCal :
@@ -156,6 +167,15 @@ public class SelectCalendar extends Activity
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     android.Manifest.permission.GET_ACCOUNTS);
         }
+
+        sendAccountName(mCredential.getSelectedAccountName());
+
+//        SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
+//        String accountName = selectedAccountName.getString("accountName","");
+////
+//
+//        Toast toast = Toast.makeText(getApplicationContext(),accountName,Toast.LENGTH_LONG);
+//        toast.show();
     }
 
     /**
