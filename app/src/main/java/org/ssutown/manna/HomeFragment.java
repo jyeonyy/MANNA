@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class HomeFragment extends Fragment {
                for(DataSnapshot ds: dataSnapshot.getChildren()) {
 //                   adapter.addItem(memoitem.getMemo());
                    adapter.addItem(ds.getValue(MemoListItem.class).getMemo(), ds.getValue(MemoListItem.class).getUniquekey());
+                   Log.i("gsa",ds.getValue(MemoListItem.class).getMemo());
                }adapter.notifyDataSetChanged();
            }
 
@@ -58,7 +60,8 @@ public class HomeFragment extends Fragment {
 
            }
        });
-        final Context context = getActivity();
+
+        final Context context = this.getActivity();
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {

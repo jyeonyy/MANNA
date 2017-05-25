@@ -186,7 +186,7 @@ public class MaterialCalendarAdapter extends BaseAdapter {
                 MaterialCalendarFragment.mSavedEventDays.size() > 0) {
 
             int startingPosition = mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay;
-            Log.d("SAVED_EVENT_STARTING_POS", String.valueOf(startingPosition));
+            Log.d("SAVEDEVENTSTARTING_POS", String.valueOf(startingPosition));
             if (position > startingPosition) {
                 for (int i = 0; i < MaterialCalendarFragment.mSavedEventDays.size(); i++) {
                     int savedEventPosition = startingPosition + MaterialCalendarFragment.mSavedEventDays.get(i);

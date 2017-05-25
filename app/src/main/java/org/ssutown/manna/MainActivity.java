@@ -1,12 +1,9 @@
 package org.ssutown.manna;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -15,10 +12,20 @@ import android.view.View;
 
 public class MainActivity extends Activity {
 
+    FragmentManager fm = getFragmentManager();
+
+    HomeFragment homeFragment = new HomeFragment();
+    PersonFragment personFragment = new PersonFragment();
+    MeetingFragment meetingFragment = new MeetingFragment();
+    ScheduleFragment scheduleFragment = new ScheduleFragment();
+    SettingFragment settingFragment = new SettingFragment();
+
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
+
+        getFragmentManager().beginTransaction().add(R.id.main_fragment, homeFragment).commit();
 
     }
 
@@ -34,28 +41,25 @@ public class MainActivity extends Activity {
 
 
     public void ChangeFragment(View view){
-        Fragment fr = new Fragment();
 
         if(view == findViewById(R.id.button0)){
-            fr = new org.ssutown.manna.PersonFragment();
-
+            fm.beginTransaction().replace(R.id.main_fragment, personFragment).commit();
         } else if(view == findViewById(R.id.button2)) {
-            fr = new org.ssutown.manna.HomeFragment();
-
+            fm.beginTransaction().replace(R.id.main_fragment, homeFragment).commit();
         }else if(view == findViewById(R.id.button3)){
-            fr = new org.ssutown.manna.ScheduleFragment();
+            fm.beginTransaction().replace(R.id.main_fragment, scheduleFragment).commit();
         } else if (view == findViewById(R.id.button4)) {
-            Log.i("clickbutton4","D");
-            fr = new org.ssutown.manna.SettingFragment();
-
+            fm.beginTransaction().replace(R.id.main_fragment, settingFragment).commit();
         }
         else if(view == findViewById(R.id.button1)){
-            fr = new org.ssutown.manna.MeetingFragment();
+            fm.beginTransaction().replace(R.id.main_fragment, meetingFragment).commit();
         }
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.main_fragment, fr);
-        fragmentTransaction.commit();
+//        FragmentManager fm = getFragmentManager();
+//
+//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//        fragmentTransaction.detach(pre_fr);
+//        fragmentTransaction.replace(R.id.main_fragment, fr);
+//        fragmentTransaction.commit();
 
 
 
