@@ -435,8 +435,8 @@ public class saveGoogleCalendarActivity extends Activity
                 calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
 
 
-//                eventStrings.add(
-//                        String.format("%s (%s ~ %s)", event.getSummary(), start,end));
+                eventStrings.add(
+                        String.format("%s (%s ~ %s)", event.getSummary(), start,end));
             }
             return eventStrings;
         }

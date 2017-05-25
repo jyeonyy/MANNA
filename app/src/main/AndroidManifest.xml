@@ -2,12 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ssutown.manna">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> 
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-feature android:name="android.hardware.camera2" />
+
+     
+
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
     <application
         android:name=".KakaoLogin.GlobalApplication"
@@ -16,9 +21,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-        </activity>
-        <activity android:name=".MeetingActivity"/>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MeetingActivity" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="76afc3d1dfb9b431bbea2a63ebf3e28f" />
@@ -26,18 +31,16 @@
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name=".GoogleCalendar.GoogleCalendarActivity"/>
-        <activity android:name=".AddAppointActivity"/>
-        <activity android:name=".SelectCalendar"/>
-        <activity android:name=".GoogleCalendar.saveGoogleCalendarActivity"/>
-
-
+        <activity android:name=".SelectCalendar" />
+        <activity android:name=".meeting.add_Meeting" />
+        <activity android:name=".GoogleCalendar.GoogleCalendarActivity" />
+        <activity android:name=".AddAppointActivity" />
+        <activity android:name=".GoogleCalendar.saveGoogleCalendarActivity" />
+        <activity android:name=".profileSetting.setProfile"></activity>
     </application>
 
 </manifest>
-
