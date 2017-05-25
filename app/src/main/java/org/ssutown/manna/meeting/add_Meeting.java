@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import org.ssutown.manna.meeting.*;
 import com.google.firebase.database.ValueEventListener;
 import org.ssutown.manna.userInfo;
 
@@ -63,13 +64,17 @@ public class add_Meeting extends AppCompatActivity {
                 final meeting_Info meeting_info = new meeting_Info(meetingName.getText().toString(),startDay.getYear(),startDay.getMonth(),startDay.getDayOfMonth(),endDay.getYear(),endDay.getMonth(),endDay.getDayOfMonth());
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference = firebaseDatabase.getReference();
-                databaseReference.child("MeetingList").child(String.valueOf(meeting_info.getMeeting_id())).setValue(meeting_info);
+                databaseReference.child("MeetingList").push().setValue(meeting_info);
 
                 SharedPreferences kakao_id = getSharedPreferences("KAKAO_ID", Activity.MODE_PRIVATE);
                 final long userID = kakao_id.getLong("KAKAO_ID",0);
 
                 //Toast.makeText(getApplication(),String.valueOf(userID),Toast.LENGTH_SHORT).show();
-            //    String key = databaseReference.child("userList").child(String.valueOf(userID)).push().getKey();
+                //String key = databaseReference.child("userList").child(String.valueOf(userID)).push().getKey();
+
+                meetingList meetingList = new meetingList(meeting_info.getMeeting_id());
+
+                databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").push().setValue(meetingList);
 
                 //databaseReference.child("userList").child(String.valueOf(userID)).
                 //Toast.makeText(getApplication(),key,Toast.LENGTH_SHORT).show();

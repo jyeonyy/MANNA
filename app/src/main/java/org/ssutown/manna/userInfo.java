@@ -9,12 +9,16 @@ import java.util.ArrayList;
 public class userInfo {
 
     long userID;
-    ArrayList<String> meetinglist = new ArrayList<>();
+    private ArrayList<String> meetinglist = new ArrayList<>();
 
-    public userInfo() { }
+
+    public userInfo() {
+        meetinglist.add("1");
+    }
 
     public userInfo(long id) {
         this.userID = id;
+        meetinglist.add("1");
     }
 
     public void setuserID(Long userID) {
@@ -23,6 +27,12 @@ public class userInfo {
 
     public void addMeetingList(String meetingid){
         meetinglist.add(meetingid);
+    }
+
+    public void getMeetingList(ArrayList<String> list){
+        for(int i = 0; i<meetinglist.size();i++){
+            list.add(meetinglist.get(i));
+        }
     }
 
     public long getuserID() {

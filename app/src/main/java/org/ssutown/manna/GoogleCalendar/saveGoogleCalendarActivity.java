@@ -40,6 +40,8 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,13 +51,16 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import static org.ssutown.manna.HomeFragment.userID;
 
-public class GoogleCalendarActivity extends Activity
+
+public class saveGoogleCalendarActivity extends Activity
         implements EasyPermissions.PermissionCallbacks {
     GoogleAccountCredential mCredential;
     private TextView mOutputText;
     private Button mCallApiButton;
     ProgressDialog mProgress;
+
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -330,7 +335,7 @@ public class GoogleCalendarActivity extends Activity
             final int connectionStatusCode) {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         Dialog dialog = apiAvailability.getErrorDialog(
-                GoogleCalendarActivity.this,
+                saveGoogleCalendarActivity.this,
                 connectionStatusCode,
                 REQUEST_GOOGLE_PLAY_SERVICES);
         dialog.show();
@@ -403,6 +408,8 @@ public class GoogleCalendarActivity extends Activity
 
 
 //            items.add(setDateToApi());
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference calendardb = database.getReference("userList");
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
@@ -413,6 +420,20 @@ public class GoogleCalendarActivity extends Activity
                     start = event.getStart().getDate();
                     end = event.getEnd().getDate();
                 }
+
+
+                String key = calendardb.child(String.valueOf(userID)).child("calendar").push().getKey();
+                String uniquekey = key;
+                String eventname = event.getSummary().toString();
+                String eventstart = start.toString();
+                String eventend = end.toString();
+
+                CalendarList list = new CalendarList(eventname,eventstart,eventend,uniquekey);
+
+
+                calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+
+
                 eventStrings.add(
                         String.format("%s (%s ~ %s)", event.getSummary(), start,end));
             }
@@ -554,7 +575,7 @@ public class GoogleCalendarActivity extends Activity
                 } else if (mLastError instanceof UserRecoverableAuthIOException) {
                     startActivityForResult(
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
-                            GoogleCalendarActivity.REQUEST_AUTHORIZATION);
+                            saveGoogleCalendarActivity.REQUEST_AUTHORIZATION);
                 } else {
                     mOutputText.setText("The following error occurred:\n"
                             + mLastError.getMessage());

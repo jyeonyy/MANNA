@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,11 @@ public class PersonFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View view = inflater.inflate( R.layout.layout_main, container, false );
-
+        Log.i("i'm personfragment","layout_main");
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().add(R.id.main_container, new MaterialCalendarFragment()).commit();
+            Log.i("savedinstancestate null","main_container");
         }
 
         return view;

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.ssutown.manna.AddAppointActivity;
-import org.ssutown.manna.LoginActivity;
-import org.ssutown.manna.MainActivity;
 import org.ssutown.manna.R;
 import org.ssutown.manna.SelectCalendar;
 
@@ -31,7 +30,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
-import android.content.SharedPreferences;
 
 
 /**
@@ -79,13 +77,17 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        Log.i("i'm matcalendarFrag", "");
 
-        Intent intent = new Intent(getActivity(),SelectCalendar.class);
-        startActivity(intent);
 
         SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
         int select = selectedCalendar.getInt("cal_num",0);
         Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
+
+        if(select == 0) {
+            Intent intent = new Intent(getActivity(), SelectCalendar.class);
+            startActivity(intent);
+        }
 
 
 //        select = getArguments().getInt("num");
@@ -170,10 +172,10 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         }
     }
 
-    public void func(){
-        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
-        toast.show();
-    }
+//    public void func(){
+//        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
+//        toast.show();
+//    }
 
     @Override
     public void onClick(View view) {
@@ -188,6 +190,9 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
                     break;
 
                 case R.id.add_appointment:
+
+//                    Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
+//                    toast.show();
                     Intent intent = new Intent(getActivity(),AddAppointActivity.class);
                     startActivity(intent);
                     break;

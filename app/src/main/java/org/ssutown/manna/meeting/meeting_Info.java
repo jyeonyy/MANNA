@@ -48,11 +48,11 @@ public class meeting_Info implements Serializable{
     }
 
     public String getMeeting_id(){
-        return meeting_id;
+        return this.meeting_id;
     }
 
     public String getMeeting_name(){
-        return meeting_name;
+        return this.meeting_name;
     }
 
     public String getStartDay(){

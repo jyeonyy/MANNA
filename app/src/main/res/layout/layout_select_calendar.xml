@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#d3d3d3">
+    android:background="#ffffff">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Select calendar"
-        android:textColor="#ffffff"
+        android:textColor="#999999"
         android:textSize="30dp"
         android:gravity="center"
         android:layout_marginTop="20dp"/>
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="you want to schedule"
-        android:textColor="#ffffff"
+        android:textColor="#999999"
         android:textSize="30dp"
         android:gravity="center"
         android:layout_marginTop="20dp"/>
@@ -33,16 +33,6 @@
         android:background="@drawable/googlecalendar"
         android:contentDescription="selGcal" />
 
-    <Button
-        android:id="@+id/select_outlookCal"
-        android:layout_width="320dp"
-        android:layout_height="70dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/outlookcalendar"
-        android:contentDescription="selOcal" />
 
     <Button
         android:id="@+id/select_androidCal"
