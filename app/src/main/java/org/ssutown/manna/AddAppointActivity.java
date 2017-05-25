@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
@@ -18,14 +20,13 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
-import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by YNH on 2017. 5. 7..
@@ -38,14 +39,21 @@ public class AddAppointActivity extends Activity {
     final String[] SCOPES = { CalendarScopes.CALENDAR };
 
 
-    GoogleAccountCredential mCredential =
-            GoogleAccountCredential.usingOAuth2(
-                    getApplicationContext(), Arrays.asList(SCOPES))
-                    .setBackOff(new ExponentialBackOff());
+    GoogleAccountCredential mCredential ;
 
-    com.google.api.services.calendar.Calendar mService ;
 
+
+    private com.google.api.services.calendar.Calendar mService = null;
+//
+//    private Exception mLastError = null;
+//
+
+//
     String accountName;
+
+    String name;
+    String start;
+    String end;
 
 
     @Override
@@ -57,8 +65,21 @@ public class AddAppointActivity extends Activity {
 //        Intent intent = getIntent();
 //
 //        mCredential.setSelectedAccount((Account) intent.getSerializableExtra("credential"));
-        SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
-        accountName = selectedAccountName.getString("accountName","");
+//
+//
+//        SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
+//        accountName = selectedAccountName.getString("accountName","");
+
+        mCredential = GoogleAccountCredential.usingOAuth2(
+                    AddAppointActivity.this,
+                    Collections.singleton("https://www.googleapis.com/auth/contacts.readonly"));
+
+
+
+        Toast toast = Toast.makeText(getApplicationContext(),accountName,Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP,0,0);
+        toast.show();
+
 
         View.OnClickListener listener = new View.OnClickListener()
         {
@@ -72,11 +93,17 @@ public class AddAppointActivity extends Activity {
 //                name.putChar("NameOfAppoint",getText(name));
 //                google_cal.setArguments(name);
 
+
+                SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
+                accountName = selectedAccountName.getString("accountName","");
+
                 mCredential.setSelectedAccountName(accountName);
 
+              //
                 mService = new com.google.api.services.calendar.Calendar.Builder(transport, jsonFactory, mCredential)
-                        .setApplicationName("Google Calendar API Android Quickstart")
-                        .build();
+                                      .setApplicationName("Google Calendar API Android Quickstart")
+                                      .build();
+//
 
                 SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat timeformat = new SimpleDateFormat("HH:mm:ss");
@@ -97,15 +124,15 @@ public class AddAppointActivity extends Activity {
                 String endTime = timeformat.format
                         (new java.sql.Time(endTimePicker.getHour(), endTimePicker.getMinute(),0));
 
-                String name = edit_name.toString();
+                name = edit_name.toString();
 
-                String start = new StringBuilder()
+                start = new StringBuilder()
                         .append(startDate)
                         .append('T')
                         .append(startTime)
                         .append("+09:00")
                         .toString();
-                String end = new StringBuilder()
+                end = new StringBuilder()
                         .append(endDate)
                         .append('T')
                         .append(endTime)
@@ -195,5 +222,6 @@ public class AddAppointActivity extends Activity {
 //            return event;
 
     }
+
 
 }

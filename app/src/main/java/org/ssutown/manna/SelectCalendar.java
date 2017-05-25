@@ -1,13 +1,16 @@
 package org.ssutown.manna;
 
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,9 +48,11 @@ public class SelectCalendar extends Activity
     private TextView mOutputText;
 
 
+
     int cal_num;
     Boolean select = false;
     MaterialCalendarFragment cal_frag;
+
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -69,7 +74,6 @@ public class SelectCalendar extends Activity
                     case R.id.select_googleCal:
                         cal_num = 1;
                         sendInfo(cal_num);
-                        finish();
 //                        Intent intent = new Intent(getApplicationContext(), GoogleCalendarActivity.class);
 //                        startActivity(intent);
                         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -79,7 +83,18 @@ public class SelectCalendar extends Activity
                         if (!isGooglePlayServicesAvailable()) {
                             acquireGooglePlayServices();
                         } else if (mCredential.getSelectedAccountName() == null) {
-                            chooseAccount();
+                                chooseAccount();
+//                                sendAccountName(mCredential.getSelectedAccountName());
+
+//
+//                            SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
+//                            String accountName = selectedAccountName.getString("accountName","");
+////
+//
+//                            Toast toast = Toast.makeText(getApplicationContext(),accountName,Toast.LENGTH_LONG);
+//                            toast.show();
+
+
 //                            Intent intent = new Intent(getApplicationContext(), AddAppointActivity.class);
 //                            intent.putExtra("credential", mCredential.getSelectedAccount());
 //                            startActivityForResult(intent,0);
@@ -89,8 +104,7 @@ public class SelectCalendar extends Activity
 //                            new GoogleCalendarActivity.MakeRequestTask(mCredential).execute();
                         }
 
-                        sendAccountName(mCredential.getSelectedAccountName());
-
+                        finish();
                         break;
                     case R.id.select_androidCal :
                         cal_num = 2;
@@ -135,19 +149,34 @@ public class SelectCalendar extends Activity
             String accountName = getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
 
+//            if (accountName != null) {
+//                mCredential.setSelectedAccountName(accountName);
+////                getResultsFromApi();
+////                Toast toast = Toast.makeText(getApplicationContext(),"this",Toast.LENGTH_SHORT);
+////                toast.show();
+//
+//            } else {
+//                // Start a dialog from which the user can choose an account
+//                startActivityForResult(
+//                        mCredential.newChooseAccountIntent(),
+//                        REQUEST_ACCOUNT_PICKER);
+//
+//            }
+
             if (accountName != null) {
+                Log.e("aa", "accountName is not null");
                 mCredential.setSelectedAccountName(accountName);
 //                getResultsFromApi();
 //                Toast toast = Toast.makeText(getApplicationContext(),"this",Toast.LENGTH_SHORT);
 //                toast.show();
-
+                sendAccountName(mCredential.getSelectedAccountName());
             } else {
+                Log.e("aa", "accountName is null");
+                Log.e("aa", accountName +  " aa");
                 // Start a dialog from which the user can choose an account
-                startActivityForResult(
-                        mCredential.newChooseAccountIntent(),
-                        REQUEST_ACCOUNT_PICKER);
-
+                startActivityForResult(mCredential.newChooseAccountIntent(), REQUEST_ACCOUNT_PICKER);
             }
+
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
@@ -156,6 +185,15 @@ public class SelectCalendar extends Activity
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     android.Manifest.permission.GET_ACCOUNTS);
         }
+
+        sendAccountName(mCredential.getSelectedAccountName());
+
+//        SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
+//        String accountName = selectedAccountName.getString("accountName","");
+////
+//
+//        Toast toast = Toast.makeText(getApplicationContext(),accountName,Toast.LENGTH_LONG);
+//        toast.show();
     }
 
     /**
@@ -202,7 +240,7 @@ public class SelectCalendar extends Activity
 //                        editor.apply();
 //                        mCredential.setSelectedAccountName(accountName);
 ////                        getResultsFromApi();
-
+//
 //
 //                    }
 //                }
@@ -214,6 +252,24 @@ public class SelectCalendar extends Activity
 //                break;
 //        }
 //    }
+
+    @Override
+    protected void onActivityResult(
+            int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("onActivityResult", requestCode + " / ");
+        switch (requestCode) {
+            case REQUEST_ACCOUNT_PICKER:
+                String accountName =
+                        data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+                Log.e("ACTIVITY RESULT", accountName);
+                if (accountName != null) {
+                    mCredential.setSelectedAccountName(accountName);
+                    sendAccountName(mCredential.getSelectedAccountName());
+                    return;
+                }
+        }
+    }
 
     /**
      * Respond to requests for permissions at runtime for API 23 and above.

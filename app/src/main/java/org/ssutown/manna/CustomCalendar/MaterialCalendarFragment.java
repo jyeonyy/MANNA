@@ -12,7 +12,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.ssutown.manna.R;
 
@@ -59,6 +58,15 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        Log.i("i'm matcalendarFrag", "");
+
+
+//        SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
+//        int select = selectedCalendar.getInt("cal_num",0);
+//        Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
+
+//
+
         if (rootView != null) {
             // Get Calendar info
             // Get Calendar info
@@ -154,9 +162,6 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Toast toast = Toast.makeText(getActivity(),"hi",Toast.LENGTH_SHORT);
-        toast.show();
-
         switch (parent.getId()) {
             case R.id.material_calendar_gridView:
                 MaterialCalendar.selectCalendarDay(mMaterialCalendarAdapter, position);
@@ -214,6 +219,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     }
 
     protected static void showSavedEventsListView(int position) {
+
         Boolean savedEventsOnThisDay = false;
         int selectedDate = -1;
 
