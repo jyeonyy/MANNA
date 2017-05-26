@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -20,16 +21,27 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.model.Events;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.ssutown.manna.AddAppointActivity;
+import org.ssutown.manna.GoogleCalendar.CalendarList;
 import org.ssutown.manna.R;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +55,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import static android.app.Activity.RESULT_OK;
+import static org.ssutown.manna.HomeFragment.userID;
 import static org.ssutown.manna.PersonFragment.descriptions;
 import static org.ssutown.manna.PersonFragment.endDates;
 import static org.ssutown.manna.PersonFragment.nameOfEvent;
@@ -184,15 +197,262 @@ public class MaterialCalendarFragment extends Fragment
 //        }
 //        else
         if (mCredential.getSelectedAccountName() == null) {
+            Toast.makeText(getActivity(), "나는 ㅠㅠ ", Toast.LENGTH_LONG).show();
             chooseAccount();
+
         }
 
 //        else if (! isDeviceOnline()) {
 //            //mOutputText.setText("No network connection available.");
 //        }
-//        else {
-////            new LoginActivity.MakeRequestTask(mCredential).execute();
+        else {
+            Toast.makeText(getActivity(), "나는 ㅎㅎ ", Toast.LENGTH_LONG).show();
+           new MakeRequestTask(mCredential).execute();
+
+        }
+    }
+    /**
+     * An asynchronous task that handles the Google Calendar API call.
+     * Placing the API calls in their own task ensures the UI stays responsive.
+     */
+    private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
+
+        private com.google.api.services.calendar.Calendar mService = null;
+        //        private com.google.api.services.calendar.Calendar service = null;
+        private Exception mLastError = null;
+
+
+        MakeRequestTask(GoogleAccountCredential credential) {
+            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+            mService = new com.google.api.services.calendar.Calendar.Builder(
+                    transport, jsonFactory, credential)
+                    .setApplicationName("Google Calendar API Android Quickstart")
+                    .build();
+
+//            service = new com.google.api.services.calendar.Calendar.Builder(
+//                    transport, jsonFactory, credential)
+//                    .setApplicationName("Google Calendar API Android Quickstart")
+//                    .build();
+
+        }
+
+        /**
+         * Background task to call Google Calendar API.
+         * @param params no parameters needed for this task.
+         */
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            try {
+                insertEvent(mService);
+                return getDataFromApi();
+            } catch (Exception e) {
+                mLastError = e;
+                cancel(true);
+                return null;
+            }
+        }
+
+        /**
+         * Fetch a list of the next 10 events from the primary calendar.
+         * @return List of Strings describing returned events.
+         * @throws IOException
+         */
+        private List<String> getDataFromApi() throws IOException {
+
+
+//            insertEvent(mService);
+
+            // List the next 15 events from the primary calendar.
+            DateTime now = new DateTime(System.currentTimeMillis());
+            List<String> eventStrings = new ArrayList<String>();
+            Events events = mService.events().list("primary")
+                    .setMaxResults(50)
+                    .setOrderBy("startTime")
+                    .setSingleEvents(true)
+                    .execute();
+            List<Event> items = events.getItems();
+
+//            items.add(insertEvent(mService));
+
+
+
+//            items.add(setDateToApi());
+
+            for (Event event : items) {
+                DateTime start = event.getStart().getDateTime();
+                DateTime end = event.getEnd().getDateTime();
+                if (start == null) {
+                    // All-day events don't have start times, so just use
+                    // the start date.
+                    start = event.getStart().getDate();
+                    end = event.getEnd().getDate();
+                }
+
+                eventStrings.add(
+                        String.format("%s (%s ~ %s)", event.getSummary(), start,end));
+
+                saveEventtoFirebase(event.getSummary(), start.toString(), end.toString());
+
+            }
+            return eventStrings;
+        }
+
+        public void saveEventtoFirebase(String event, String start, String end){
+            String key = calendardb.child(String.valueOf(userID)).child("calendar").push().getKey();
+            String eventname = event;
+            String eventstart = start;
+            String eventend = end;
+
+
+            String tempstart[] = eventstart.split("T");
+            String tempstart1 = tempstart[0];
+            String tempstart2 = tempstart[1];
+
+            String startday1[] = tempstart1.split("-");
+            String starttime[] = tempstart2.split(":");
+
+            String startyear = startday1[0];
+            String startmonth = startday1[1];
+            String startday = startday1[2];
+
+            String starthour = starttime[0];
+            String startminute = starttime[1];
+
+            String tempend[] = eventend.split("T");
+            String tempend1 = tempend[0];
+            String tempend2 = tempend[1];
+
+
+            String endday1[] = tempend1.split("-");
+            String endtime[] = tempend2.split(":");
+
+            String endyear = endday1[0];
+            String endmonth = endday1[1];
+            String endday = endday1[2];
+
+            String endhour = endtime[0];
+            String endminute = endtime[1];
+
+
+
+
+
+            CalendarList list = new CalendarList(eventname,eventstart,eventend,key, startyear, startmonth,
+                    startday,starthour,startminute, endyear, endmonth, endday, endhour, endminute);
+
+            calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+
+
+        }
+//        private Event setDateToApi()
+//        {
+//
+//            Event event = new Event()
+//                    .setSummary("Google I/O 2015")
+//                    .setLocation("800 Howard St., San Francisco, CA 94103")
+//                    .setDescription("A chance to hear more about Google's developer products.");
+//
+//            DateTime startDateTime = new DateTime("2017-05-28T09:00:00-07:00");
+//            EventDateTime start = new EventDateTime()
+//                    .setDateTime(startDateTime)
+//                    .setTimeZone("Korea/Seoul");
+//            event.setStart(start);
+//
+//            DateTime endDateTime = new DateTime("2017-05-28T17:00:00-07:00");
+//            EventDateTime end = new EventDateTime()
+//                    .setDateTime(endDateTime)
+//                    .setTimeZone("Korea/Seoul");
+//            event.setEnd(end);
+//
+//            String calendarId = "primary";
+//            event = service.events().insert(calendarId, event).execute();
+//
+//            return event;
 //        }
+
+        public void insertEvent(com.google.api.services.calendar.Calendar mService) throws IOException {
+
+//            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+//            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+//            com.google.api.services.calendar.Calendar service = new com.google.api.services.calendar.Calendar.Builder(
+//                    transport, jsonFactory, mCredential)
+//                    .setApplicationName("Google Calendar API Android Quickstart")
+//                    .build();
+
+//            Toast toast = Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_SHORT);
+//            toast.show();
+
+            try {
+                com.google.api.services.calendar.model.Calendar calendar =
+                        mService.calendars().get("primary").execute();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Event event = new Event()
+                    .setSummary("우선 이게 될까?")
+                    .setLocation("Dhaka")
+                    .setDescription("New Event 1");
+
+            DateTime startDateTime = new DateTime("2017-05-28T09:00:00-09:00");
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(startDateTime)
+                    .setTimeZone("Asia/Seoul");
+            event.setStart(start);
+
+            DateTime endDateTime = new DateTime("2017-05-28T10:00:00-09:00");
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(endDateTime)
+                    .setTimeZone("Asia/Seoul");
+            event.setEnd(end);
+
+            String calendarId = "primary";
+            try {
+                mService.events().insert(calendarId, event).execute();
+//                mService.events().update(calendarId,event.getId(),event).execute();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//            System.out.printf("Event created: %s\n", event.getHtmlLink());
+
+//            try {
+//                mService.events().update("primary", event.getId(), event).execute();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+//            return event;
+
+        }
+
+//        private void updateEvent(GoogleAccountCredential mCredential)
+//        {
+//
+//            HttpTransport transport = AndroidHttp.newCompatibleTransport();
+//            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
+//            com.google.api.services.calendar.Calendar service = new com.google.api.services.calendar.Calendar.Builder(
+//                    transport, jsonFactory, mCredential)
+//                    .setApplicationName("Google Calendar API Android Quickstart")
+//                    .build();
+//
+//
+//            Event event = service.events().get('primary', "eventId").execute();
+//
+//
+//
+//            event.setSummary("Appointment at Somewhere");
+//
+//
+//            Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
+//
+//            System.out.println(updatedEvent.getUpdated());
+//        }
+
+
+
     }
 
 //    private boolean isGooglePlayServicesAvailable() {
@@ -231,6 +491,7 @@ public class MaterialCalendarFragment extends Fragment
 //        dialog.show();
 //    }
 
+
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
     private void chooseAccount() {
         if (EasyPermissions.hasPermissions(
@@ -245,7 +506,7 @@ public class MaterialCalendarFragment extends Fragment
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
                 sendAccountName(accountName);
-//                getResultsFromApi();
+                getResultsFromApi();
             } else {
                 // Start a dialog from which the user can choose an account
                 startActivityForResult(
