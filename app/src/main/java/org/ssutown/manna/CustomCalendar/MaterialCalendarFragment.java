@@ -13,6 +13,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.ssutown.manna.R;
 
 import java.util.ArrayList;
@@ -35,12 +38,14 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     // Calendar Adapter
     private MaterialCalendarAdapter mMaterialCalendarAdapter;
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference calendardb = database.getReference("userList");
     // Saved Events Adapter
     protected static SavedEventsAdapter mSavedEventsAdapter;
     protected static ListView mSavedEventsListView;
 
-    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerDay;
-    protected static ArrayList<Integer> mSavedEventDays;
+    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerDay; //string이 며칠(string)에 몇개(integer)의 일정이 있는지
+    protected static ArrayList<Integer> mSavedEventDays; //하루동안 일정이 몇 개 있는지
 
     protected static int mNumEventsOnDay = 0;
 
@@ -58,14 +63,11 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
-        Log.i("i'm matcalendarFrag", "");
-
 
 //        SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
 //        int select = selectedCalendar.getInt("cal_num",0);
 //        Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
 
-//
 
         if (rootView != null) {
             // Get Calendar info
@@ -104,7 +106,7 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
 
 
                 // Set current day to be auto selected when first opened
-                if (MaterialCalendar.mCurrentDay != -1 && MaterialCalendar.mFirstDay != -1){
+                if (MaterialCalendar.mCurrentDay != -1 && MaterialCalendar.mFirstDay != -1) {
                     int startingPosition = 6 + MaterialCalendar.mFirstDay;
                     int currentDayPosition = startingPosition + MaterialCalendar.mCurrentDay;
 
@@ -118,8 +120,12 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
                 }
             }
 
+
+
             // ListView for saved events in calendar
             mSavedEventsListView = (ListView) rootView.findViewById(R.id.saved_events_listView);
+
+
         }
 
         return rootView;
@@ -191,12 +197,12 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         // For loop adding each event date to ArrayList
         // Also get ArrayList<SavedEvents>
 
-        mSavedEventsPerDay = new ArrayList<HashMap<String, Integer>>();
+        mSavedEventsPerDay = new ArrayList<HashMap<String, Integer>>(); //string이 며칠(string)에 몇개(integer)의 일정이 있는지
 
         /**
          * Make sure to use this variable name or update in CalendarAdapter 'setSavedEvent'
          */
-        mSavedEventDays = new ArrayList<Integer>();
+        mSavedEventDays = new ArrayList<Integer>();//하루동안 일정이 몇 개 있는지
 
         // This is just used for testing purposes to show saved events on the calendar
         Random random = new Random();
@@ -226,18 +232,20 @@ public class MaterialCalendarFragment extends Fragment implements View.OnClickLi
         if (MaterialCalendar.mFirstDay != -1 && mSavedEventDays != null && mSavedEventDays.size
                 () > 0) {
             selectedDate = position - (6 + MaterialCalendar.mFirstDay);
+
             Log.d("SELECTED_SAVED_DATE", String.valueOf(selectedDate));
+            Log.i("i'mpositoin",String.valueOf(position));
 
             for (int i = 0; i < mSavedEventDays.size(); i++) {
                 if (selectedDate == mSavedEventDays.get(i)) {
-                    savedEventsOnThisDay = true;
+                    savedEventsOnThisDay = true;                //일정이 저장된 날과 선택된 날이 같으면 true로 바꿔준다.
                 }
             }
         }
 
         Log.d("SAVED_EVENTS_BOOL", String.valueOf(savedEventsOnThisDay));
 
-        if (savedEventsOnThisDay) {
+        if (savedEventsOnThisDay) {     //선택된 날에 일정이 있으면
             Log.d("POS", String.valueOf(selectedDate));
             if (mSavedEventsPerDay != null && mSavedEventsPerDay.size() > 0) {
                 for (int i = 0; i < mSavedEventsPerDay.size(); i++) {

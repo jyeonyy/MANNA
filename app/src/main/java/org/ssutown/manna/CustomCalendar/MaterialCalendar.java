@@ -18,8 +18,8 @@ public class MaterialCalendar {
     protected static int mCurrentDay = -1;
     protected static int mCurrentMonth = -1;
     protected static int mCurrentYear = -1;
-    protected static int mFirstDay = -1;
-    protected static int mNumDaysInMonth = -1;
+    protected static int mFirstDay = -1;    //월 첫째주에 빈 날짜. 1일이 월요일 부터시작하면 mFirstDay는 1
+    protected static int mNumDaysInMonth = -1;  //31
 
 
     protected static void getInitialCalendarInfo() {

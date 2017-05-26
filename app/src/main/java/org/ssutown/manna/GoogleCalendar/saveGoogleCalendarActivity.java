@@ -61,6 +61,8 @@ public class saveGoogleCalendarActivity extends Activity
     private Button mCallApiButton;
     ProgressDialog mProgress;
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference calendardb = database.getReference("userList");
 
     static final int REQUEST_ACCOUNT_PICKER = 1000;
     static final int REQUEST_AUTHORIZATION = 1001;
@@ -408,8 +410,6 @@ public class saveGoogleCalendarActivity extends Activity
 
 
 //            items.add(setDateToApi());
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference calendardb = database.getReference("userList");
 
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
@@ -421,26 +421,90 @@ public class saveGoogleCalendarActivity extends Activity
                     end = event.getEnd().getDate();
                 }
 
+                eventStrings.add(
+                        String.format("%s (%s ~ %s)", event.getSummary(), start,end));
 
-                String key = calendardb.child(String.valueOf(userID)).child("calendar").push().getKey();
-                String uniquekey = key;
-                String eventname = event.getSummary().toString();
-                String eventstart = start.toString();
-                String eventend = end.toString();
+                saveEventtoFirebase(event.getSummary(), start.toString(), end.toString());
+//                String key = calendardb.child(String.valueOf(userID)).child("calendar").push().getKey();
+//                String eventname = event.getSummary();
+//                String eventstart = start.toString();
+//                String eventend = end.toString();
+//
+//                String tempstart[] = eventstart.split("T");
+//                String tempstart1 = tempstart[0];
+//                String tempstart2 = tempstart[1];
+//
+//                Toast.makeText(saveGoogleCalendarActivity.this, tempstart1, Toast.LENGTH_SHORT).show();
+//
+//                String startday1[] = tempstart1.split("-");
+//                String starttime[] = tempstart2.split(":");
+//
+//                String startyear = startday1[0];
+//                String startmonth = startday1[1];
+//                String startday = startday1[2];
+//
+//                String starthour = starttime[0];
+//                String startminute = starttime[1];
+//
+//
+//
+//                CalendarList list = new CalendarList(eventname,eventstart,eventend,key, Integer.valueOf(startyear), Integer.valueOf(startmonth),
+//                        Integer.valueOf(startday),Integer.valueOf(starthour),Integer.valueOf(startminute));
+//                calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
 
-                CalendarList list = new CalendarList(eventname,eventstart,eventend,uniquekey);
 
-
-
-                calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
-
-
-//                eventStrings.add(
-//                        String.format("%s (%s ~ %s)", event.getSummary(), start,end));
             }
             return eventStrings;
         }
 
+        public void saveEventtoFirebase(String event, String start, String end){
+            String key = calendardb.child(String.valueOf(userID)).child("calendar").push().getKey();
+            String eventname = event;
+            String eventstart = start;
+            String eventend = end;
+
+
+            String tempstart[] = eventstart.split("T");
+            String tempstart1 = tempstart[0];
+            String tempstart2 = tempstart[1];
+
+
+            String startday1[] = tempstart1.split("-");
+            String starttime[] = tempstart2.split(":");
+
+            String startyear = startday1[0];
+            String startmonth = startday1[1];
+            String startday = startday1[2];
+
+            String starthour = starttime[0];
+            String startminute = starttime[1];
+
+            String tempend[] = eventend.split("T");
+            String tempend1 = tempend[0];
+            String tempend2 = tempend[1];
+
+
+            String endday1[] = tempend1.split("-");
+            String endtime[] = tempend2.split(":");
+
+            String endyear = endday1[0];
+            String endmonth = endday1[1];
+            String endday = endday1[2];
+
+            String endhour = endtime[0];
+            String endminute = endtime[1];
+
+
+
+
+
+            CalendarList list = new CalendarList(eventname,eventstart,eventend,key, startyear, startmonth,
+                    startday,starthour,startminute, endyear, endmonth, endday, endhour, endminute);
+
+            calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+
+
+        }
 //        private Event setDateToApi()
 //        {
 //

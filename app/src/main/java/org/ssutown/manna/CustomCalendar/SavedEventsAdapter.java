@@ -55,7 +55,7 @@ public class SavedEventsAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.layout_material_saved_event_item, parent, false);
+            convertView = inflater.inflate(R.layout.layout_material_saved_event_item, parent, false);   //저 레이아웃은 listview의 레이아웃
 
             mHolder = new ViewHolder();
 

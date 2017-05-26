@@ -27,9 +27,9 @@ public class MaterialCalendarAdapter extends BaseAdapter {
 
     private static class ViewHolder {
         ImageView mSelectedDayImageView;
-        TextView mTextView;
-        ImageView mSavedEventImageView;
-    }
+    TextView mTextView;
+    ImageView mSavedEventImageView;
+}
 
     // Constructor
     public MaterialCalendarAdapter(Context context) {
