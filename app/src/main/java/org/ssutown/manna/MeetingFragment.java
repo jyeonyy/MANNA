@@ -44,14 +44,15 @@ public class MeetingFragment extends Fragment {
         long userID = 398410773;
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
 
         databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (final DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "userlist onDataChange: " + ds.getValue(meetingList.class).getMeetingID());
-                    meetinglist.add(ds.getValue(meetingList.class).getMeetingID());
+                for (final DataSnapshot user : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "userlist onDataChange: " + user.getValue(meetingList.class).getMeetingID());
+                    meetinglist.add(user.getValue(meetingList.class).getMeetingID());
                 }
             }
 
@@ -63,8 +64,26 @@ public class MeetingFragment extends Fragment {
         });
 
 
+        databaseReference.child("MeetingList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    for(int i = 0 ; i<((MainActivity)getActivity()).meetinglist.size();i++){
+                        if((meetinglist.get(i).toString().equals(ds.getValue(meeting_Info.class).getMeeting_id()))) {
+                            adapter.addItem(ContextCompat.getDrawable(getContext(), R.drawable.calendar1,ds.getValue(meeting_Info.class).getMeeting_name());
+                        }
+                    }
 
-       addMeeting.setOnClickListener(new View.OnClickListener() {
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        addMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               Toast.makeText(getActivity(),"addButton",Toast.LENGTH_SHORT).show();

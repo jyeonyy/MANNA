@@ -4,14 +4,10 @@ package org.ssutown.manna.meeting;
  * Created by HyeMin on 2017. 5. 17..
  */
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
-
 
 public class meeting_Info implements Serializable{
 
@@ -26,12 +22,11 @@ public class meeting_Info implements Serializable{
     private int endMonth;
     private int endDay;
 
-    Random random = new Random();
+    public meeting_Info(){}
 
-    meeting_Info(){}
+    public meeting_Info(String name,String id,int sY,int sM,int sD,int eY,int eM,int eD){
 
-    meeting_Info(String name,int sY,int sM,int sD,int eY,int eM,int eD){
-
+        Random random = new Random();
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddhhmmss");
         Date date = new Date();
         String today = df.format(date);
@@ -45,22 +40,77 @@ public class meeting_Info implements Serializable{
         endYear = eY;
         endMonth = eM;
         endDay = eD;
+
     }
 
-    public String getMeeting_id(){
-        return this.meeting_id;
+    public String getMeeting_id() {
+        return meeting_id;
     }
 
-    public String getMeeting_name(){
-        return this.meeting_name;
+    public String getMeeting_name() {return meeting_name;}
+
+    public int getStartYear() {
+        return startYear;
     }
 
-    public String getStartDay(){
+    public int getStartMonth() {
+        return startMonth;
+    }
+
+    public int getStartDay(){
+        return startDay;
+    }
+
+    public int getEndYear() {
+        return endYear;
+    }
+
+    public int getEndMonth() {
+        return endMonth;
+    }
+
+    public int getEndDay(){
+        return endDay;
+    }
+
+    public void setStartYear(int startYear) {
+        this.startYear = startYear;
+    }
+
+    public void setStartMonth(int startMonth) {
+        this.startMonth = startMonth;
+    }
+
+    public void setStartDay(int startDay) {
+        this.startDay = startDay;
+    }
+
+    public void setEndYear(int endYear) {
+        this.endYear = endYear;
+    }
+
+    public void setEndMonth(int endMonth) {
+        this.endMonth = endMonth;
+    }
+
+    public void setEndDay(int endDay) {
+        this.endDay = endDay;
+    }
+
+    public void setMeeting_id(String meeting_id) {
+        this.meeting_id = meeting_id;
+    }
+
+    public void setMeeting_name(String meeting_name) {
+        this.meeting_name = meeting_name;
+    }
+
+/*    public String getFullStartDay(){
         return String.valueOf(startYear)+String.valueOf(startMonth)+String.valueOf(startDay);
     }
 
-    public String getEndDay(){
+    public String getFullEndDay(){
         return String.valueOf(endYear)+String.valueOf(endMonth)+String.valueOf(endDay);
     }
-
+*/
 }

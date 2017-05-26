@@ -4,7 +4,20 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.ssutown.manna.meeting.meetingList;
+
+import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Jiyeon on 2017-03-25.
@@ -20,10 +33,29 @@ public class MainActivity extends Activity {
     ScheduleFragment scheduleFragment = new ScheduleFragment();
     SettingFragment settingFragment = new SettingFragment();
 
+    long userID = 398410773;
+    ArrayList<String> meetinglist = new ArrayList<>();
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (final DataSnapshot user : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "userlist onDataChange: " + user.getValue(meetingList.class).getMeetingID());
+                    meetinglist.add(user.getValue(meetingList.class).getMeetingID());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         getFragmentManager().beginTransaction().add(R.id.main_fragment, homeFragment).commit();
 
