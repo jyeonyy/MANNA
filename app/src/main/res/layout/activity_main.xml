@@ -44,8 +44,7 @@
                 android:layout_height="match_parent"
                 android:name="org.ssutown.manna.HomeFragment"
                 android:id="@+id/main_fragment"
-                android:layout_weight="1"
-                tools:layout="@layout/home_fragment" />
+                android:layout_weight="1"/>
 
         </LinearLayout>
 

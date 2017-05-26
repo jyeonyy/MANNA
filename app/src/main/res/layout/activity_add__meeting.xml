@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="org.ssutown.manna.meeting.add_Meeting">
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/meeting_name"
+        android:layout_alignStart="@+id/startDay"
+        android:layout_marginBottom="14dp"
+        android:visibility="visible" />
+
+    <DatePicker
+        android:id="@+id/startDay"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/endDay" />
+
+    <DatePicker
+        android:id="@+id/endDay"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:layout_below="@+id/startDay"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/meeting_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="50dp"
+        tools:layout_editor_absoluteY="121dp"
+        android:layout_marginBottom="30dp"
+        android:layout_above="@+id/startDay"
+        android:layout_toEndOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MeetingName : "
+        android:layout_marginRight="66dp"
+        android:layout_alignBaseline="@+id/meeting_name"
+        android:layout_alignBottom="@+id/meeting_name"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="17dp" />
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:layout_marginBottom="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/meeting_name" />
+
+    <Button
+        android:id="@+id/getAlbum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="21dp"
+        android:text="select"
+        android:layout_alignBottom="@+id/picture"
+        android:layout_alignEnd="@+id/startDay"
+        android:layout_marginBottom="10dp" />
+
+    <Button
+        android:id="@+id/takePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/getAlbum"
+        android:layout_alignEnd="@+id/getAlbum"
+        android:text="Take" />
+
+</RelativeLayout>

@@ -26,6 +26,7 @@ public class MemoListItem {
     public void setUniquekey(String unique){
         this.uniquekey = unique;
     }
+
     public String getUniquekey(){
         return this.uniquekey;
     }

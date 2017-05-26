@@ -55,8 +55,6 @@ public class MemoListAdapter extends BaseAdapter {
 */
 
 
-
-
         return convertView;
     }
 

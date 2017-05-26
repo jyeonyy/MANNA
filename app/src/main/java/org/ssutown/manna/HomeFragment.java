@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+
 public class HomeFragment extends Fragment {
   //  private ImageView kakaoprofile;
     public static long userID;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference memodatabase = database.getReference("Memo");
 
@@ -34,9 +37,12 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.home_fragment, container, false );
 
-        userID= 402749699 ;
+
+        userID = 398410773;
+       //userID = getUserID();
 
         Toast.makeText(getActivity(),"dksjfiowje",Toast.LENGTH_SHORT).show();
+
         final org.ssutown.manna.MemoListAdapter adapter;
         adapter = new org.ssutown.manna.MemoListAdapter();
         final ListView listview = (ListView)view.findViewById(R.id.memolistview);
@@ -50,6 +56,7 @@ public class HomeFragment extends Fragment {
                for(DataSnapshot ds: dataSnapshot.getChildren()) {
 //                   adapter.addItem(memoitem.getMemo());
                    adapter.addItem(ds.getValue(MemoListItem.class).getMemo(), ds.getValue(MemoListItem.class).getUniquekey());
+                   Log.i("gsa",ds.getValue(MemoListItem.class).getMemo());
                }adapter.notifyDataSetChanged();
            }
 
@@ -58,7 +65,8 @@ public class HomeFragment extends Fragment {
 
            }
        });
-        final Context context = getActivity();
+
+        final Context context = this.getActivity();
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
