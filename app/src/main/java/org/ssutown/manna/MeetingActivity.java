@@ -17,7 +17,6 @@ public class MeetingActivity extends Activity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_meeting);
 
-
     }
     public void ChangeMeetFragment(View view){
         Fragment fr = new Fragment();
