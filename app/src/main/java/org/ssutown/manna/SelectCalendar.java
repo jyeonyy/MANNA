@@ -37,13 +37,14 @@ public class SelectCalendar extends Activity
 
     GoogleAccountCredential mCredential;
 
-    static final int REQUEST_ACCOUNT_PICKER = 1000;
+    static final int REQUEST_ACCOUNT_PICKER = 1005;
     static final int REQUEST_AUTHORIZATION = 1001;
     static final int REQUEST_GOOGLE_PLAY_SERVICES = 1002;
     static final int REQUEST_PERMISSION_GET_ACCOUNTS = 1003;
 
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = {CalendarScopes.CALENDAR};
+
 
     private TextView mOutputText;
 
@@ -74,6 +75,7 @@ public class SelectCalendar extends Activity
                     case R.id.select_googleCal:
                         cal_num = 1;
                         sendInfo(cal_num);
+//                        finish();
 //                        Intent intent = new Intent(getApplicationContext(), GoogleCalendarActivity.class);
 //                        startActivity(intent);
                         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -105,6 +107,7 @@ public class SelectCalendar extends Activity
                         }
 
                         finish();
+
                         break;
                     case R.id.select_androidCal :
                         cal_num = 2;
@@ -136,10 +139,10 @@ public class SelectCalendar extends Activity
         editor.commit();
     }
 
-    public void sendAccountName(String accountName) {
+    public void sendAccountName(String select_accountName) {
         SharedPreferences selectedAccountName = getSharedPreferences("selectedAccountName", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = selectedAccountName.edit();
-        editor.putString("accountName", accountName);
+        editor.putString("accountName", select_accountName);
         editor.commit();
     }
 
@@ -186,8 +189,8 @@ public class SelectCalendar extends Activity
                     android.Manifest.permission.GET_ACCOUNTS);
         }
 
-        sendAccountName(mCredential.getSelectedAccountName());
-
+//        sendAccountName(mCredential.getSelectedAccountName());
+//
 //        SharedPreferences selectedAccountName = getApplicationContext().getSharedPreferences("selectedAccountName", Context.MODE_PRIVATE);
 //        String accountName = selectedAccountName.getString("accountName","");
 ////
@@ -264,6 +267,11 @@ public class SelectCalendar extends Activity
                         data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
                 Log.e("ACTIVITY RESULT", accountName);
                 if (accountName != null) {
+                    SharedPreferences settings =
+                                getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = settings.edit();
+                        editor.putString(PREF_ACCOUNT_NAME, accountName);
+                        editor.apply();
                     mCredential.setSelectedAccountName(accountName);
                     sendAccountName(mCredential.getSelectedAccountName());
                     return;
