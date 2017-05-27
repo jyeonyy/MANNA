@@ -58,6 +58,8 @@ public class add_Meeting extends AppCompatActivity {
         endDay = (DatePicker)findViewById(R.id.endDay);
         addMeeting = (Button)findViewById(R.id.add);
 
+        final long userID = 398410773;
+
         //미팅추가하기
         addMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +72,9 @@ public class add_Meeting extends AppCompatActivity {
                 String key = databaseReference.child("MeetingList").push().getKey();
                 databaseReference.child("MeetingList").child(key).setValue(meeting_info);
 
-                SharedPreferences kakao_id = getSharedPreferences("KAKAO_ID", Activity.MODE_PRIVATE);
-                final long userID = kakao_id.getLong("KAKAO_ID",0);
+                //SharedPreferences kakao_id = getSharedPreferences("KAKAO_ID", Activity.MODE_PRIVATE);
+                //final long userID = kakao_id.getLong("KAKAO_ID",0);
+
 
                 //Toast.makeText(getApplication(),String.valueOf(userID),Toast.LENGTH_SHORT).show();
                 //String key = databaseReference.child("userList").child(String.valueOf(userID)).push().getKey();
@@ -79,22 +82,6 @@ public class add_Meeting extends AppCompatActivity {
                 meetingList meetingList = new meetingList(meeting_info.getMeeting_id());
 
                 databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").push().setValue(meetingList);
-/*                databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (final DataSnapshot user : dataSnapshot.getChildren()) {
-                            Log.d(TAG, "userlist onDataChange: " + user.getValue(meetingList.class).getMeetingID());
-                            meetinglist.add(user.getValue(meetingList.class).getMeetingID());
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-
-                });*/
-
 
                 //databaseReference.child("userList").child(String.valueOf(userID)).
                 //Toast.makeText(getApplication(),key,Toast.LENGTH_SHORT).show();

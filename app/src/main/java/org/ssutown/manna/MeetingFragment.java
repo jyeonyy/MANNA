@@ -1,6 +1,7 @@
 package org.ssutown.manna;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.solver.SolverVariable;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 import org.ssutown.manna.meeting.*;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,7 +46,7 @@ public class MeetingFragment extends Fragment {
         long userID = 398410773;
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = firebaseDatabase.getReference();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
 
 
         databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").addValueEventListener(new ValueEventListener() {
@@ -64,14 +66,16 @@ public class MeetingFragment extends Fragment {
         });
 
 
-        databaseReference.child("MeetingList").addValueEventListener(new ValueEventListener() {
+       databaseReference.child("MeetingList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.clear();
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
-                    for(int i = 0 ; i<((MainActivity)getActivity()).meetinglist.size();i++){
+                    for(int i = 0 ; i<meetinglist.size();i++){
                         if((meetinglist.get(i).toString().equals(ds.getValue(meeting_Info.class).getMeeting_id()))) {
-                            adapter.addItem(ContextCompat.getDrawable(getContext(), R.drawable.calendar1,ds.getValue(meeting_Info.class).getMeeting_name());
-                        }
+                            adapter.addItem(ContextCompat.getDrawable(getActivity().getApplicationContext(),R.drawable.calendar1),ds.getValue(meeting_Info.class).getMeeting_name());
+                            Log.d(TAG, "same!");
+                        }adapter.notifyDataSetChanged();
                     }
 
                 }
