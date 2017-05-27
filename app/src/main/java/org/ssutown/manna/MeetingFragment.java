@@ -94,6 +94,7 @@ public class MeetingFragment extends Fragment {
             public void onClick(View v) {
               Toast.makeText(getActivity(),"addButton",Toast.LENGTH_SHORT).show();
                Intent i = new Intent(getActivity(), add_Meeting.class);
+
                 startActivity(i);
             }
         });
@@ -107,18 +108,9 @@ public class MeetingFragment extends Fragment {
 
                // Toast.makeText(getActivity().getApplication(),"gg",Toast.LENGTH_SHORT).show();
 
-                if(titleStr.equals("first") == true){
                     Intent i = new Intent(getActivity(), MeetingActivity.class);
                     startActivity(i);
 
-                }else if(titleStr.equals("second") == true){
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
-
-                }else if(titleStr.equals("third") == true){
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
-                }
             }
         }) ;
 

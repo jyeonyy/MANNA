@@ -1,6 +1,7 @@
 package org.ssutown.manna.profileSetting;
 
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -21,11 +22,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-public class setProfile extends Activity{
+public class setProfile extends Activity implements View.OnClickListener{
 
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
@@ -34,6 +40,7 @@ public class setProfile extends Activity{
     private Uri mImageCaptureUri;
     private ImageView iv_UserPhoto;
     private int id_view;
+    private Button uploadPicture;
     private String absoultePath;
 
     @Override
@@ -41,44 +48,52 @@ public class setProfile extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_profile);
 
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReferenceFromUrl("gs://manna-163600.appspot.com/");
 
-        Button uplodePicture = (Button)findViewById(R.id.btn_UploadPicture);
-
-        uplodePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakePhotoAction();
-                    }
-                };
-
-                DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doTakeAlbumAction();
-                    }
-                };
-
-                DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                };
-
-                new AlertDialog.Builder(getApplication())
-                        .setTitle("업로드할 이미지 선택")
-                        .setPositiveButton("사진촬영", cameraListener)
-                        .setNeutralButton("앨범선택", albumListener)
-                        .setNegativeButton("취소", cancelListener)
-                        .show();
-            }
-        });
+        uploadPicture = (Button)findViewById(R.id.btn_UploadPicture);
+        iv_UserPhoto = (ImageView)findViewById(R.id.user_image);
 
     }
+
+    @Override
+    public void onClick(View v) {
+        id_view = v.getId();
+        if(R.id.btn_signupfinish == v.getId()){
+            //완료버튼눌렀을 때 코딩하기
+        }
+
+        else if(v.getId() == R.id.btn_UploadPicture){
+
+            DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    doTakePhotoAction();
+                }
+            };
+            DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    doTakeAlbumAction();
+                }
+            };
+
+            DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            };
+
+            new AlertDialog.Builder(this)
+                    .setTitle("업로드할 사진 선택")
+                    .setPositiveButton("사진촬영",cameraListener)
+                    .setNegativeButton("앨범선택",albumListener)
+                    .setNeutralButton("취소",cancelListener)
+                    .show();
+        }
+    }
+
 
     public void doTakePhotoAction() // 카메라 촬영 후 이미지 가져오기
     {
@@ -187,6 +202,7 @@ public class setProfile extends Activity{
             e.printStackTrace();
         }
     }
+
 }
 
 

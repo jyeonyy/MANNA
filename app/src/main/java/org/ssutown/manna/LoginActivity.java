@@ -27,6 +27,8 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
+import org.ssutown.manna.profileSetting.setProfile;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -182,9 +184,12 @@ public class LoginActivity extends AppCompatActivity {
                     DatabaseReference databaseReference = firebaseDatabase.getReference();
 //                    databaseReference.child("userList").child(String.valueOf(userProfile.getId())).push().setValue(info);
 
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    intent.putExtra("userID",userProfile.getId());
-                    startActivity(intent);
+                  //  Intent intent = new Intent(LoginActivity.this,setProfile.class);
+                  //  startActivity(intent);
+
+                    Intent intent1 = new Intent(LoginActivity.this,MainActivity.class);
+                    intent1.putExtra("userID",userProfile.getId());
+                    startActivity(intent1);
                     finish();
                 }
 
