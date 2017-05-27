@@ -69,6 +69,10 @@ public class add_Meeting extends AppCompatActivity {
                 meeting_info = new meeting_Info(meetingName.getText().toString(),"0",startDay.getYear(),startDay.getMonth(),startDay.getDayOfMonth(),endDay.getYear(),endDay.getMonth(),endDay.getDayOfMonth());
                 FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+                meetingList meetingList = new meetingList(meeting_info.getMeeting_id());
+                databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").push().setValue(meetingList);
+
                 String key = databaseReference.child("MeetingList").push().getKey();
                 databaseReference.child("MeetingList").child(key).setValue(meeting_info);
 
@@ -78,10 +82,6 @@ public class add_Meeting extends AppCompatActivity {
 
                 //Toast.makeText(getApplication(),String.valueOf(userID),Toast.LENGTH_SHORT).show();
                 //String key = databaseReference.child("userList").child(String.valueOf(userID)).push().getKey();
-
-                meetingList meetingList = new meetingList(meeting_info.getMeeting_id());
-
-                databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").push().setValue(meetingList);
 
                 //databaseReference.child("userList").child(String.valueOf(userID)).
                 //Toast.makeText(getApplication(),key,Toast.LENGTH_SHORT).show();

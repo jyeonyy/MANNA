@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.ssutown.manna.meeting.add_Meeting;
 import org.ssutown.manna.meeting.meetingList;
+import org.ssutown.manna.meeting.meeting_Info;
 
 import java.util.ArrayList;
 
@@ -52,6 +54,7 @@ public class MeetingFragment extends Fragment {
         databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                meetinglist.clear();
                 for (final DataSnapshot user : dataSnapshot.getChildren()) {
                     Log.d(TAG, "userlist onDataChange: " + user.getValue(meetingList.class).getMeetingID());
                     meetinglist.add(user.getValue(meetingList.class).getMeetingID());
@@ -64,7 +67,6 @@ public class MeetingFragment extends Fragment {
             }
 
         });
-
 
        databaseReference.child("MeetingList").addValueEventListener(new ValueEventListener() {
             @Override
