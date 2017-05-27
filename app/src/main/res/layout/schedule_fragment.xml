@@ -32,19 +32,13 @@
         android:id="@+id/bar42"
         />
 
-    <ListView
-        android:id="@+id/listview1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/bar42" />
-
     <Button
         android:id="@+id/button5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="+"
         android:layout_alignBaseline="@+id/schedule"
         android:layout_alignBottom="@+id/schedule"
-        android:layout_alignParentEnd="true"
-        android:text="+" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

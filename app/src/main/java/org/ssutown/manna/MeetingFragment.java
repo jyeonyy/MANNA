@@ -1,6 +1,7 @@
 package org.ssutown.manna;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,12 +48,13 @@ public class MeetingFragment extends Fragment {
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+
         databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (final DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "userlist onDataChange: " + ds.getValue(meetingList.class).getMeetingID());
-                    meetinglist.add(ds.getValue(meetingList.class).getMeetingID());
+                for (final DataSnapshot user : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "userlist onDataChange: " + user.getValue(meetingList.class).getMeetingID());
+                    meetinglist.add(user.getValue(meetingList.class).getMeetingID());
                 }
             }
 
@@ -63,8 +66,28 @@ public class MeetingFragment extends Fragment {
         });
 
 
+       databaseReference.child("MeetingList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    for(int i = 0 ; i<meetinglist.size();i++){
+                        if((meetinglist.get(i).toString().equals(ds.getValue(meeting_Info.class).getMeeting_id()))) {
+                            adapter.addItem(ContextCompat.getDrawable(getActivity().getApplicationContext(),R.drawable.calendar1),ds.getValue(meeting_Info.class).getMeeting_name());
+                            Log.d(TAG, "same!");
+                        }adapter.notifyDataSetChanged();
+                    }
 
-       addMeeting.setOnClickListener(new View.OnClickListener() {
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        addMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               Toast.makeText(getActivity(),"addButton",Toast.LENGTH_SHORT).show();
