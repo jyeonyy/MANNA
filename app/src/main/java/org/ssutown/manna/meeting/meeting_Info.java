@@ -6,6 +6,7 @@ package org.ssutown.manna.meeting;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
@@ -22,7 +23,8 @@ public class meeting_Info implements Serializable{
     private int endMonth;
     private int endDay;
 
-    public meeting_Info(){}
+    public meeting_Info(){};
+
 
     public meeting_Info(String name,String id,int sY,int sM,int sD,int eY,int eM,int eD){
 

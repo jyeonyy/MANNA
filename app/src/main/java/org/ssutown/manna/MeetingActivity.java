@@ -4,19 +4,34 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.ssutown.manna.Meeting_details.AnnouncementFragment;
 
 /**
  * Created by Jiyeon on 2017-03-25.
  */
 
 public class MeetingActivity extends Activity {
+
+    String meeting_id;
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_meeting);
 
+        Intent i = getIntent();
+        meeting_id = i.getExtras().getString("meetingId");
+
+    }
+
+    public String getMeeting_id(){
+        return meeting_id;
     }
     public void ChangeMeetFragment(View view){
         Fragment fr = new Fragment();

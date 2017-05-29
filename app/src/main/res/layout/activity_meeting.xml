@@ -43,7 +43,7 @@
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="org.ssutown.manna.AnnouncementFragment"
+            android:name="org.ssutown.manna.Meeting_details.AnnouncementFragment"
             android:id="@+id/meet_fragment"
             android:layout_weight="1"
             tools:layout="@layout/announcement_fragment" />
