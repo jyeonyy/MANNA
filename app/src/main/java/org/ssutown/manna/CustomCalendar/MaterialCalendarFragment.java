@@ -338,6 +338,7 @@ public class MaterialCalendarFragment extends Fragment
 //            items.add(setDateToApi());
 
             for (Event event : items) {
+                Log.i("aucqjs?","item");
                 DateTime start = event.getStart().getDateTime();
                 DateTime end = event.getEnd().getDateTime();
                 if (start == null) {
@@ -802,17 +803,29 @@ public class MaterialCalendarFragment extends Fragment
 //                }
 //            }
 //        }
-        Log.i("mFirstDay", String.valueOf(MaterialCalendar.mFirstDay));
+
 //        Log.i("mSaveTestday", mSaveTestday.get(0).toString());
-        Log.i("mSaveTestdaysize", String.valueOf(mSaveTestday.size()));
+
         if (MaterialCalendar.mFirstDay != -1 && mSaveTestday != null && mSaveTestday.size
                 () > 0) {
-            Log.i("emfdjdha", "dkssud");
             selectedDate = position - (6 + MaterialCalendar.mFirstDay);
             selectedMonth = MaterialCalendar.mMonth+1;
             selectedYear = MaterialCalendar.mYear;
-            a = "year"+selectedYear+"month"+selectedMonth+"day"+selectedDate;
+            if ((selectedMonth <10) && (selectedDate < 10)){
+                a = "year"+selectedYear+"month0"+selectedMonth+"day0"+selectedDate;
+
+            }else if((selectedMonth<10)){
+                a = "year"+selectedYear+"month0"+selectedMonth+"day"+selectedDate;
+            }else if(selectedDate < 10){
+                a = "year"+selectedYear+"month"+selectedMonth+"day0"+selectedDate;
+            }else {
+                a = "year"+selectedYear+"month"+selectedMonth+"day"+selectedDate;
+            }
+
+
             for (int i = 0; i < mSaveTestday.size(); i++) {
+                Log.i("Stringac", a);
+                Log.i("Stringab", mSaveTestday.get(i));
                 if (a.equals(mSaveTestday.get(i))) {
                     savedEventsOnThisDay = true;//일정이 저장된 날과 선택된 날이 같으면 true로 바꿔준다.
                     Log.i("i'mequal", String.valueOf(savedEventsOnThisDay));
@@ -859,6 +872,7 @@ public class MaterialCalendarFragment extends Fragment
         }
 
         if (mSavedEventsAdapter != null && mSavedEventsListView != null) {
+            Log.i("getcount", String.valueOf(mSavedEventsAdapter.getCount()));
             mSavedEventsAdapter.notifyDataSetChanged();
 
             // Scrolls back to top of ListView before refresh

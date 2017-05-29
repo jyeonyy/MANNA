@@ -39,7 +39,7 @@ public class MaterialCalendarAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (MaterialCalendar.mFirstDay != -1 && MaterialCalendar.mNumDaysInMonth != -1) {
-            Log.d("GRID_COUNT", String.valueOf(mWeekDayNames + MaterialCalendar.mFirstDay + MaterialCalendar.mNumDaysInMonth));
+//            Log.d("GRID_COUNT", String.valueOf(mWeekDayNames + MaterialCalendar.mFirstDay + MaterialCalendar.mNumDaysInMonth));
             return mWeekDayNames + MaterialCalendar.mFirstDay + MaterialCalendar.mNumDaysInMonth;
         }
 
@@ -76,7 +76,7 @@ public class MaterialCalendarAdapter extends BaseAdapter {
 
         if (mHolder.mSelectedDayImageView != null) {
             GridView gridView = (GridView) parent;
-            Log.d("ITEM_CHECKED_POSITION", String.valueOf(gridView.isItemChecked(position)));
+//            Log.d("ITEM_CHECKED_POSITION", String.valueOf(gridView.isItemChecked(position)));
             if (gridView.isItemChecked(position)) {
                 Animation feedBackAnimation = AnimationUtils.loadAnimation(mContext, R.anim.selected_day_feedback);
                 mHolder.mSelectedDayImageView.setVisibility(View.VISIBLE);
@@ -106,7 +106,7 @@ public class MaterialCalendarAdapter extends BaseAdapter {
     private void setCalendarDay(int position) {
         if (position <= mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay) {
             mHolder.mTextView.setTextColor(mContext.getResources().getColor(R.color.calendar_day_text_color));
-            Log.d("NO_CLICK_POSITION", String.valueOf(position));
+//            Log.d("NO_CLICK_POSITION", String.valueOf(position));
         } else {
             mHolder.mTextView.setTextColor(mContext.getResources().getColor(R.color.calendar_number_text_color));
         }
@@ -206,7 +206,6 @@ public class MaterialCalendarAdapter extends BaseAdapter {
                 MaterialCalendarFragment.mSaveTestday.size() > 0) {
 
             int startingPosition = mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay;
-            Log.d("SAVEDEVENTSTARTING_POS", String.valueOf(startingPosition));
             if (position > startingPosition) {
 
                 for (int i = 0; i < MaterialCalendarFragment.mSaveTestday.size(); i++) {
@@ -219,15 +218,11 @@ public class MaterialCalendarAdapter extends BaseAdapter {
                     String[] temp3 = temp1[1].split("day");
                     String month = temp3[0];
                     String day = temp3[1];
-                    Log.i("emfdjrkTdj", String.valueOf(realyear));
-                    Log.i("emfdjrkTwl", String.valueOf(realmonth));
                     int savedEventPosition = -1;
                     if(realyear == Integer.valueOf(year) && realmonth == Integer.valueOf(month)){
                         savedEventPosition = startingPosition + Integer.valueOf(day);
                     }
 
-                    Log.d("POSITION", String.valueOf(position));
-                    Log.d("SAVED_POSITION", String.valueOf(savedEventPosition));
                     if (position == savedEventPosition) {
                         mHolder.mSavedEventImageView.setVisibility(View.VISIBLE);
                     }
