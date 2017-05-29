@@ -32,10 +32,12 @@ import com.google.api.client.util.DateTime;
 import com.google.api.client.util.ExponentialBackOff;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.ssutown.manna.AddAppointActivity;
 import org.ssutown.manna.GoogleCalendar.CalendarList;
@@ -90,7 +92,16 @@ public class MaterialCalendarFragment extends Fragment
     protected static ListView mSavedEventsListView;
 
     protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerDay; //string이 며칠(string)에 몇개(integer)의 일정이 있는지
-    protected static ArrayList<Integer> mSavedEventDays; //하루동안 일정이 몇 개 있는지
+    protected static ArrayList<Integer> mSavedEventDays; //일정이 있는 날을 표시 날! day
+
+//    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerYear;
+//    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerMonth;
+//    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerDate;
+    protected static ArrayList<CalendarList> mSavedEvents;
+    protected static ArrayList<Boolean> mSavedEventDay;
+    protected static ArrayList<HashMap<String, Integer>> mSaveTest;
+    protected static ArrayList<String> mSaveTestday;
+
 
     protected static int mNumEventsOnDay = 0;
 
@@ -117,15 +128,11 @@ public class MaterialCalendarFragment extends Fragment
                 getActivity(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
 
-
         getResultsFromApi();
-
-
 
 //        SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
 //        int select = selectedCalendar.getInt("cal_num",0);
 //        Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
-//
 
         if (rootView != null) {
             // Get Calendar info
@@ -178,13 +185,64 @@ public class MaterialCalendarFragment extends Fragment
                 }
             }
 
-
-
             // ListView for saved events in calendar
             mSavedEventsListView = (ListView) rootView.findViewById(R.id.saved_events_listView);
 
-
         }
+        mSavedEvents = new ArrayList<CalendarList>();
+        mSaveTest = new ArrayList<HashMap<String, Integer>>();
+        mSaveTestday = new ArrayList<String>();
+
+        calendardb.child(String.valueOf(userID)).child("calendar").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mSavedEvents.clear();
+                mSaveTest.clear();
+                mSaveTestday.clear();
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    mSavedEvents.add(ds.getValue(CalendarList.class));
+                    //들어감
+                }
+                for(int i=0;i<mSavedEvents.size();i++) {
+                    String a = "year" + mSavedEvents.get(i).getStartyear() + "month" + mSavedEvents.get(i).getStartmonth() +
+                            "day" + mSavedEvents.get(i).getStartday();
+                    //들어감
+                    if (mSaveTest.size() == 0) {
+                        HashMap<String, Integer> event = new HashMap<String, Integer>();
+                        event.put(a, 1);
+                        mSaveTest.add(event);
+                        mSaveTestday.add(a);
+                    } else{
+                        for (int j = 0; j < mSaveTest.size(); j++) {
+
+
+                            if (mSaveTest.get(j).containsKey(a)) {
+                                int temp = mSaveTest.get(j).get(a);
+                                mSaveTest.get(j).put(a, temp + 1);
+
+                            } else if (j == mSaveTest.size()-1) {
+                                HashMap<String, Integer> event = new HashMap<String, Integer>();
+                                event.put(a, 1);
+                                mSaveTest.add(event);
+                                mSaveTestday.add(a);
+                                break;
+                            }
+                        }
+                        Log.i("i'mmSaveTest",mSaveTest.get(mSaveTest.size()-1).toString());
+                    }
+                }
+                mMaterialCalendarAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
 
         return rootView;
     }
@@ -391,7 +449,7 @@ public class MaterialCalendarFragment extends Fragment
                 e.printStackTrace();
             }
 
-            Event event = new Event()
+        /*    Event event = new Event()
                     .setSummary("우선 이게 될까?")
                     .setLocation("Dhaka")
                     .setDescription("New Event 1");
@@ -415,7 +473,7 @@ public class MaterialCalendarFragment extends Fragment
 
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
 //            System.out.printf("Event created: %s\n", event.getHtmlLink());
 
 //            try {
@@ -702,56 +760,96 @@ public class MaterialCalendarFragment extends Fragment
         /**
          * Make sure to use this variable name or update in CalendarAdapter 'setSavedEvent'
          */
-        mSavedEventDays = new ArrayList<Integer>();//하루동안 일정이 몇 개 있는지
+        mSavedEventDays = new ArrayList<Integer>();//일정이 있는 day를 저장시킴
 
         // This is just used for testing purposes to show saved events on the calendar
         Random random = new Random();
         int randomNumOfEvents = random.nextInt(10 - 1) + 1;
+        int EventNum=0;
 
-        for (int i = 0; i < randomNumOfEvents; i++) {
-            int day = random.nextInt(MaterialCalendar.mNumDaysInMonth - 1) + 1;
-            int eventPerDay = random.nextInt(5 - 1) + 1;
-
-            HashMap<String, Integer> dayInfo = new HashMap<String, Integer>();
-            dayInfo.put("day" + day, eventPerDay);
-
-            mSavedEventDays.add(day);
-            mSavedEventsPerDay.add(dayInfo);
-
-            Log.d("EVENTS_PER DAY", String.valueOf(dayInfo));
-        }
-
-        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));
+//        for (int i = 0; i < randomNumOfEvents; i++) {
+//            int day = random.nextInt(MaterialCalendar.mNumDaysInMonth - 1) + 1;
+//            int eventPerDay = random.nextInt(5 - 1) + 1;
+//
+//            HashMap<String, Integer> dayInfo = new HashMap<String, Integer>();
+//            dayInfo.put("day" + day, eventPerDay);
+//
+//            mSavedEventDays.add(day);
+//            mSavedEventsPerDay.add(dayInfo);
+//
+//            Log.d("EVENTS_PER DAY", String.valueOf(dayInfo));
+//        }
+//
+//        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));
     }
 
     protected static void showSavedEventsListView(int position) {
 
         Boolean savedEventsOnThisDay = false;
         int selectedDate = -1;
-
-        if (MaterialCalendar.mFirstDay != -1 && mSavedEventDays != null && mSavedEventDays.size
+        int selectedMonth= -1;
+        int selectedYear= -1;
+        String a="";
+//        if (MaterialCalendar.mFirstDay != -1 && mSavedEventDays != null && mSavedEventDays.size
+//                () > 0) {
+//            selectedDate = position - (6 + MaterialCalendar.mFirstDay);
+//            selectedMonth = MaterialCalendar.mMonth+1;
+//            selectedYear = MaterialCalendar.mYear;
+//
+//            for (int i = 0; i < mSavedEventDays.size(); i++) {
+//                if (selectedDate == mSavedEventDays.get(i)) {
+//                    savedEventsOnThisDay = true;                //일정이 저장된 날과 선택된 날이 같으면 true로 바꿔준다.
+//                }
+//            }
+//        }
+        Log.i("mFirstDay", String.valueOf(MaterialCalendar.mFirstDay));
+//        Log.i("mSaveTestday", mSaveTestday.get(0).toString());
+        Log.i("mSaveTestdaysize", String.valueOf(mSaveTestday.size()));
+        if (MaterialCalendar.mFirstDay != -1 && mSaveTestday != null && mSaveTestday.size
                 () > 0) {
+            Log.i("emfdjdha", "dkssud");
             selectedDate = position - (6 + MaterialCalendar.mFirstDay);
-
-            Log.d("SELECTED_SAVED_DATE", String.valueOf(selectedDate));
-            Log.i("i'mpositoin",String.valueOf(position));
-
-            for (int i = 0; i < mSavedEventDays.size(); i++) {
-                if (selectedDate == mSavedEventDays.get(i)) {
-                    savedEventsOnThisDay = true;                //일정이 저장된 날과 선택된 날이 같으면 true로 바꿔준다.
+            selectedMonth = MaterialCalendar.mMonth+1;
+            selectedYear = MaterialCalendar.mYear;
+            a = "year"+selectedYear+"month"+selectedMonth+"day"+selectedDate;
+            for (int i = 0; i < mSaveTestday.size(); i++) {
+                if (a.equals(mSaveTestday.get(i))) {
+                    savedEventsOnThisDay = true;//일정이 저장된 날과 선택된 날이 같으면 true로 바꿔준다.
+                    Log.i("i'mequal", String.valueOf(savedEventsOnThisDay));
                 }
             }
         }
-
-        Log.d("SAVED_EVENTS_BOOL", String.valueOf(savedEventsOnThisDay));
+//        Log.d("SAVED_EVENTS_BOOL", String.valueOf(savedEventsOnThisDay));
+//
+//        if (savedEventsOnThisDay) {     //선택된 날에 일정이 있으면
+//            Log.d("POS", String.valueOf(selectedDate));
+//            if (mSavedEventsPerDay != null && mSavedEventsPerDay.size() > 0) {
+//                for (int i = 0; i < mSavedEventsPerDay.size(); i++) {
+//                    HashMap<String, Integer> x = mSavedEventsPerDay.get(i);
+//                    if (x.containsKey("day" + selectedDate)) {
+//                        mNumEventsOnDay = mSavedEventsPerDay.get(i).get("day" + selectedDate);
+//                        Log.d("NUM_EVENT_ON_DAY", String.valueOf(mNumEventsOnDay));
+//                    }
+//                }
+//            }
+//        } else {
+//            mNumEventsOnDay = -1;
+//        }
+//
+//        if (mSavedEventsAdapter != null && mSavedEventsListView != null) {
+//            mSavedEventsAdapter.notifyDataSetChanged();
+//
+//             Scrolls back to top of ListView before refresh
+//            mSavedEventsListView.setSelection(0);
+//        }
 
         if (savedEventsOnThisDay) {     //선택된 날에 일정이 있으면
-            Log.d("POS", String.valueOf(selectedDate));
-            if (mSavedEventsPerDay != null && mSavedEventsPerDay.size() > 0) {
-                for (int i = 0; i < mSavedEventsPerDay.size(); i++) {
-                    HashMap<String, Integer> x = mSavedEventsPerDay.get(i);
-                    if (x.containsKey("day" + selectedDate)) {
-                        mNumEventsOnDay = mSavedEventsPerDay.get(i).get("day" + selectedDate);
+            Log.d("POS", String.valueOf(a));
+            if (mSaveTest != null && mSaveTest.size() > 0) {
+                for (int i = 0; i < mSaveTest.size(); i++) {
+                    HashMap<String, Integer> x = mSaveTest.get(i);
+                    if (x.containsKey("year"+selectedYear+"month"+selectedMonth+"day"+selectedDate)) {
+                        mNumEventsOnDay = mSaveTest.get(i).get("year"+selectedYear+"month"+selectedMonth+"day"+selectedDate);
                         Log.d("NUM_EVENT_ON_DAY", String.valueOf(mNumEventsOnDay));
                     }
                 }

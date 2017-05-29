@@ -60,7 +60,7 @@ public class MaterialCalendarAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.layout_material_day, parent, false);
+            convertView = inflater.inflate(R.layout.layout_material_day, parent, false);//일에 동그라미
 
             mHolder = new ViewHolder();
 
@@ -149,11 +149,11 @@ public class MaterialCalendarAdapter extends BaseAdapter {
 
             default:
                 Log.d("CURRENT_POSITION", String.valueOf(position));
-                if (position < mWeekDayNames + MaterialCalendar.mFirstDay) {
+                if (position < mWeekDayNames + MaterialCalendar.mFirstDay) {    //blank day
                     Log.d("BLANK_POSITION", "This is a blank day");
                     mHolder.mTextView.setText("");
                     mHolder.mTextView.setTypeface(Typeface.DEFAULT);
-                } else {
+                } else {                                                        //no blank day
                     mHolder.mTextView.setText(String.valueOf(position - (mWeekDayNames - mGridViewIndexOffset) -
                             MaterialCalendar.mFirstDay));
                     mHolder.mTextView.setTypeface(Typeface.DEFAULT_BOLD);
@@ -178,18 +178,53 @@ public class MaterialCalendarAdapter extends BaseAdapter {
         }
     }
 
-    private void setSavedEvent(int position) {
+    private void setSavedEvent(int position) {          //일정 있는 부분 표시, listview는 띄워주지 않아
+        //여기서 색 바꾸면 될듯
         // Reset saved position indicator
         mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
 
-        if (MaterialCalendar.mFirstDay != -1 && MaterialCalendarFragment.mSavedEventDays != null &&
-                MaterialCalendarFragment.mSavedEventDays.size() > 0) {
+//        if (MaterialCalendar.mFirstDay != -1 && MaterialCalendarFragment.mSavedEventDays != null &&
+//                MaterialCalendarFragment.mSavedEventDays.size() > 0) {
+//
+//            int startingPosition = mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay;
+//            Log.d("SAVEDEVENTSTARTING_POS", String.valueOf(startingPosition));
+//            if (position > startingPosition) {
+//                for (int i = 0; i < MaterialCalendarFragment.mSavedEventDays.size(); i++) {
+//                    int savedEventPosition = startingPosition + MaterialCalendarFragment.mSavedEventDays.get(i);
+//
+//                    Log.d("POSITION", String.valueOf(position));
+//                    Log.d("SAVED_POSITION", String.valueOf(savedEventPosition));
+//                    if (position == savedEventPosition) {
+//                        mHolder.mSavedEventImageView.setVisibility(View.VISIBLE);
+//                    }
+//                }
+//            } else {
+//                mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
+//            }
+//        }
+        if (MaterialCalendar.mFirstDay != -1 && MaterialCalendarFragment.mSaveTestday != null &&
+                MaterialCalendarFragment.mSaveTestday.size() > 0) {
 
             int startingPosition = mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay;
             Log.d("SAVEDEVENTSTARTING_POS", String.valueOf(startingPosition));
             if (position > startingPosition) {
-                for (int i = 0; i < MaterialCalendarFragment.mSavedEventDays.size(); i++) {
-                    int savedEventPosition = startingPosition + MaterialCalendarFragment.mSavedEventDays.get(i);
+
+                for (int i = 0; i < MaterialCalendarFragment.mSaveTestday.size(); i++) {
+                    //mSaveTestDay에서 year이랑 month뽑아내서 맞는 달 찾아내서 비교하는 코드
+                    int realyear = MaterialCalendar.mYear;
+                    int realmonth = MaterialCalendar.mMonth+1;
+                    String[] temp1 = MaterialCalendarFragment.mSaveTestday.get(i).split("month");
+                    String[] temp2 = temp1[0].split("ear");
+                    String year = temp2[1];
+                    String[] temp3 = temp1[1].split("day");
+                    String month = temp3[0];
+                    String day = temp3[1];
+                    Log.i("emfdjrkTdj", String.valueOf(realyear));
+                    Log.i("emfdjrkTwl", String.valueOf(realmonth));
+                    int savedEventPosition = -1;
+                    if(realyear == Integer.valueOf(year) && realmonth == Integer.valueOf(month)){
+                        savedEventPosition = startingPosition + Integer.valueOf(day);
+                    }
 
                     Log.d("POSITION", String.valueOf(position));
                     Log.d("SAVED_POSITION", String.valueOf(savedEventPosition));
@@ -201,5 +236,7 @@ public class MaterialCalendarAdapter extends BaseAdapter {
                 mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
             }
         }
+
+
     }
 }

@@ -13,8 +13,8 @@ import java.util.Calendar;
  */
 public class MaterialCalendar {
     // Variables
-    protected static int mMonth = -1;
-    protected static int mYear = -1;
+    protected static int mMonth = -1;       // +1을 해줘야해
+    protected static int mYear = -1;        //그냥 year
     protected static int mCurrentDay = -1;
     protected static int mCurrentMonth = -1;
     protected static int mCurrentYear = -1;
