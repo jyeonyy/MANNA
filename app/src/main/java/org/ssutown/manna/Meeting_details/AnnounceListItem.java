@@ -1,4 +1,4 @@
-package org.ssutown.manna;
+package org.ssutown.manna.Meeting_details;
 
 /**
  * Created by Jiyeon on 2017-05-23.
@@ -7,12 +7,12 @@ package org.ssutown.manna;
 public class AnnounceListItem {
     private long userID;
     private String content;
-    private String uniqueKey;
 
-    public AnnounceListItem(long u, String c, String uni){
+    AnnounceListItem(){};
+
+    public AnnounceListItem(long u, String c){
         this.userID = u;
         this.content = c;
-        this.uniqueKey= uni;
     }
 
     public String getContent() {
@@ -30,15 +30,10 @@ public class AnnounceListItem {
     public void setUserID(long userID) {
         this.userID = userID;
     }
-    public String getUniquekey(){
-        return uniqueKey;
-    }
-    public void setUniqueKey(String unique){
-        this.uniqueKey = unique;
-    }
-    public void setAnnouncement(long a, String b, String c){
-        this.uniqueKey = c;
+
+    public void setAnnouncement(long a, String b){
         this.userID = a;
         this.content = b;
     }
+
 }

@@ -76,6 +76,9 @@ public class add_Meeting extends AppCompatActivity {
                 String key = databaseReference.child("MeetingList").push().getKey();
                 databaseReference.child("MeetingList").child(key).setValue(meeting_info);
 
+                User user = new User(String.valueOf(userID));
+                databaseReference.child("MeetingDetails").child(meeting_info.getMeeting_id()).child("Users").push().setValue(user);
+
                 //SharedPreferences kakao_id = getSharedPreferences("KAKAO_ID", Activity.MODE_PRIVATE);
                 //final long userID = kakao_id.getLong("KAKAO_ID",0);
 

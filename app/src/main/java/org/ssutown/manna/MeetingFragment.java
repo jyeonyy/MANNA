@@ -45,7 +45,7 @@ public class MeetingFragment extends Fragment {
         Button addMeeting = (Button)view.findViewById(R.id.addmeeting);
 
         //long userID = ((MainActivity)getActivity()).getUserID();
-        long userID = 398410773;
+        final long userID = 398410773;
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
@@ -74,9 +74,8 @@ public class MeetingFragment extends Fragment {
                 adapter.clear();
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     for(int i = 0 ; i<meetinglist.size();i++){
-                        if((meetinglist.get(i).toString().equals(ds.getValue(meeting_Info.class).getMeeting_id()))) {
-                            adapter.addItem(ContextCompat.getDrawable(getActivity().getApplicationContext(),R.drawable.calendar1),ds.getValue(meeting_Info.class).getMeeting_name());
-                            Log.d(TAG, "same!");
+                        if((meetinglist.get(i).toString().equals(ds.getValue(meeting_Info.class).getMeeting_id()))){
+                            adapter.addItem(ContextCompat.getDrawable(getActivity().getApplicationContext(),R.drawable.calendar1),ds.getValue(meeting_Info.class).getMeeting_name(),ds.getValue(meeting_Info.class).getMeeting_id());
                         }adapter.notifyDataSetChanged();
                     }
 
@@ -105,20 +104,10 @@ public class MeetingFragment extends Fragment {
                 ListViewItem item = (ListViewItem)parent.getItemAtPosition(position);
                 String titleStr = item.getTitle();
 
-               // Toast.makeText(getActivity().getApplication(),"gg",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getActivity(),MeetingActivity.class);
+                i.putExtra("meetingId",item.getMeetingId());
+                startActivity(i);
 
-                if(titleStr.equals("first") == true){
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
-
-                }else if(titleStr.equals("second") == true){
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
-
-                }else if(titleStr.equals("third") == true){
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
-                }
             }
         }) ;
 
