@@ -1,8 +1,10 @@
 package org.ssutown.manna;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.ssutown.manna.meeting.add_Meeting;
 import org.ssutown.manna.meeting.meetingList;
+import org.ssutown.manna.meeting.meeting_Info;
 
 import java.util.ArrayList;
 
@@ -41,17 +45,19 @@ public class MeetingFragment extends Fragment {
         Button addMeeting = (Button)view.findViewById(R.id.addmeeting);
 
         //long userID = ((MainActivity)getActivity()).getUserID();
-        long userID = 398410773;
+        final long userID = 398410773;
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+
         databaseReference.child("userList").child(String.valueOf(userID)).child("personalMeetingList").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (final DataSnapshot ds : dataSnapshot.getChildren()) {
-                    Log.d(TAG, "userlist onDataChange: " + ds.getValue(meetingList.class).getMeetingID());
-                    meetinglist.add(ds.getValue(meetingList.class).getMeetingID());
+                meetinglist.clear();
+                for (final DataSnapshot user : dataSnapshot.getChildren()) {
+                    Log.d(TAG, "userlist onDataChange: " + user.getValue(meetingList.class).getMeetingID());
+                    meetinglist.add(user.getValue(meetingList.class).getMeetingID());
                 }
             }
 
@@ -62,13 +68,32 @@ public class MeetingFragment extends Fragment {
 
         });
 
+       databaseReference.child("MeetingList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    for(int i = 0 ; i<meetinglist.size();i++){
+                        if((meetinglist.get(i).toString().equals(ds.getValue(meeting_Info.class).getMeeting_id()))){
+                            adapter.addItem(ContextCompat.getDrawable(getActivity().getApplicationContext(),R.drawable.calendar1),ds.getValue(meeting_Info.class).getMeeting_name(),ds.getValue(meeting_Info.class).getMeeting_id());
+                        }adapter.notifyDataSetChanged();
+                    }
 
+                }
+            }
 
-       addMeeting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        addMeeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
               Toast.makeText(getActivity(),"addButton",Toast.LENGTH_SHORT).show();
                Intent i = new Intent(getActivity(), add_Meeting.class);
+
                 startActivity(i);
             }
         });
@@ -82,18 +107,10 @@ public class MeetingFragment extends Fragment {
 
                // Toast.makeText(getActivity().getApplication(),"gg",Toast.LENGTH_SHORT).show();
 
-                if(titleStr.equals("first") == true){
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
+                Intent i = new Intent(getActivity(),MeetingActivity.class);
+                i.putExtra("meetingId",item.getMeetingId());
+                startActivity(i);
 
-                }else if(titleStr.equals("second") == true){
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
-
-                }else if(titleStr.equals("third") == true){
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
-                }
             }
         }) ;
 

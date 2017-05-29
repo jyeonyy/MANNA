@@ -1,4 +1,4 @@
-package org.ssutown.manna;
+package org.ssutown.manna.Meeting_details;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.ssutown.manna.R;
+
 import java.util.ArrayList;
 
 /**
@@ -14,6 +16,7 @@ import java.util.ArrayList;
  */
 
 public class AnnounceListAdapter extends BaseAdapter {
+
     static ArrayList<AnnounceListItem> listViewItemList = new ArrayList<AnnounceListItem>();
 
     public AnnounceListAdapter(){} @Override
@@ -57,9 +60,6 @@ public class AnnounceListAdapter extends BaseAdapter {
         );
 */
 
-
-
-
         return convertView;
     }
 
@@ -79,9 +79,10 @@ public class AnnounceListAdapter extends BaseAdapter {
 
 
 
-    public void addItem(long userID, String content, String uni) {
-        AnnounceListItem item = new AnnounceListItem(userID,content, uni);
-        item.setAnnouncement(userID, content, uni);
+    public void addItem(long userID, String content) {
+        AnnounceListItem item = new AnnounceListItem(userID,content);
+        item.setAnnouncement(userID, content);
+
         listViewItemList.add(item);
     }
 
