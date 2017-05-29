@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -74,7 +75,7 @@ public class MaterialCalendarFragment extends Fragment
     ImageView mNext;
     TextView mMonthName;
     GridView mCalendar;
-
+    Button addAppoint;
     // Calendar Adapter
     private MaterialCalendarAdapter mMaterialCalendarAdapter;
 
@@ -93,6 +94,7 @@ public class MaterialCalendarFragment extends Fragment
 
     protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerDay; //string이 며칠(string)에 몇개(integer)의 일정이 있는지
     protected static ArrayList<Integer> mSavedEventDays; //일정이 있는 날을 표시 날! day
+
 
 //    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerYear;
 //    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerMonth;
@@ -160,6 +162,11 @@ public class MaterialCalendarFragment extends Fragment
             mNext = (ImageView) rootView.findViewById(R.id.material_calendar_next);
             if (mNext != null) {
                 mNext.setOnClickListener(this);
+            }
+
+            addAppoint = (Button)rootView.findViewById(R.id.add_appointment);
+            if(addAppoint != null){
+                addAppoint.setOnClickListener(this);
             }
 
             // GridView for custom Calendar
@@ -265,7 +272,7 @@ public class MaterialCalendarFragment extends Fragment
 //        }
         else {
             Toast.makeText(getActivity(), "나는 ㅎㅎ ", Toast.LENGTH_LONG).show();
-           new MakeRequestTask(mCredential).execute();
+           new MakeRequestTask(mCredential).execute(); //주석없앰
 
         }
     }
@@ -302,7 +309,7 @@ public class MaterialCalendarFragment extends Fragment
         @Override
         protected List<String> doInBackground(Void... params) {
             try {
-                insertEvent(mService);
+//                insertEvent(mService);
                 return getDataFromApi();
             } catch (Exception e) {
                 mLastError = e;
@@ -430,88 +437,6 @@ public class MaterialCalendarFragment extends Fragment
 //            return event;
 //        }
 
-        public void insertEvent(com.google.api.services.calendar.Calendar mService) throws IOException {
-
-//            HttpTransport transport = AndroidHttp.newCompatibleTransport();
-//            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-//            com.google.api.services.calendar.Calendar service = new com.google.api.services.calendar.Calendar.Builder(
-//                    transport, jsonFactory, mCredential)
-//                    .setApplicationName("Google Calendar API Android Quickstart")
-//                    .build();
-
-//            Toast toast = Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_SHORT);
-//            toast.show();
-
-            try {
-                com.google.api.services.calendar.model.Calendar calendar =
-                        mService.calendars().get("primary").execute();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        /*    Event event = new Event()
-                    .setSummary("우선 이게 될까?")
-                    .setLocation("Dhaka")
-                    .setDescription("New Event 1");
-
-            DateTime startDateTime = new DateTime("2017-05-28T09:00:00-09:00");
-            EventDateTime start = new EventDateTime()
-                    .setDateTime(startDateTime)
-                    .setTimeZone("Asia/Seoul");
-            event.setStart(start);
-
-            DateTime endDateTime = new DateTime("2017-05-28T10:00:00-09:00");
-            EventDateTime end = new EventDateTime()
-                    .setDateTime(endDateTime)
-                    .setTimeZone("Asia/Seoul");
-            event.setEnd(end);
-
-            String calendarId = "primary";
-            try {
-                mService.events().insert(calendarId, event).execute();
-//                mService.events().update(calendarId,event.getId(),event).execute();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
-//            System.out.printf("Event created: %s\n", event.getHtmlLink());
-
-//            try {
-//                mService.events().update("primary", event.getId(), event).execute();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-//            return event;
-
-        }
-
-//        private void updateEvent(GoogleAccountCredential mCredential)
-//        {
-//
-//            HttpTransport transport = AndroidHttp.newCompatibleTransport();
-//            JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-//            com.google.api.services.calendar.Calendar service = new com.google.api.services.calendar.Calendar.Builder(
-//                    transport, jsonFactory, mCredential)
-//                    .setApplicationName("Google Calendar API Android Quickstart")
-//                    .build();
-//
-//
-//            Event event = service.events().get('primary', "eventId").execute();
-//
-//
-//
-//            event.setSummary("Appointment at Somewhere");
-//
-//
-//            Event updatedEvent = service.events().update("primary", event.getId(), event).execute();
-//
-//            System.out.println(updatedEvent.getUpdated());
-//        }
-
-
-
     }
 
 //    private boolean isGooglePlayServicesAvailable() {
@@ -558,7 +483,7 @@ public class MaterialCalendarFragment extends Fragment
             String accountName = getActivity().getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
 
-            startActivityForResult(
+            startActivityForResult(             //로그인 한번 하려면 이거 주석하고 밑에 else풀어라. 이건 노력한 나헤언니가 알려준것. 노고가 들어가시아
                     mCredential.newChooseAccountIntent(),
                     REQUEST_ACCOUNT_PICKER);
 
@@ -566,12 +491,13 @@ public class MaterialCalendarFragment extends Fragment
                 mCredential.setSelectedAccountName(accountName);
                 sendAccountName(accountName);
                 getResultsFromApi();
-            } else {
-                // Start a dialog from which the user can choose an account
-                startActivityForResult(
-                        mCredential.newChooseAccountIntent(),
-                        REQUEST_ACCOUNT_PICKER);
             }
+//            else {
+//                 Start a dialog from which the user can choose an account
+//                startActivityForResult(
+//                        mCredential.newChooseAccountIntent(),
+//                        REQUEST_ACCOUNT_PICKER);
+//            }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
@@ -651,7 +577,7 @@ public class MaterialCalendarFragment extends Fragment
 //                            "This app requires Google Play Services. Please install " +
 //                                    "Google Play Services on your device and relaunch this app.");
                 } else {
-//                    getResultsFromApi();
+                    getResultsFromApi();
                 }
                 break;
             case REQUEST_ACCOUNT_PICKER:
@@ -666,7 +592,8 @@ public class MaterialCalendarFragment extends Fragment
                         editor.putString(PREF_ACCOUNT_NAME, accountName);
                         editor.apply();
                         mCredential.setSelectedAccountName(accountName);
-///                        getResultsFromApi();
+                        sendAccountName(accountName);
+                        getResultsFromApi();
                     }
                 }
                 break;

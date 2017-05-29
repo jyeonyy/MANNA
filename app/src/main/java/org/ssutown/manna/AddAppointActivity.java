@@ -8,11 +8,13 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -126,9 +128,9 @@ public class AddAppointActivity extends Activity {
                     if (accountName != null) {
                         mCredential.setSelectedAccountName(accountName);
 //                        accountName 에 계정이 들어간 것을 확인 할 수 있었음
-//                        Toast toast = Toast.makeText(getApplicationContext(),accountName,Toast.LENGTH_SHORT);
-//                        toast.setGravity(Gravity.TOP,0,0);
-//                        toast.show();
+                        Toast toast = Toast.makeText(getApplicationContext(),accountName,Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.TOP,0,0);
+                        toast.show();
 //                getResultsFromApi();
                     } else {
                         // Start a dialog from which the user can choose an account
