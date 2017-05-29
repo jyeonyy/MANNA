@@ -107,9 +107,6 @@ public class MeetingFragment extends Fragment {
 
                // Toast.makeText(getActivity().getApplication(),"gg",Toast.LENGTH_SHORT).show();
 
-                    Intent i = new Intent(getActivity(), MeetingActivity.class);
-                    startActivity(i);
-
                 Intent i = new Intent(getActivity(),MeetingActivity.class);
                 i.putExtra("meetingId",item.getMeetingId());
                 startActivity(i);
