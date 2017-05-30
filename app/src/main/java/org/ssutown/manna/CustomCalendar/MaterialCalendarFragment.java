@@ -370,44 +370,65 @@ public class MaterialCalendarFragment extends Fragment
             String eventstart = start;
             String eventend = end;
 
+            if(eventstart.contains("T")){
+                String tempstart[] = eventstart.split("T");
+                String tempstart1 = tempstart[0];
+                String tempstart2 = tempstart[1];
 
-            String tempstart[] = eventstart.split("T");
-            String tempstart1 = tempstart[0];
-            String tempstart2 = tempstart[1];
+                String startday1[] = tempstart1.split("-");
+                String starttime[] = tempstart2.split(":");
 
-            String startday1[] = tempstart1.split("-");
-            String starttime[] = tempstart2.split(":");
+                String startyear = startday1[0];
+                String startmonth = startday1[1];
+                String startday = startday1[2];
 
-            String startyear = startday1[0];
-            String startmonth = startday1[1];
-            String startday = startday1[2];
+                String starthour = starttime[0];
+                String startminute = starttime[1];
 
-            String starthour = starttime[0];
-            String startminute = starttime[1];
-
-            String tempend[] = eventend.split("T");
-            String tempend1 = tempend[0];
-            String tempend2 = tempend[1];
-
-
-            String endday1[] = tempend1.split("-");
-            String endtime[] = tempend2.split(":");
-
-            String endyear = endday1[0];
-            String endmonth = endday1[1];
-            String endday = endday1[2];
-
-            String endhour = endtime[0];
-            String endminute = endtime[1];
+                String tempend[] = eventend.split("T");
+                String tempend1 = tempend[0];
+                String tempend2 = tempend[1];
 
 
+                String endday1[] = tempend1.split("-");
+                String endtime[] = tempend2.split(":");
+
+                String endyear = endday1[0];
+                String endmonth = endday1[1];
+                String endday = endday1[2];
+
+                String endhour = endtime[0];
+                String endminute = endtime[1];
+
+                CalendarList list = new CalendarList(eventname,eventstart,eventend,key, startyear, startmonth,
+                        startday,starthour,startminute, endyear, endmonth, endday, endhour, endminute);
+
+                calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+            }
+            else{
+                String tempstart[] = eventstart.split("-");
+                String startyear = tempstart[0];
+                String startmonth = tempstart[1];
+                String startday = tempstart[2];
+
+                String tempend[] = eventend.split("-");
+                String endyear = tempend[0];
+                String endmonth = tempend[1];
+                String endday = tempend[2];
+
+
+                CalendarList list = new CalendarList(eventname,eventstart,eventend,key, startyear, startmonth,
+                        startday,"","", endyear, endmonth, endday, "", "");
+
+                calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+            }
 
 
 
-            CalendarList list = new CalendarList(eventname,eventstart,eventend,key, startyear, startmonth,
-                    startday,starthour,startminute, endyear, endmonth, endday, endhour, endminute);
 
-            calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+
+
+
 
 
         }
@@ -483,21 +504,21 @@ public class MaterialCalendarFragment extends Fragment
             String accountName = getActivity().getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
 
-            startActivityForResult(             //로그인 한번 하려면 이거 주석하고 밑에 else풀어라. 이건 노력한 나헤언니가 알려준것. 노고가 들어가시아
-                    mCredential.newChooseAccountIntent(),
-                    REQUEST_ACCOUNT_PICKER);
+//            startActivityForResult(             //로그인 한번 하려면 이거 주석하고 밑에 else풀어라. 이건 노력한 나헤언니가 알려준것. 노고가 들어가시아
+//                    mCredential.newChooseAccountIntent(),
+//                    REQUEST_ACCOUNT_PICKER);
 
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
                 sendAccountName(accountName);
                 getResultsFromApi();
             }
-//            else {
+            else {
 //                 Start a dialog from which the user can choose an account
-//                startActivityForResult(
-//                        mCredential.newChooseAccountIntent(),
-//                        REQUEST_ACCOUNT_PICKER);
-//            }
+                startActivityForResult(
+                        mCredential.newChooseAccountIntent(),
+                        REQUEST_ACCOUNT_PICKER);
+            }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
