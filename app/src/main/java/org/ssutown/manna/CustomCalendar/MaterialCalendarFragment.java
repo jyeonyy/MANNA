@@ -264,9 +264,7 @@ public class MaterialCalendarFragment extends Fragment
 //        else
         selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = selectedCalendar.edit();
-        Log.i("ghkrdls1", String.valueOf(select));
         select = selectedCalendar.getInt("cal", 0);
-        Log.i("ghkrdls2", String.valueOf(select));
         if (mCredential.getSelectedAccountName() == null) {
             Toast.makeText(getActivity(), "나는 ㅠㅠ ", Toast.LENGTH_LONG).show();
             chooseAccount();
@@ -280,10 +278,8 @@ public class MaterialCalendarFragment extends Fragment
             if(select == 0){
                 new MakeRequestTask(mCredential).execute(); //주석없앰
             }
-            Log.i("ghkrdls3", String.valueOf(select));
             editor.putInt("cal", 1);
             editor.apply();
-            Log.i("ghkrdls4", String.valueOf(select));
         }
     }
     /**
@@ -522,8 +518,6 @@ public class MaterialCalendarFragment extends Fragment
                 mCredential.setSelectedAccountName(accountName);
                 sendAccountName(accountName);
                 getResultsFromApi();
-
-
 
             }
             else {
@@ -822,8 +816,8 @@ public class MaterialCalendarFragment extends Fragment
             if (mSaveTest != null && mSaveTest.size() > 0) {
                 for (int i = 0; i < mSaveTest.size(); i++) {
                     HashMap<String, Integer> x = mSaveTest.get(i);
-                    if (x.containsKey("year"+selectedYear+"month"+selectedMonth+"day"+selectedDate)) {
-                        mNumEventsOnDay = mSaveTest.get(i).get("year"+selectedYear+"month"+selectedMonth+"day"+selectedDate);
+                    if (x.containsKey(a)) {
+                        mNumEventsOnDay = mSaveTest.get(i).get(a);
                         Log.d("NUM_EVENT_ON_DAY", String.valueOf(mNumEventsOnDay));
                     }
                 }
