@@ -104,7 +104,8 @@ public class MaterialCalendarFragment extends Fragment
     protected static ArrayList<HashMap<String, Integer>> mSaveTest;
     protected static ArrayList<String> mSaveTestday;
 
-
+    protected static SharedPreferences selectedCalendar;
+    protected static int select;
     protected static int mNumEventsOnDay = 0;
 
     GoogleAccountCredential mCredential;
@@ -132,9 +133,9 @@ public class MaterialCalendarFragment extends Fragment
 
         getResultsFromApi();
 
-//        SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
-//        int select = selectedCalendar.getInt("cal_num",0);
-//        Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
+
+
+
 
         if (rootView != null) {
             // Get Calendar info
@@ -261,19 +262,28 @@ public class MaterialCalendarFragment extends Fragment
 //            acquireGooglePlayServices();
 //        }
 //        else
+        selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = selectedCalendar.edit();
+        Log.i("ghkrdls1", String.valueOf(select));
+        select = selectedCalendar.getInt("cal", 0);
+        Log.i("ghkrdls2", String.valueOf(select));
         if (mCredential.getSelectedAccountName() == null) {
             Toast.makeText(getActivity(), "나는 ㅠㅠ ", Toast.LENGTH_LONG).show();
             chooseAccount();
 
         }
-
 //        else if (! isDeviceOnline()) {
 //            //mOutputText.setText("No network connection available.");
 //        }
         else {
             Toast.makeText(getActivity(), "나는 ㅎㅎ ", Toast.LENGTH_LONG).show();
-           new MakeRequestTask(mCredential).execute(); //주석없앰
-
+            if(select == 0){
+                new MakeRequestTask(mCredential).execute(); //주석없앰
+            }
+            Log.i("ghkrdls3", String.valueOf(select));
+            editor.putInt("cal", 1);
+            editor.apply();
+            Log.i("ghkrdls4", String.valueOf(select));
         }
     }
     /**
@@ -512,6 +522,9 @@ public class MaterialCalendarFragment extends Fragment
                 mCredential.setSelectedAccountName(accountName);
                 sendAccountName(accountName);
                 getResultsFromApi();
+
+
+
             }
             else {
 //                 Start a dialog from which the user can choose an account
