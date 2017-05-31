@@ -32,6 +32,7 @@ public class SavedEventsAdapter extends BaseAdapter {
         mContext = context;
     }
 
+
     @Override
     public int getCount() {
         if (MaterialCalendarFragment.mNumEventsOnDay != 0 || MaterialCalendarFragment.mNumEventsOnDay != -1) {
@@ -99,6 +100,18 @@ public class SavedEventsAdapter extends BaseAdapter {
     private void setEventAbout() {
             mHolder.mAbout.setText("Thanks for choosing MaterialCalendar. Feel free to use this open source project " +
                     "in your next Android app.");
+    }
+    private void setEventTitle(String a) {
+        mHolder.mTitle.setText(a);
+    }
+
+    public void addItem(String a, String b){
+        mHolder.mTitle.setText(a);
+        mHolder.mAbout.setText(b);
+        mHolder.mImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_calendar));
+    }
+    private void setEventAbout(String a) {
+        mHolder.mAbout.setText(a);
     }
 
     private void setEventImage() {

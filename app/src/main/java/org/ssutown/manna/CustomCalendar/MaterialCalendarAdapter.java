@@ -165,6 +165,7 @@ public class MaterialCalendarAdapter extends BaseAdapter {
                         if (position == currentDayPosition) {
                             mHolder.mTextView.setTextColor(mContext.getResources().getColor(
                                     R.color.calendar_current_number_text_color));
+
                         } else {
                             mHolder.mTextView.setTextColor(mContext.getResources().getColor(
                                     R.color.calendar_number_text_color));
