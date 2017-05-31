@@ -14,4 +14,6 @@
     <color name="saved_event_selector_color">@android:color/holo_blue_bright</color>
     <color name="saved_events_empty_color">@android:color/darker_gray</color>
     <color name="calendar_background_color">#ffffff</color>
+    <color name="calendar_yellow">#eeff00</color>
+    <color name="calendar_red">#ff0000</color>
 </resources>
