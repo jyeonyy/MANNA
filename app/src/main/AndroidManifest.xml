@@ -21,11 +21,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"/>
-        <activity android:name=".MeetingActivity" />
+
+        <activity android:name=".MeetingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/kakao_scheme"
+                    android:host="@string/kakaolink_host"></data>
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="76afc3d1dfb9b431bbea2a63ebf3e28f" />
+            android:value="@string/kakao_app_key"/>
+            //android:value="76afc3d1dfb9b431bbea2a63ebf3e28f" />
 
 
         <activity android:name=".LoginActivity">
