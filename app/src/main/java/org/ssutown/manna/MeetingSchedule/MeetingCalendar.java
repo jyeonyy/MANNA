@@ -1,4 +1,4 @@
-package org.ssutown.manna.CustomCalendar;
+package org.ssutown.manna.MeetingSchedule;
 
 import android.util.Log;
 import android.widget.GridView;
@@ -9,17 +9,19 @@ import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 /**
- * Created by Maximilian on 9/2/14.
+ * Created by YNH on 2017. 5. 30..
  */
-public class MaterialCalendar {
+
+public class MeetingCalendar {
+
     // Variables
-    protected static int mMonth = -1;       // +1을 해줘야해
-    protected static int mYear = -1;        //그냥 year
+    protected static int mMonth = -1;
+    protected static int mYear = -1;
     protected static int mCurrentDay = -1;
     protected static int mCurrentMonth = -1;
     protected static int mCurrentYear = -1;
-    protected static int mFirstDay = -1;    //월 첫째주에 빈 날짜. 1일이 월요일 부터시작하면 mFirstDay는 1
-    protected static int mNumDaysInMonth = -1;  //31
+    protected static int mFirstDay = -1;
+    protected static int mNumDaysInMonth = -1;
 
 
     protected static void getInitialCalendarInfo() {
@@ -46,7 +48,7 @@ public class MaterialCalendar {
     }
 
     private static void refreshCalendar(TextView monthTextView, GridView calendarGridView,
-                                        MaterialCalendarAdapter materialCalendarAdapter, int month, int year) {
+                                        MeetingCalendarAdapter meetingCalendarAdapter, int month, int year) {
 
         checkCurrentDay(month, year);
         getNumDayInMonth(month, year);
@@ -58,20 +60,20 @@ public class MaterialCalendar {
         }
 
         // Clear Saved Events ListView count when changing calendars
-        if (MaterialCalendarFragment.mSavedEventsAdapter != null) {
-            MaterialCalendarFragment.mNumEventsOnDay = -1;
-            MaterialCalendarFragment.mSavedEventsAdapter.notifyDataSetChanged();
+        if (MeetingCalendarFragment.mSavedEventsAdapter != null) {
+            MeetingCalendarFragment.mNumEventsOnDay = -1;
+            MeetingCalendarFragment.mSavedEventsAdapter.notifyDataSetChanged();
             Log.d("EVENTS_ADAPTER", "refresh");
         }
 
-        MaterialCalendarFragment.getSavedEventsForCurrentMonth();
+        MeetingCalendarFragment.getSavedEventsForCurrentMonth();
 
-        if (materialCalendarAdapter != null) {
+        if (meetingCalendarAdapter != null) {
             if (calendarGridView != null) {
                 calendarGridView.setItemChecked(calendarGridView.getCheckedItemPosition(), false);
             }
 
-            materialCalendarAdapter.notifyDataSetChanged();
+            meetingCalendarAdapter.notifyDataSetChanged();
         }
     }
 
@@ -150,23 +152,23 @@ public class MaterialCalendar {
 
     // Call in View.OnClickListener for Previous ImageView
     protected static void previousOnClick(ImageView previousImageView, TextView monthTextView,
-                                          GridView calendarGridView, MaterialCalendarAdapter materialCalendarAdapter) {
+                                          GridView calendarGridView, MeetingCalendarAdapter meetingCalendarAdapter) {
         if (previousImageView != null && mMonth != -1 && mYear != -1) {
-            previousMonth(monthTextView, calendarGridView, materialCalendarAdapter);
+            previousMonth(monthTextView, calendarGridView, meetingCalendarAdapter);
         }
     }
 
     // Call in View.OnClickListener for Next ImageView
     protected static void nextOnClick(ImageView nextImageView, TextView monthTextView,
                                       GridView calendarGridView,
-                                      MaterialCalendarAdapter materialCalendarAdapter) {
+                                      MeetingCalendarAdapter meetingCalendarAdapter) {
         if (nextImageView != null && mMonth != -1 && mYear != -1) {
-            nextMonth(monthTextView, calendarGridView, materialCalendarAdapter);
+            nextMonth(monthTextView, calendarGridView, meetingCalendarAdapter);
         }
     }
 
     private static void previousMonth(TextView monthTextView, GridView calendarGridView,
-                                      MaterialCalendarAdapter materialCalendarAdapter) {
+                                      MeetingCalendarAdapter meetingCalendarAdapter) {
         if (mMonth == 0) {
             mMonth = 11;
             mYear = mYear - 1;
@@ -174,11 +176,11 @@ public class MaterialCalendar {
             mMonth = mMonth - 1;
         }
 
-        refreshCalendar(monthTextView, calendarGridView, materialCalendarAdapter, mMonth, mYear);
+        refreshCalendar(monthTextView, calendarGridView, meetingCalendarAdapter, mMonth, mYear);
     }
 
     private static void nextMonth(TextView monthTextView, GridView calendarGridView,
-                                  MaterialCalendarAdapter materialCalendarAdapter) {
+                                  MeetingCalendarAdapter meetingCalendarAdapter) {
         if (mMonth == 11) {
             mMonth = 0;
             mYear = mYear + 1;
@@ -186,11 +188,11 @@ public class MaterialCalendar {
             mMonth = mMonth + 1;
         }
 
-        refreshCalendar(monthTextView, calendarGridView, materialCalendarAdapter, mMonth, mYear);
+        refreshCalendar(monthTextView, calendarGridView, meetingCalendarAdapter, mMonth, mYear);
     }
 
     // Call in GridView.OnItemClickListener for custom Calendar GirdView
-    protected static void selectCalendarDay(MaterialCalendarAdapter materialCalendarAdapter, int position) {
+    protected static void selectCalendarDay(MeetingCalendarAdapter meetingCalendarAdapter, int position) {
         Log.d("SELECTED_POSITION", String.valueOf(position));
         int weekPositions = 6;
         int noneSelectablePositions = weekPositions + mFirstDay;
@@ -198,8 +200,8 @@ public class MaterialCalendar {
         if (position > noneSelectablePositions) {
             getSelectedDate(position, mMonth, mYear);
 
-            if (materialCalendarAdapter != null) {
-                materialCalendarAdapter.notifyDataSetChanged();
+            if (meetingCalendarAdapter != null) {
+                meetingCalendarAdapter.notifyDataSetChanged();
             }
         }
     }

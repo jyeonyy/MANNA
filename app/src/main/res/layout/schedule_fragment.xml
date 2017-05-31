@@ -1,25 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/schedulefragment"
-    android:background="#ffffff">
+    android:background="#ffffffff"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        android:layout_gravity="bottom"
+        android:layout_weight="1.5"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="70sp"
+
+            android:src="@drawable/manna"
+            android:gravity="center"
+            android:layout_weight="0.2"
+            android:onClick="ChangeFragment"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#99000000"
-        android:id="@+id/bar41"
+        android:layout_below="@+id/announcement"
+        android:layout_marginTop="5dp"
         />
 
     <TextView
-        android:text="schedule"
+        android:text="전체 미팅 스케줄"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:layout_gravity="center"
-        android:id="@+id/schedule"
+        android:id="@+id/announcement"
         android:background="#ffffffff"
-        android:layout_below="@+id/bar41"
+        android:layout_below="@+id/bar61"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp" />
 
@@ -27,18 +51,18 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#99000000"
-        android:layout_below="@+id/schedule"
+        android:layout_below="@+id/announcement"
         android:layout_marginTop="5dp"
-        android:id="@+id/bar42"
         />
 
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:layout_alignBaseline="@+id/schedule"
-        android:layout_alignBottom="@+id/schedule"
-        android:layout_alignParentEnd="true" />
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame" />
 
-</RelativeLayout>
+
+</LinearLayout>

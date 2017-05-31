@@ -1,4 +1,4 @@
-package org.ssutown.manna.CustomCalendar;
+package org.ssutown.manna.MeetingSchedule;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -16,31 +16,32 @@ import android.widget.TextView;
 import org.ssutown.manna.R;
 
 /**
- * Created by Maximilian on 9/1/14.
+ * Created by YNH on 2017. 5. 30..
  */
-public class MaterialCalendarAdapter extends BaseAdapter {
+
+public class MeetingCalendarAdapter extends BaseAdapter {
     // Variables
     private Context mContext;
-    private static ViewHolder mHolder;
+    private static MeetingCalendarAdapter.ViewHolder mHolder;
     int mWeekDayNames = 7;
     int mGridViewIndexOffset = 1;
 
     private static class ViewHolder {
         ImageView mSelectedDayImageView;
-    TextView mTextView;
-    ImageView mSavedEventImageView;
-}
+        TextView mTextView;
+        ImageView mSavedEventImageView;
+    }
 
     // Constructor
-    public MaterialCalendarAdapter(Context context) {
+    public MeetingCalendarAdapter(Context context) {
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        if (MaterialCalendar.mFirstDay != -1 && MaterialCalendar.mNumDaysInMonth != -1) {
-//            Log.d("GRID_COUNT", String.valueOf(mWeekDayNames + MaterialCalendar.mFirstDay + MaterialCalendar.mNumDaysInMonth));
-            return mWeekDayNames + MaterialCalendar.mFirstDay + MaterialCalendar.mNumDaysInMonth;
+        if (MeetingCalendar.mFirstDay != -1 && MeetingCalendar.mNumDaysInMonth != -1) {
+            Log.d("GRID_COUNT", String.valueOf(mWeekDayNames + MeetingCalendar.mFirstDay + MeetingCalendar.mNumDaysInMonth));
+            return mWeekDayNames + MeetingCalendar.mFirstDay + MeetingCalendar.mNumDaysInMonth;
         }
 
         return mWeekDayNames;
@@ -60,9 +61,9 @@ public class MaterialCalendarAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.layout_material_day, parent, false);//일에 동그라미
+            convertView = inflater.inflate(R.layout.layout_material_day, parent, false);
 
-            mHolder = new ViewHolder();
+            mHolder = new MeetingCalendarAdapter.ViewHolder();
 
             if (convertView != null) {
                 mHolder.mSelectedDayImageView = (ImageView) convertView.findViewById(R.id.material_calendar_selected_day);
@@ -71,12 +72,12 @@ public class MaterialCalendarAdapter extends BaseAdapter {
                 convertView.setTag(mHolder);
             }
         } else {
-            mHolder = (ViewHolder) convertView.getTag();
+            mHolder = (MeetingCalendarAdapter.ViewHolder) convertView.getTag();
         }
 
         if (mHolder.mSelectedDayImageView != null) {
             GridView gridView = (GridView) parent;
-//            Log.d("ITEM_CHECKED_POSITION", String.valueOf(gridView.isItemChecked(position)));
+            Log.d("ITEM_CHECKED_POSITION", String.valueOf(gridView.isItemChecked(position)));
             if (gridView.isItemChecked(position)) {
                 Animation feedBackAnimation = AnimationUtils.loadAnimation(mContext, R.anim.selected_day_feedback);
                 mHolder.mSelectedDayImageView.setVisibility(View.VISIBLE);
@@ -104,9 +105,9 @@ public class MaterialCalendarAdapter extends BaseAdapter {
 
 
     private void setCalendarDay(int position) {
-        if (position <= mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay) {
+        if (position <= mWeekDayNames - mGridViewIndexOffset + MeetingCalendar.mFirstDay) {
             mHolder.mTextView.setTextColor(mContext.getResources().getColor(R.color.calendar_day_text_color));
-//            Log.d("NO_CLICK_POSITION", String.valueOf(position));
+            Log.d("NO_CLICK_POSITION", String.valueOf(position));
         } else {
             mHolder.mTextView.setTextColor(mContext.getResources().getColor(R.color.calendar_number_text_color));
         }
@@ -149,18 +150,18 @@ public class MaterialCalendarAdapter extends BaseAdapter {
 
             default:
                 Log.d("CURRENT_POSITION", String.valueOf(position));
-                if (position < mWeekDayNames + MaterialCalendar.mFirstDay) {    //blank day
+                if (position < mWeekDayNames + MeetingCalendar.mFirstDay) {
                     Log.d("BLANK_POSITION", "This is a blank day");
                     mHolder.mTextView.setText("");
                     mHolder.mTextView.setTypeface(Typeface.DEFAULT);
-                } else {                                                        //no blank day
+                } else {
                     mHolder.mTextView.setText(String.valueOf(position - (mWeekDayNames - mGridViewIndexOffset) -
-                            MaterialCalendar.mFirstDay));
+                            MeetingCalendar.mFirstDay));
                     mHolder.mTextView.setTypeface(Typeface.DEFAULT_BOLD);
 
-                    if (MaterialCalendar.mCurrentDay != -1) {
-                        int startingPosition = mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay;
-                        int currentDayPosition = startingPosition + MaterialCalendar.mCurrentDay;
+                    if (MeetingCalendar.mCurrentDay != -1) {
+                        int startingPosition = mWeekDayNames - mGridViewIndexOffset + MeetingCalendar.mFirstDay;
+                        int currentDayPosition = startingPosition + MeetingCalendar.mCurrentDay;
 
                         if (position == currentDayPosition) {
                             mHolder.mTextView.setTextColor(mContext.getResources().getColor(
@@ -178,51 +179,21 @@ public class MaterialCalendarAdapter extends BaseAdapter {
         }
     }
 
-    private void setSavedEvent(int position) {          //일정 있는 부분 표시, listview는 띄워주지 않아
-        //여기서 색 바꾸면 될듯
+    private void setSavedEvent(int position) {
         // Reset saved position indicator
         mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
 
-//        if (MaterialCalendar.mFirstDay != -1 && MaterialCalendarFragment.mSavedEventDays != null &&
-//                MaterialCalendarFragment.mSavedEventDays.size() > 0) {
-//
-//            int startingPosition = mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay;
-//            Log.d("SAVEDEVENTSTARTING_POS", String.valueOf(startingPosition));
-//            if (position > startingPosition) {
-//                for (int i = 0; i < MaterialCalendarFragment.mSavedEventDays.size(); i++) {
-//                    int savedEventPosition = startingPosition + MaterialCalendarFragment.mSavedEventDays.get(i);
-//
-//                    Log.d("POSITION", String.valueOf(position));
-//                    Log.d("SAVED_POSITION", String.valueOf(savedEventPosition));
-//                    if (position == savedEventPosition) {
-//                        mHolder.mSavedEventImageView.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            } else {
-//                mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
-//            }
-//        }
-        if (MaterialCalendar.mFirstDay != -1 && MaterialCalendarFragment.mSaveTestday != null &&
-                MaterialCalendarFragment.mSaveTestday.size() > 0) {
+        if (MeetingCalendar.mFirstDay != -1 && MeetingCalendarFragment.mSavedEventDays != null &&
+                MeetingCalendarFragment.mSavedEventDays.size() > 0) {
 
-            int startingPosition = mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay;
+            int startingPosition = mWeekDayNames - mGridViewIndexOffset + MeetingCalendar.mFirstDay;
+//            Log.d("SAVED_EVENT_STARTING_POS", String.valueOf(startingPosition));
             if (position > startingPosition) {
+                for (int i = 0; i < MeetingCalendarFragment.mSavedEventDays.size(); i++) {
+                    int savedEventPosition = startingPosition + MeetingCalendarFragment.mSavedEventDays.get(i);
 
-                for (int i = 0; i < MaterialCalendarFragment.mSaveTestday.size(); i++) {
-                    //mSaveTestDay에서 year이랑 month뽑아내서 맞는 달 찾아내서 비교하는 코드
-                    int realyear = MaterialCalendar.mYear;
-                    int realmonth = MaterialCalendar.mMonth+1;
-                    String[] temp1 = MaterialCalendarFragment.mSaveTestday.get(i).split("month");
-                    String[] temp2 = temp1[0].split("ear");
-                    String year = temp2[1];
-                    String[] temp3 = temp1[1].split("day");
-                    String month = temp3[0];
-                    String day = temp3[1];
-                    int savedEventPosition = -1;
-                    if(realyear == Integer.valueOf(year) && realmonth == Integer.valueOf(month)){
-                        savedEventPosition = startingPosition + Integer.valueOf(day);
-                    }
-
+                    Log.d("POSITION", String.valueOf(position));
+                    Log.d("SAVED_POSITION", String.valueOf(savedEventPosition));
                     if (position == savedEventPosition) {
                         mHolder.mSavedEventImageView.setVisibility(View.VISIBLE);
                     }
@@ -231,7 +202,5 @@ public class MaterialCalendarAdapter extends BaseAdapter {
                 mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
             }
         }
-
-
     }
 }
