@@ -2,12 +2,14 @@ package org.ssutown.manna.MeetingSchedule;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -33,6 +35,7 @@ public class MeetingCalendarFragment extends Fragment implements View.OnClickLis
     ImageView mNext;
     TextView mMonthName;
     GridView mCalendar;
+    Button filterBtn;
 
     // Calendar Adapter
     private MeetingCalendarAdapter mMeetingCalendarAdapter;
@@ -59,7 +62,7 @@ public class MeetingCalendarFragment extends Fragment implements View.OnClickLis
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_meeting_calendar, container, false);
         if (rootView != null) {
             // Get Calendar info
             // Get Calendar info
@@ -111,6 +114,11 @@ public class MeetingCalendarFragment extends Fragment implements View.OnClickLis
                 }
             }
 
+            filterBtn = (Button) rootView.findViewById(R.id.filter);
+            if (filterBtn != null) {
+                filterBtn.setOnClickListener(this);
+            }
+
             // ListView for saved events in calendar
             mSavedEventsListView = (ListView) rootView.findViewById(R.id.saved_events_listView);
         }
@@ -144,6 +152,11 @@ public class MeetingCalendarFragment extends Fragment implements View.OnClickLis
 
                 case R.id.material_calendar_next:
                     MeetingCalendar.nextOnClick(mNext, mMonthName, mCalendar, mMeetingCalendarAdapter);
+                    break;
+
+                case R.id.filter:
+                    Intent intent = new Intent(getActivity(),ApplyMeetingFilter.class);
+                    startActivity(intent);
                     break;
 
                 default:

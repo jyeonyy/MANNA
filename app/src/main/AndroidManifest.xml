@@ -41,6 +41,7 @@
         <activity android:name=".AddAppointActivity" />
         <activity android:name=".GoogleCalendar.saveGoogleCalendarActivity" />
         <activity android:name=".profileSetting.setProfile"></activity>
+        <activity android:name=".MeetingSchedule.ApplyMeetingFilter"/>
 
     </application>
 
