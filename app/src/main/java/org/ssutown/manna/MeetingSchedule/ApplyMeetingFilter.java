@@ -2,6 +2,8 @@ package org.ssutown.manna.MeetingSchedule;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.NumberPicker;
 
 import org.ssutown.manna.R;
@@ -27,6 +29,20 @@ public class ApplyMeetingFilter extends Activity{
         numPicker.setMaxValue(5);
 
         numPicker.setWrapSelectorWheel(false);
+
+        View.OnClickListener listener = new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v)
+            {
+                finish();
+            }
+
+        };
+
+        Button filterBnt = (Button)findViewById(R.id.apply_btn);
+        filterBnt.setOnClickListener(listener);
+
     }
 
 
