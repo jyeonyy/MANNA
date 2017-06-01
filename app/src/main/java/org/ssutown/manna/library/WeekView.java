@@ -33,8 +33,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.OverScroller;
 
-import org.ssutown.manna.AdjustDaySchedule.WeekViewEvent;
-import org.ssutown.manna.AdjustDaySchedule.WeekViewLoader;
+import org.ssutown.manna.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,9 +43,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-import static com.alamkanak.weekview.WeekViewUtil.*;
-import static org.ssutown.manna.AdjustDaySchedule.WeekViewUtil.isSameDay;
-import static org.ssutown.manna.AdjustDaySchedule.WeekViewUtil.today;
+import static org.ssutown.manna.library.WeekViewUtil.isSameDay;
+import static org.ssutown.manna.library.WeekViewUtil.today;
+
 
 
 /**
@@ -811,7 +810,9 @@ public class WeekView extends View {
                             bottom > mHeaderHeight + mHeaderRowPadding * 2 + mTimeTextHeight / 2 + mHeaderMarginBottom
                             ) {
                         mEventRects.get(i).rectF = new RectF(left, top, right, bottom);
-                        mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor() == 0 ? mDefaultEventColor : mEventRects.get(i).event.getColor());
+                        if (mEventRects.get(i).event.getColor() == 0)
+                            mEventBackgroundPaint.setColor(mDefaultEventColor);
+                        else mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor());
                         canvas.drawRoundRect(mEventRects.get(i).rectF, mEventCornerRadius, mEventCornerRadius, mEventBackgroundPaint);
                         drawEventTitle(mEventRects.get(i).event, mEventRects.get(i).rectF, canvas, top, left);
                     }
@@ -855,7 +856,9 @@ public class WeekView extends View {
                             bottom > 0
                             ) {
                         mEventRects.get(i).rectF = new RectF(left, top, right, bottom);
-                        mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor() == 0 ? mDefaultEventColor : mEventRects.get(i).event.getColor());
+                        if (mEventRects.get(i).event.getColor() == 0)
+                            mEventBackgroundPaint.setColor(mDefaultEventColor);
+                        else mEventBackgroundPaint.setColor(mEventRects.get(i).event.getColor());
                         canvas.drawRoundRect(mEventRects.get(i).rectF, mEventCornerRadius, mEventCornerRadius, mEventBackgroundPaint);
                         drawEventTitle(mEventRects.get(i).event, mEventRects.get(i).rectF, canvas, top, left);
                     }
@@ -1573,15 +1576,6 @@ public class WeekView extends View {
         return mDayNameLength;
     }
 
-    /**
-     * Set the length of the day name displayed in the header row. Example of short day names is
-     * 'M' for 'Monday' and example of long day names is 'Mon' for 'Monday'.
-     * <p>
-     *     <b>Note:</b> Use {@link #setDateTimeInterpreter(DateTimeInterpreter)} instead.
-     * </p>
-     * @param length Supported values are {@link com.alamkanak.weekview.WeekView#LENGTH_SHORT} and
-     * {@link com.alamkanak.weekview.WeekView#LENGTH_LONG}.
-     */
     @Deprecated
     public void setDayNameLength(int length) {
         if (length != LENGTH_LONG && length != LENGTH_SHORT) {
@@ -2012,11 +2006,7 @@ public class WeekView extends View {
     }
 
     public interface EventLongPressListener {
-        /**
-         * Similar to {@link com.alamkanak.weekview.WeekView.EventClickListener} but with a long press.
-         * @param event: event clicked.
-         * @param eventRect: view containing the clicked event.
-         */
+
         void onEventLongPress(WeekViewEvent event, RectF eventRect);
     }
 
@@ -2029,10 +2019,7 @@ public class WeekView extends View {
     }
 
     public interface EmptyViewLongPressListener {
-        /**
-         * Similar to {@link com.alamkanak.weekview.WeekView.EmptyViewClickListener} but with long press.
-         * @param time: {@link Calendar} object set with the date and time of the long pressed position on the view.
-         */
+
         void onEmptyViewLongPress(Calendar time);
     }
 

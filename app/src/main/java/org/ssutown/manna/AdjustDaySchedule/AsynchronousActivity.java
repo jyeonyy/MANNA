@@ -2,11 +2,9 @@ package org.ssutown.manna.AdjustDaySchedule;
 
 import android.widget.Toast;
 
-import com.alamkanak.weekview.WeekViewEvent;
-import com.alamkanak.weekview.sample.apiclient.Event;
-import com.alamkanak.weekview.sample.apiclient.MyJsonService;
-
 import org.ssutown.manna.R;
+
+import org.ssutown.manna.library.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;

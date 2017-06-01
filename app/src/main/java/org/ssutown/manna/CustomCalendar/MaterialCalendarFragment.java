@@ -89,7 +89,7 @@ public class MaterialCalendarFragment extends Fragment
     private static final String PREF_ACCOUNT_NAME = "accountName";
 
     // Saved Events Adapter
-    protected static SavedEventsAdapter mSavedEventsAdapter;
+    protected static CalendarEventsAdapter mSavedEventsAdapter;
     protected static ListView mSavedEventsListView;
 
     protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerDay; //string이 며칠(string)에 몇개(integer)의 일정이 있는지
@@ -101,10 +101,11 @@ public class MaterialCalendarFragment extends Fragment
 //    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerDate;
     protected static ArrayList<CalendarList> mSavedEvents;
     protected static ArrayList<Boolean> mSavedEventDay;
-    protected static ArrayList<HashMap<String, Integer>> mSaveTest;
+    protected static ArrayList<String> mSaveTest;
     protected static ArrayList<String> mSaveTestday;
 
-
+    protected static SharedPreferences selectedCalendar;
+    protected static int select;
     protected static int mNumEventsOnDay = 0;
 
     GoogleAccountCredential mCredential;
@@ -124,7 +125,6 @@ public class MaterialCalendarFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
 
-        Log.i("i'm matcalendarFrag", "");
 
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getActivity(), Arrays.asList(SCOPES))
@@ -132,9 +132,10 @@ public class MaterialCalendarFragment extends Fragment
 
         getResultsFromApi();
 
-//        SharedPreferences selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
-//        int select = selectedCalendar.getInt("cal_num",0);
-//        Toast.makeText(getActivity(),String.valueOf(select),Toast.LENGTH_SHORT).show();
+// ListView for saved events in calendar
+        mSavedEventsListView = (ListView) rootView.findViewById(R.id.saved_events_listView);
+
+
 
         if (rootView != null) {
             // Get Calendar info
@@ -182,8 +183,6 @@ public class MaterialCalendarFragment extends Fragment
                     int startingPosition = 6 + MaterialCalendar.mFirstDay;
                     int currentDayPosition = startingPosition + MaterialCalendar.mCurrentDay;
 
-                    Log.d("INITIPOSITION", String.valueOf(currentDayPosition));
-
                     mCalendar.setItemChecked(currentDayPosition, true);
 
                     if (mMaterialCalendarAdapter != null) {
@@ -192,12 +191,10 @@ public class MaterialCalendarFragment extends Fragment
                 }
             }
 
-            // ListView for saved events in calendar
-            mSavedEventsListView = (ListView) rootView.findViewById(R.id.saved_events_listView);
 
         }
         mSavedEvents = new ArrayList<CalendarList>();
-        mSaveTest = new ArrayList<HashMap<String, Integer>>();
+        mSaveTest = new ArrayList<String>();
         mSaveTestday = new ArrayList<String>();
 
         calendardb.child(String.valueOf(userID)).child("calendar").addValueEventListener(new ValueEventListener() {
@@ -214,30 +211,37 @@ public class MaterialCalendarFragment extends Fragment
                     String a = "year" + mSavedEvents.get(i).getStartyear() + "month" + mSavedEvents.get(i).getStartmonth() +
                             "day" + mSavedEvents.get(i).getStartday();
                     //들어감
-                    if (mSaveTest.size() == 0) {
-                        HashMap<String, Integer> event = new HashMap<String, Integer>();
-                        event.put(a, 1);
-                        mSaveTest.add(event);
-                        mSaveTestday.add(a);
-                    } else{
-                        for (int j = 0; j < mSaveTest.size(); j++) {
-
-
-                            if (mSaveTest.get(j).containsKey(a)) {
-                                int temp = mSaveTest.get(j).get(a);
-                                mSaveTest.get(j).put(a, temp + 1);
-
-                            } else if (j == mSaveTest.size()-1) {
-                                HashMap<String, Integer> event = new HashMap<String, Integer>();
-                                event.put(a, 1);
-                                mSaveTest.add(event);
-                                mSaveTestday.add(a);
-                                break;
-                            }
-                        }
-                        Log.i("i'mmSaveTest",mSaveTest.get(mSaveTest.size()-1).toString());
-                    }
+                    mSaveTest.add(a);
+                    mSaveTestday.add(a);
                 }
+//                for(int i=0;i<mSavedEvents.size();i++) {
+//                    String a = "year" + mSavedEvents.get(i).getStartyear() + "month" + mSavedEvents.get(i).getStartmonth() +
+//                            "day" + mSavedEvents.get(i).getStartday();
+//                    //들어감
+//                    if (mSaveTest.size() == 0) {
+//                        HashMap<String, Integer> event = new HashMap<String, Integer>();
+//                        event.put(a, 1);
+//                        mSaveTest.add(event);
+//                        mSaveTestday.add(a);
+//                    } else{
+//                        for (int j = 0; j < mSaveTest.size(); j++) {
+//
+//
+//                            if (mSaveTest.get(j).containsKey(a)) {
+//                                int temp = mSaveTest.get(j).get(a);
+//                                mSaveTest.get(j).put(a, temp + 1);
+//
+//                            } else if (j == mSaveTest.size()-1) {
+//                                HashMap<String, Integer> event = new HashMap<String, Integer>();
+//                                event.put(a, 1);
+//                                mSaveTest.add(event);
+//                                mSaveTestday.add(a);
+//                                break;
+//                            }
+//                        }
+//
+//                    }
+//                }
                 mMaterialCalendarAdapter.notifyDataSetChanged();
             }
 
@@ -261,19 +265,24 @@ public class MaterialCalendarFragment extends Fragment
 //            acquireGooglePlayServices();
 //        }
 //        else
+        selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = selectedCalendar.edit();
+        select = selectedCalendar.getInt("cal", 0);
         if (mCredential.getSelectedAccountName() == null) {
             Toast.makeText(getActivity(), "나는 ㅠㅠ ", Toast.LENGTH_LONG).show();
             chooseAccount();
 
         }
-
 //        else if (! isDeviceOnline()) {
 //            //mOutputText.setText("No network connection available.");
 //        }
         else {
             Toast.makeText(getActivity(), "나는 ㅎㅎ ", Toast.LENGTH_LONG).show();
-           new MakeRequestTask(mCredential).execute(); //주석없앰
-
+            if(select == 0){
+                new MakeRequestTask(mCredential).execute(); //주석없앰
+            }
+            editor.putInt("cal", 1);
+            editor.apply();
         }
     }
     /**
@@ -345,7 +354,6 @@ public class MaterialCalendarFragment extends Fragment
 //            items.add(setDateToApi());
 
             for (Event event : items) {
-                Log.i("aucqjs?","item");
                 DateTime start = event.getStart().getDateTime();
                 DateTime end = event.getEnd().getDateTime();
                 if (start == null) {
@@ -370,44 +378,65 @@ public class MaterialCalendarFragment extends Fragment
             String eventstart = start;
             String eventend = end;
 
+            if(eventstart.contains("T")){
+                String tempstart[] = eventstart.split("T");
+                String tempstart1 = tempstart[0];
+                String tempstart2 = tempstart[1];
 
-            String tempstart[] = eventstart.split("T");
-            String tempstart1 = tempstart[0];
-            String tempstart2 = tempstart[1];
+                String startday1[] = tempstart1.split("-");
+                String starttime[] = tempstart2.split(":");
 
-            String startday1[] = tempstart1.split("-");
-            String starttime[] = tempstart2.split(":");
+                String startyear = startday1[0];
+                String startmonth = startday1[1];
+                String startday = startday1[2];
 
-            String startyear = startday1[0];
-            String startmonth = startday1[1];
-            String startday = startday1[2];
+                String starthour = starttime[0];
+                String startminute = starttime[1];
 
-            String starthour = starttime[0];
-            String startminute = starttime[1];
-
-            String tempend[] = eventend.split("T");
-            String tempend1 = tempend[0];
-            String tempend2 = tempend[1];
-
-
-            String endday1[] = tempend1.split("-");
-            String endtime[] = tempend2.split(":");
-
-            String endyear = endday1[0];
-            String endmonth = endday1[1];
-            String endday = endday1[2];
-
-            String endhour = endtime[0];
-            String endminute = endtime[1];
+                String tempend[] = eventend.split("T");
+                String tempend1 = tempend[0];
+                String tempend2 = tempend[1];
 
 
+                String endday1[] = tempend1.split("-");
+                String endtime[] = tempend2.split(":");
+
+                String endyear = endday1[0];
+                String endmonth = endday1[1];
+                String endday = endday1[2];
+
+                String endhour = endtime[0];
+                String endminute = endtime[1];
+
+                CalendarList list = new CalendarList(eventname,eventstart,eventend,key, startyear, startmonth,
+                        startday,starthour,startminute, endyear, endmonth, endday, endhour, endminute);
+
+                calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+            }
+            else{
+                String tempstart[] = eventstart.split("-");
+                String startyear = tempstart[0];
+                String startmonth = tempstart[1];
+                String startday = tempstart[2];
+
+                String tempend[] = eventend.split("-");
+                String endyear = tempend[0];
+                String endmonth = tempend[1];
+                String endday = tempend[2];
+
+
+                CalendarList list = new CalendarList(eventname,eventstart,eventend,key, startyear, startmonth,
+                        startday,"","", endyear, endmonth, endday, "", "");
+
+                calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+            }
 
 
 
-            CalendarList list = new CalendarList(eventname,eventstart,eventend,key, startyear, startmonth,
-                    startday,starthour,startminute, endyear, endmonth, endday, endhour, endminute);
 
-            calendardb.child(String.valueOf(userID)).child("calendar").child(key).setValue(list);
+
+
+
 
 
         }
@@ -483,21 +512,22 @@ public class MaterialCalendarFragment extends Fragment
             String accountName = getActivity().getPreferences(Context.MODE_PRIVATE)
                     .getString(PREF_ACCOUNT_NAME, null);
 
-            startActivityForResult(             //로그인 한번 하려면 이거 주석하고 밑에 else풀어라. 이건 노력한 나헤언니가 알려준것. 노고가 들어가시아
-                    mCredential.newChooseAccountIntent(),
-                    REQUEST_ACCOUNT_PICKER);
+//            startActivityForResult(             //로그인 한번 하려면 이거 주석하고 밑에 else풀어라. 이건 노력한 나헤언니가 알려준것. 노고가 들어가시아
+//                    mCredential.newChooseAccountIntent(),
+//                    REQUEST_ACCOUNT_PICKER);
 
             if (accountName != null) {
                 mCredential.setSelectedAccountName(accountName);
                 sendAccountName(accountName);
                 getResultsFromApi();
+
             }
-//            else {
+            else {
 //                 Start a dialog from which the user can choose an account
-//                startActivityForResult(
-//                        mCredential.newChooseAccountIntent(),
-//                        REQUEST_ACCOUNT_PICKER);
-//            }
+                startActivityForResult(
+                        mCredential.newChooseAccountIntent(),
+                        REQUEST_ACCOUNT_PICKER);
+            }
         } else {
             // Request the GET_ACCOUNTS permission via a user dialog
             EasyPermissions.requestPermissions(
@@ -610,7 +640,7 @@ public class MaterialCalendarFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         if (mSavedEventsListView != null) {
-            mSavedEventsAdapter = new SavedEventsAdapter(getActivity());
+            mSavedEventsAdapter = new CalendarEventsAdapter();
             mSavedEventsListView.setAdapter(mSavedEventsAdapter);
             mSavedEventsListView.setOnItemClickListener(this);
             Log.d("EVENTS_ADAPTER", "set adapter");
@@ -751,11 +781,9 @@ public class MaterialCalendarFragment extends Fragment
 
 
             for (int i = 0; i < mSaveTestday.size(); i++) {
-                Log.i("Stringac", a);
-                Log.i("Stringab", mSaveTestday.get(i));
                 if (a.equals(mSaveTestday.get(i))) {
                     savedEventsOnThisDay = true;//일정이 저장된 날과 선택된 날이 같으면 true로 바꿔준다.
-                    Log.i("i'mequal", String.valueOf(savedEventsOnThisDay));
+
                 }
             }
         }
@@ -784,12 +812,11 @@ public class MaterialCalendarFragment extends Fragment
 //        }
 
         if (savedEventsOnThisDay) {     //선택된 날에 일정이 있으면
-            Log.d("POS", String.valueOf(a));
             if (mSaveTest != null && mSaveTest.size() > 0) {
                 for (int i = 0; i < mSaveTest.size(); i++) {
-                    HashMap<String, Integer> x = mSaveTest.get(i);
-                    if (x.containsKey("year"+selectedYear+"month"+selectedMonth+"day"+selectedDate)) {
-                        mNumEventsOnDay = mSaveTest.get(i).get("year"+selectedYear+"month"+selectedMonth+"day"+selectedDate);
+                    String x = mSaveTest.get(i);
+                    if (x.equals(a)) {
+//                        mNumEventsOnDay = Integer.valueOf(mSaveTest.get(i));
                         Log.d("NUM_EVENT_ON_DAY", String.valueOf(mNumEventsOnDay));
                     }
                 }
@@ -799,8 +826,16 @@ public class MaterialCalendarFragment extends Fragment
         }
 
         if (mSavedEventsAdapter != null && mSavedEventsListView != null) {
-            Log.i("getcount", String.valueOf(mSavedEventsAdapter.getCount()));
+
+            mSavedEventsAdapter.clear();
+            for(int i=0;i<mSaveTest.size(); i++){
+                if(mSaveTest.get(i).equals(a)){
+                    mSavedEventsAdapter.addItem(mSavedEvents.get(i).getEventname(), String.valueOf(mSavedEvents.get(i).getStart())+String.valueOf(mSavedEvents.get(i).getEnd()));
+                    Log.i("adaptertest", "gg");
+                }
+            }
             mSavedEventsAdapter.notifyDataSetChanged();
+
 
             // Scrolls back to top of ListView before refresh
             mSavedEventsListView.setSelection(0);

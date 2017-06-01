@@ -1,8 +1,5 @@
 package org.ssutown.manna.library;
 
-import org.ssutown.manna.AdjustDaySchedule.WeekViewEvent;
-import org.ssutown.manna.AdjustDaySchedule.WeekViewLoader;
-
 import java.util.Calendar;
 import java.util.List;
 
