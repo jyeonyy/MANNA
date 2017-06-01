@@ -35,7 +35,6 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
-            //android:value="76afc3d1dfb9b431bbea2a63ebf3e28f" />
 
 
         <activity android:name=".LoginActivity">
@@ -50,7 +49,7 @@
         <activity android:name=".GoogleCalendar.GoogleCalendarActivity" />
         <activity android:name=".AddAppointActivity" />
         <activity android:name=".GoogleCalendar.saveGoogleCalendarActivity" />
-        <activity android:name=".profileSetting.setProfile"></activity>
+        <activity android:name=".profileSetting.setProfile"/>
         <activity android:name=".MeetingSchedule.ApplyMeetingFilter"/>
 
         <activity android:name=".AdjustDaySchedule.BasicActivity"/>
