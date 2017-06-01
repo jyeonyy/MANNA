@@ -14,4 +14,14 @@
     <color name="saved_event_selector_color">@android:color/holo_blue_bright</color>
     <color name="saved_events_empty_color">@android:color/darker_gray</color>
     <color name="calendar_background_color">#ffffff</color>
+
+    <!-- this is for meeting DayView Calendar -->
+    <color name="event_color_01">#59dbe0</color>
+    <color name="event_color_02">#f57f68</color>
+    <color name="event_color_03">#87d288</color>
+    <color name="event_color_04">#f8b552</color>
+    <color name="toolbar">#efefef</color>
+    <color name="toolbar_text">#8f000000</color>
+    <color name="accent">#2789e4</color>
+
 </resources>

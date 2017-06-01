@@ -43,6 +43,10 @@
         <activity android:name=".profileSetting.setProfile"></activity>
         <activity android:name=".MeetingSchedule.ApplyMeetingFilter"/>
 
+        <activity android:name=".AdjustDaySchedule.BasicActivity"/>
+        <activity android:name=".AdjustDaySchedule.AsynchronousActivity"/>
+        <activity android:name=".AdjustDaySchedule.DaySchedule"/>
+
     </application>
 
 </manifest>
