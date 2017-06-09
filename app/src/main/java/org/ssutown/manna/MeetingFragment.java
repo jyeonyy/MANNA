@@ -45,7 +45,7 @@ public class MeetingFragment extends Fragment {
         Button addMeeting = (Button)view.findViewById(R.id.addmeeting);
 
         //long userID = ((MainActivity)getActivity()).getUserID();
-        final long userID = 398410773;
+        final long userID = 123456;
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = firebaseDatabase.getReference();

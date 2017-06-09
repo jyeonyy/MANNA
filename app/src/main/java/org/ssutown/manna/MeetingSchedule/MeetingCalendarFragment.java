@@ -181,8 +181,8 @@ public class MeetingCalendarFragment extends Fragment implements View.OnClickLis
 
                 showSavedEventsListView(position);
 
-                Intent intent = new Intent(getActivity(), BasicActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), BasicActivity.class);
+//                startActivity(intent);
 
                 break;
 
