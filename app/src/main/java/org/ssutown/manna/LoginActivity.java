@@ -47,14 +47,6 @@ public class LoginActivity extends AppCompatActivity {
         final LoginButton loginButton = (LoginButton)findViewById(R.id.com_kakao_login);
         final Button exitButton = (Button)findViewById(R.id.exitButton);
 
-/*        SharedPreferences login = getSharedPreferences("login", Activity.MODE_PRIVATE);
-
-        if(login.getBoolean("loginState",false)){
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
-            finish();
-        }*/
-
         SessionCallback sessionCallback;
 
         handler = new Handler();
@@ -174,22 +166,11 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putLong("KAKAO_ID",userProfile.getId());
                     editor.commit();
 
-            /*      SharedPreferences kakao_login = getSharedPreferences("KAKAO_LOGIN", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = kakao_login.edit();
-                    editor.putString("KAKAO_LOGINB_STATE","LOGIN");
-                    editor.commit();*/
+                    SharedPreferences login_State = getSharedPreferences("login_State",Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor1 = login_State.edit();
+                    editor.putBoolean("login_State",true);
+                    editor.commit();
 
-                    userInfo info = new userInfo(userProfile.getId());
-                    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                    DatabaseReference databaseReference = firebaseDatabase.getReference();
-//                    databaseReference.child("userList").child(String.valueOf(userProfile.getId())).push().setValue(info);
-
-                  //  Intent intent = new Intent(LoginActivity.this,setProfile.class);
-                  //  startActivity(intent);
-
-                    Intent intent1 = new Intent(LoginActivity.this,MainActivity.class);
-                    intent1.putExtra("userID",userProfile.getId());
-                    startActivity(intent1);
                     finish();
                 }
 

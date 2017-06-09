@@ -56,6 +56,11 @@ public class GlobalApplication extends Application {
                 }
 
                 @Override
+                public boolean isSecureMode() {
+                    return false;
+                }
+
+                @Override
                 public ApprovalType getApprovalType() {
                     return ApprovalType.INDIVIDUAL;
                 }
@@ -70,10 +75,6 @@ public class GlobalApplication extends Application {
         @Override
         public IApplicationConfig getApplicationConfig() {
             return new IApplicationConfig() {
-                @Override
-                public Activity getTopActivity() {
-                    return GlobalApplication.getCurrentActivity();
-                }
 
                 @Override
                 public Context getApplicationContext() {
