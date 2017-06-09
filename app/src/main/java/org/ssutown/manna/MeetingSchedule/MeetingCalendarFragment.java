@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.ssutown.manna.AdjustDaySchedule.BasicActivity;
 import org.ssutown.manna.R;
 
 import java.util.ArrayList;
@@ -179,6 +180,10 @@ public class MeetingCalendarFragment extends Fragment implements View.OnClickLis
                 mNumEventsOnDay = -1;
 
                 showSavedEventsListView(position);
+
+                Intent intent = new Intent(getActivity(), BasicActivity.class);
+                startActivity(intent);
+
                 break;
 
             default:

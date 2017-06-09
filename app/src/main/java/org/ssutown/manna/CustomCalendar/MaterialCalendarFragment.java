@@ -252,9 +252,6 @@ public class MaterialCalendarFragment extends Fragment
         });
 
 
-
-
-
         return rootView;
     }
 
