@@ -3,11 +3,14 @@ package org.ssutown.manna.CustomCalendar;
 import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +27,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.google.api.client.http.HttpTransport;
@@ -258,13 +263,15 @@ public class MaterialCalendarFragment extends Fragment
     private void getResultsFromApi() {
 
 
-//        if (! isGooglePlayServicesAvailable()) {
-//            acquireGooglePlayServices();
-//        }
+        if (! isGooglePlayServicesAvailable()) {
+            acquireGooglePlayServices();
+        }
 //        else
         selectedCalendar = getActivity().getSharedPreferences("selectedCalendar", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = selectedCalendar.edit();
         select = selectedCalendar.getInt("cal", 0);
+        Log.i("wldus", "1. select"+String.valueOf(select));
+
         if (mCredential.getSelectedAccountName() == null) {
             Toast.makeText(getActivity(), "나는 ㅠㅠ ", Toast.LENGTH_LONG).show();
             chooseAccount();
@@ -276,14 +283,18 @@ public class MaterialCalendarFragment extends Fragment
         else {
             Toast.makeText(getActivity(), "나는 ㅎㅎ ", Toast.LENGTH_LONG).show();
             if(select == 0){
+//                Toast toast = Toast.makeText(getActivity(),mCredential.getSelectedAccountName(),Toast.LENGTH_SHORT);
+//                toast.setGravity(Gravity.TOP,0,0);
+//                toast.show();
                 new MakeRequestTask(mCredential).execute(); //주석없앰
             }
             editor.putInt("cal", 1);
             editor.apply();
+            Log.i("wldus", "2. select"+String.valueOf(select));
         }
     }
     /**
-     * An asynchronous task that handles the Google Calendar API call.
+     * An asynchronous task that ha+ndles the Google Calendar API call.
      * Placing the API calls in their own task ensures the UI stays responsive.
      */
     private class MakeRequestTask extends AsyncTask<Void, Void, List<String>> {
@@ -316,9 +327,13 @@ public class MaterialCalendarFragment extends Fragment
         protected List<String> doInBackground(Void... params) {
             try {
 //                insertEvent(mService);
+                Log.i("wldus", "ondoinbackground");
                 return getDataFromApi();
+
             } catch (Exception e) {
+                Log.i("wldus", "ondoinbackground error");
                 mLastError = e;
+                Log.i("wldus", e.toString());
                 cancel(true);
                 return null;
             }
@@ -333,23 +348,26 @@ public class MaterialCalendarFragment extends Fragment
 
 
 //            insertEvent(mService);
-
+            Log.i("wldus", "getdatafromapi");
             // List the next 15 events from the primary calendar.
             DateTime now = new DateTime(System.currentTimeMillis());
+            Log.i("wldus", "complete datatime");
             List<String> eventStrings = new ArrayList<String>();
+            Log.i("wldus", "complete eventstring");
             Events events = mService.events().list("primary")
                     .setMaxResults(50)
                     .setOrderBy("startTime")
                     .setSingleEvents(true)
                     .execute();
+            Log.i("wldus", "complete events");
             List<Event> items = events.getItems();
-
+            Log.i("wldus", "getdatafromapi");
 //            items.add(insertEvent(mService));
 
 
 
 //            items.add(setDateToApi());
-
+            int count = 0;
             for (Event event : items) {
                 DateTime start = event.getStart().getDateTime();
                 DateTime end = event.getEnd().getDateTime();
@@ -359,7 +377,8 @@ public class MaterialCalendarFragment extends Fragment
                     start = event.getStart().getDate();
                     end = event.getEnd().getDate();
                 }
-
+                Log.i("wldus", "inforevent"+String.valueOf(count));
+                count++;
                 eventStrings.add(
                         String.format("%s (%s ~ %s)", event.getSummary(), start,end));
 
@@ -374,7 +393,7 @@ public class MaterialCalendarFragment extends Fragment
             String eventname = event;
             String eventstart = start;
             String eventend = end;
-
+            Log.i("wldus", "insaveeventtofirebase");
             if(eventstart.contains("T")){
                 String tempstart[] = eventstart.split("T");
                 String tempstart1 = tempstart[0];
@@ -429,13 +448,6 @@ public class MaterialCalendarFragment extends Fragment
             }
 
 
-
-
-
-
-
-
-
         }
 //        private Event setDateToApi()
 //        {
@@ -464,42 +476,6 @@ public class MaterialCalendarFragment extends Fragment
 //        }
 
     }
-
-//    private boolean isGooglePlayServicesAvailable() {
-//        GoogleApiAvailability apiAvailability =
-//                GoogleApiAvailability.getInstance();
-//        final int connectionStatusCode =
-//                apiAvailability.isGooglePlayServicesAvailable(this);
-//        return connectionStatusCode == ConnectionResult.SUCCESS;
-//    }
-//
-//
-//    private void acquireGooglePlayServices() {
-//        GoogleApiAvailability apiAvailability =
-//                GoogleApiAvailability.getInstance();
-//        final int connectionStatusCode =
-//                apiAvailability.isGooglePlayServicesAvailable(this);
-//        if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
-//            showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
-//        }
-//    }
-
-//    private boolean isDeviceOnline() {
-//        ConnectivityManager connMgr =
-//                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-//        return (networkInfo != null && networkInfo.isConnected());
-//    }
-
-//    void showGooglePlayServicesAvailabilityErrorDialog(
-//            final int connectionStatusCode) {
-//        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-//        Dialog dialog = apiAvailability.getErrorDialog(
-//                MaterialCalendarFragment.this,
-//                connectionStatusCode,
-//                REQUEST_GOOGLE_PLAY_SERVICES);
-//        dialog.show();
-//    }
 
 
     @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
@@ -582,6 +558,57 @@ public class MaterialCalendarFragment extends Fragment
         // Do nothing.
     }
 
+    private boolean isDeviceOnline() {
+        ConnectivityManager connMgr =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    /**
+     * Check that Google Play services APK is installed and up to date.
+     * @return true if Google Play Services is available and up to
+     *     date on this device; false otherwise.
+     */
+    private boolean isGooglePlayServicesAvailable() {
+        GoogleApiAvailability apiAvailability =
+                GoogleApiAvailability.getInstance();
+        final int connectionStatusCode =
+                apiAvailability.isGooglePlayServicesAvailable(getActivity());
+        return connectionStatusCode == ConnectionResult.SUCCESS;
+    }
+
+    /**
+     * Attempt to resolve a missing, out-of-date, invalid or disabled Google
+     * Play Services installation via a user dialog, if possible.
+     */
+    private void acquireGooglePlayServices() {
+        GoogleApiAvailability apiAvailability =
+                GoogleApiAvailability.getInstance();
+        final int connectionStatusCode =
+                apiAvailability.isGooglePlayServicesAvailable(getActivity());
+        if (apiAvailability.isUserResolvableError(connectionStatusCode)) {
+            showGooglePlayServicesAvailabilityErrorDialog(connectionStatusCode);
+        }
+    }
+
+
+    /**
+     * Display an error dialog showing that Google Play Services is missing
+     * or out of date.
+     * @param connectionStatusCode code describing the presence (or lack of)
+     *     Google Play Services on this device.
+     */
+    void showGooglePlayServicesAvailabilityErrorDialog(
+            final int connectionStatusCode) {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        Dialog dialog = apiAvailability.getErrorDialog(
+                getActivity(),
+                connectionStatusCode,
+                REQUEST_GOOGLE_PLAY_SERVICES);
+        dialog.show();
+    }
+
 
     /**
      * Called when an activity launched here (specifically, AccountPicker
@@ -593,6 +620,7 @@ public class MaterialCalendarFragment extends Fragment
      * @param data Intent (containing result data) returned by incoming
      *     activity result.
      */
+
     @Override
     public void onActivityResult(
             int requestCode, int resultCode, Intent data) {
@@ -876,7 +904,7 @@ public class MaterialCalendarFragment extends Fragment
         return formatter.format(calendar.getTime());
     }
 
-    
+
 }
 
 
