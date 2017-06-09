@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffffff">
@@ -36,9 +37,28 @@
         android:id="@+id/kakao_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="136dp"
+        android:text="Button"
         android:layout_below="@+id/bar82"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="56dp"
-        android:text="Button" />
+        android:layout_alignStart="@+id/meetsetting" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="51dp"
+        app:srcCompat="@drawable/kakaolink_btn_small"
+        android:layout_marginStart="11dp"
+        android:layout_below="@+id/bar82"
+        android:layout_toEndOf="@+id/kakao_link" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카카오톡으로 친구 초대하기"
+        android:layout_marginTop="18dp"
+        android:layout_alignTop="@+id/imageButton"
+        android:layout_alignEnd="@+id/meetsetting" />
 
 </RelativeLayout>

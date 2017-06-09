@@ -109,6 +109,7 @@ public class MeetingFragment extends Fragment {
 
                 Intent i = new Intent(getActivity(),MeetingActivity.class);
                 i.putExtra("meetingId",item.getMeetingId());
+                i.putExtra("meetingName",item.getTitle());
                 startActivity(i);
 
             }

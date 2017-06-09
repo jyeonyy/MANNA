@@ -8,9 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import org.ssutown.manna.Meeting_details.AnnouncementFragment;
 
 /**
@@ -20,6 +17,7 @@ import org.ssutown.manna.Meeting_details.AnnouncementFragment;
 public class MeetingActivity extends Activity {
 
     String meeting_id;
+    String meeting_name;
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -27,6 +25,8 @@ public class MeetingActivity extends Activity {
 
         Intent i = getIntent();
         meeting_id = i.getExtras().getString("meetingId");
+        meeting_name = i.getExtras().getString("meetingName");
+
 
     }
 

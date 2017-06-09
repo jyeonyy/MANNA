@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate( R.layout.home_fragment, container, false );
 
-
         userID = 398410773;
        //userID = getUserID();
 
