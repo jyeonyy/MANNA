@@ -63,7 +63,7 @@ public class SettingMeetFragment extends Fragment {
     private void sendDefaultFeedTemplate() {
 
         FeedTemplate params = FeedTemplate
-                .newBuilder(ContentObject.newBuilder("디저트 사진",
+                .newBuilder(ContentObject.newBuilder("일정 공유 MANNA",
                         "http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
                         LinkObject.newBuilder().setWebUrl("https://dev.kakao.com")
                                 .setMobileWebUrl("https://dev.kakao.com").build())
