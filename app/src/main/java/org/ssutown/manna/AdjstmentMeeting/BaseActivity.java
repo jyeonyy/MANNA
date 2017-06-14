@@ -1,14 +1,16 @@
 package org.ssutown.manna.AdjstmentMeeting;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.util.Log;
-import android.widget.Toast;
-import android.content.Intent;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -22,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.ssutown.manna.GoogleCalendar.CalendarList;
 import org.ssutown.manna.MeetingActivity;
+import org.ssutown.manna.Meeting_details.AnnounceListItem;
 import org.ssutown.manna.R;
 import org.ssutown.manna.meeting.User;
 
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
+
+import static org.ssutown.manna.HomeFragment.userID;
 
 /**
  * This is a base activity which contains week view and all the codes necessary to initialize the
@@ -50,6 +55,10 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     DatabaseReference userdb = database.getReference("userList");
     protected ArrayList<MergeCalendar> mergeCalendars;
     boolean complete = false;
+
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+    final DatabaseReference databaseReference = firebaseDatabase.getReference();
+
 
     int and= 0 ;
     @Override
@@ -230,6 +239,49 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(BaseActivity.this);
+
+        String starttemp[] = event.getStartTime().toString().split(",");
+        String startmonth1[] = starttemp[8].split("=");
+        String startday1[] = starttemp[11].split("=");
+        String starthour1[] = starttemp[16].split("=");
+
+        int startmonth = Integer.valueOf(startmonth1[1])+1;
+        int startday = Integer.valueOf(startday1[1]);
+        int starthour = Integer.valueOf(starthour1[1]);
+
+        String endtemp[] = event.getEndTime().toString().split(",");
+        String endmonth1[] = endtemp[8].split("=");
+        String endday1[] = endtemp[11].split("=");
+        String endhour1[] = endtemp[16].split("=");
+
+        int endmonth = Integer.valueOf(endmonth1[1]);
+        int endday = Integer.valueOf(endday1[1]);
+        int endhour = Integer.valueOf(endhour1[1]);
+        final String value = event.getName()+": "+startmonth+"/"+startday+" "+starthour+"-"+endhour;
+
+        alert_confirm.setMessage("이 날로 지정하겠습니까?").setCancelable(false).setPositiveButton("확인",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'YES'
+                        AnnounceListItem announce = new AnnounceListItem(userID, value);
+                        Toast.makeText(getApplicationContext(),announce.getContent(),Toast.LENGTH_SHORT).show();
+                        String meetingid = MeetingActivity.getMeeting_id();
+                        databaseReference.child("MeetingDetails").child(meetingid).child("Announcement").push().setValue(announce);
+
+                    }
+                }).setNegativeButton("취소",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'No'
+                        return;
+                    }
+                });
+        AlertDialog alert = alert_confirm.create();
+        alert.show();
+
         Toast.makeText(this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
     }
 

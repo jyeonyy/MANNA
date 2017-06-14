@@ -19,7 +19,6 @@ import org.ssutown.manna.Meeting_details.AnnouncementFragment;
 import org.ssutown.manna.meeting.User;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Jiyeon on 2017-03-25.
@@ -27,7 +26,7 @@ import java.util.HashMap;
 
 public class MeetingActivity extends Activity {
 
-    String meeting_id;
+    static String meeting_id;
     String meeting_name;
 
     FirebaseDatabase database1 = FirebaseDatabase.getInstance();
@@ -69,7 +68,7 @@ public class MeetingActivity extends Activity {
         return userlist;
     }
 
-    public String getMeeting_id(){
+    public static String getMeeting_id(){
         return meeting_id;
     }
     public void ChangeMeetFragment(View view){
@@ -91,7 +90,5 @@ public class MeetingActivity extends Activity {
         fragmentTransaction.commit();
 
     }
-
-
 
 }
