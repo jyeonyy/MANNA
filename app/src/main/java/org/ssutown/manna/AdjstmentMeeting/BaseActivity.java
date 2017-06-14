@@ -4,9 +4,10 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+import android.content.Intent;
+import android.widget.Button;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -29,7 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
-    private int mWeekViewType = TYPE_THREE_DAY_VIEW;
+    private int mWeekViewType = TYPE_WEEK_VIEW;
     private WeekView mWeekView;
 
 
@@ -40,7 +41,13 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
+
         mWeekView.setNumberOfVisibleDays(7);
+        mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
+        mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
+        mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
+        mWeekView.goToToday();
+
         // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
 
@@ -57,9 +64,23 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         // Set up a date time interpreter to interpret how the date and time will be formatted in
         // the week view. This is optional.
         setupDateTimeInterpreter(false);
+
+        View.OnClickListener listener = new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(getApplicationContext(), ApplyMeetingFilter.class);
+                startActivity(intent);
+            }
+        };
+
+        Button filter = (Button)findViewById(R.id.filter);
+        filter.setOnClickListener(listener);
+
     }
 
-//
+    //
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.main, menu);
@@ -120,6 +141,7 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
      * date values otherwise.
      * @param shortDate True if the date values should be short.
      */
+
     private void setupDateTimeInterpreter(final boolean shortDate) {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override

@@ -69,7 +69,7 @@
         <activity android:name=".AddAppointActivity" />
         <activity android:name=".GoogleCalendar.saveGoogleCalendarActivity" />
         <activity android:name=".profileSetting.setProfile"/>
-        <activity android:name=".MeetingSchedule.ApplyMeetingFilter"/>
+        <activity android:name=".AdjstmentMeeting.ApplyMeetingFilter"/>
 
         <activity android:name=".AdjstmentMeeting.BasicActivity"></activity>
 

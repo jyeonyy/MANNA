@@ -1,4 +1,4 @@
-package org.ssutown.manna.MeetingSchedule;
+package org.ssutown.manna.AdjstmentMeeting;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.ssutown.manna.AdjstmentMeeting.ApplyMeetingFilter;
 import org.ssutown.manna.AdjstmentMeeting.BasicActivity;
 import org.ssutown.manna.R;
 

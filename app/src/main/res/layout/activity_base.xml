@@ -6,6 +6,16 @@
     tools:context=".AdjstmentMeeting.BaseActivity"
     android:background="#fff">
 
+    <Button
+        android:id="@+id/filter"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/filter"
+        android:contentDescription="add"/>
+
     <com.alamkanak.weekview.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
@@ -22,6 +32,7 @@
         app:dayBackgroundColor="#05000000"
         app:todayBackgroundColor="#1848adff"
         app:headerColumnBackground="#ffffffff"
-        app:todayHeaderTextColor="@color/accent" />
+        app:todayHeaderTextColor="@color/accent"
+        android:layout_below="@+id/filter"/>
 
 </RelativeLayout>
