@@ -48,6 +48,8 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     ArrayList<User> userinfo = MeetingActivity.getUserlist();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userdb = database.getReference("userList");
+    protected ArrayList<MergeCalendar> mergeCalendars;
+    boolean complete = false;
 
     int and= 0 ;
     @Override
@@ -174,11 +176,13 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         // 여기는 나중에 날짜 받으면 수정해주면 될듯
         int[] count;
         count = new int[24];
+        mergeCalendars = new ArrayList<MergeCalendar>();
+        mergeCalendars.clear();
 
         int daysum = 2;
         Log.i("inmergeCalendar", a[0]);
         Log.i("inmergeCalendar", a[1]);
-        for(int i = 0;i<1;i++){
+        for(int i = 0;i<2;i++){
             Log.i("infori", String.valueOf(i));
             Log.i("infori", String.valueOf(mSavedEvents.size()));
             for(int j=0;j<mSavedEvents.size(); j++){
@@ -201,15 +205,22 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
                     for(int k=starthour; k<=endhour; k++) {
                         count[k]++;
                     }
-                    for(int alal = 0;alal<24;alal++){
-                        Log.i("dkssud", String.valueOf(count[alal]));
-                    }
+
 
                 }
             }
+
+            MergeCalendar mergecal = new MergeCalendar(count, a[i]);
+            mergeCalendars.add(mergecal);
+            Log.i("forhyemin1", String.valueOf(mergeCalendars.size()));
         }
 
+        complete = true;
 
+        for(int i=0;i<mergeCalendars.size();i++){
+            Log.i("forhyemin", String.valueOf(mergeCalendars.get(i).getCount()));
+            Log.i("forhyemin", mergeCalendars.get(i).getDate());
+        }
 
     }
 
