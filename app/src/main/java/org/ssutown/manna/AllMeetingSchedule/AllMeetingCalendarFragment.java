@@ -2,21 +2,18 @@ package org.ssutown.manna.AllMeetingSchedule;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ssutown.manna.AdjstmentMeeting.ApplyMeetingFilter;
 import org.ssutown.manna.R;
 
 import java.util.ArrayList;
@@ -36,7 +33,6 @@ public class AllMeetingCalendarFragment extends Fragment implements View.OnClick
     ImageView mNext;
     TextView mMonthName;
     GridView mCalendar;
-    Button filterBtn;
 
     // Calendar Adapter
     private AllMeetingCalendarAdapter mMeetingCalendarAdapter;
@@ -114,10 +110,6 @@ public class AllMeetingCalendarFragment extends Fragment implements View.OnClick
                 }
             }
 
-            filterBtn = (Button) rootView.findViewById(R.id.filter);
-            if (filterBtn != null) {
-                filterBtn.setOnClickListener(this);
-            }
 
             // ListView for saved events in calendar
             mSavedEventsListView = (ListView) rootView.findViewById(R.id.saved_events_listView);
@@ -154,10 +146,6 @@ public class AllMeetingCalendarFragment extends Fragment implements View.OnClick
                     AllMeetingCalendar.nextOnClick(mNext, mMonthName, mCalendar, mMeetingCalendarAdapter);
                     break;
 
-                case R.id.filter:
-                    Intent intent = new Intent(getActivity(),ApplyMeetingFilter.class);
-                    startActivity(intent);
-                    break;
 
                 default:
                     break;
