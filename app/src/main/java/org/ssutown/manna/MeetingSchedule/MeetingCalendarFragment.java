@@ -16,7 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.ssutown.manna.AdjustDaySchedule.BasicActivity;
+import org.ssutown.manna.AdjstmentMeeting.BasicActivity;
 import org.ssutown.manna.R;
 
 import java.util.ArrayList;
@@ -98,7 +98,6 @@ public class MeetingCalendarFragment extends Fragment implements View.OnClickLis
                 mCalendar.setOnItemClickListener(this);
                 mMeetingCalendarAdapter = new MeetingCalendarAdapter(getActivity());
                 mCalendar.setAdapter(mMeetingCalendarAdapter);
-
 
                 // Set current day to be auto selected when first opened
                 if (MeetingCalendar.mCurrentDay != -1 && MeetingCalendar.mFirstDay != -1){

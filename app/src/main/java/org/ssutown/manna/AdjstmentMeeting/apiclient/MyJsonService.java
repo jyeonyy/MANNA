@@ -1,8 +1,4 @@
-package org.ssutown.manna.AdjustDaySchedule;
-
-/**
- * Created by YNH on 2017. 6. 1..
- */
+package org.ssutown.manna.AdjstmentMeeting.apiclient;
 
 import java.util.List;
 
@@ -15,8 +11,7 @@ import retrofit.http.GET;
  */
 public interface MyJsonService {
 
-    //https://api.myjson.com/bins/3nh0k
-    @GET("/3nh0k")
+    @GET("/1kpjf")
     void listEvents(Callback<List<Event>> eventsCallback);
 
 }

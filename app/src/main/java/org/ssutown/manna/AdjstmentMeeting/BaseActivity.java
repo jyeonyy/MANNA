@@ -1,4 +1,4 @@
-package org.ssutown.manna.AdjustDaySchedule;
+package org.ssutown.manna.AdjstmentMeeting;
 
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -8,11 +8,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.alamkanak.weekview.DateTimeInterpreter;
+import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.WeekView;
+import com.alamkanak.weekview.WeekViewEvent;
+
 import org.ssutown.manna.R;
-import org.ssutown.manna.library.DateTimeInterpreter;
-import org.ssutown.manna.library.MonthLoader;
-import org.ssutown.manna.library.WeekView;
-import org.ssutown.manna.library.WeekViewEvent;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
