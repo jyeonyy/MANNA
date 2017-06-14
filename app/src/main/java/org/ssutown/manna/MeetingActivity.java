@@ -19,6 +19,7 @@ import org.ssutown.manna.Meeting_details.AnnouncementFragment;
 import org.ssutown.manna.meeting.User;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Jiyeon on 2017-03-25.
@@ -32,6 +33,7 @@ public class MeetingActivity extends Activity {
     FirebaseDatabase database1 = FirebaseDatabase.getInstance();
     DatabaseReference MeetingDetails = database1.getReference("MeetingDetails");
     private static ArrayList<User> userlist;
+
 
 
     @Override

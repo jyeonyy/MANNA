@@ -1,22 +1,11 @@
 package org.ssutown.manna.AdjstmentMeeting;
 
-import android.util.Log;
-
 import com.alamkanak.weekview.WeekViewEvent;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import org.ssutown.manna.GoogleCalendar.CalendarList;
-import org.ssutown.manna.MeetingActivity;
 import org.ssutown.manna.R;
-import org.ssutown.manna.meeting.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,17 +15,14 @@ import java.util.List;
  */
 public class BasicActivity extends BaseActivity {
 
-    ArrayList<User> userinfo = MeetingActivity.getUserlist();
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference userdb = database.getReference("userList");
-    protected static ArrayList<HashMap<String, String>> mSavedEvents;
+
+
+    protected static int test = 0;
 
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         // Populate the week view with some events.
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
-
-        getCalendar();
 
         Calendar startTime = Calendar.getInstance();
         startTime.set(Calendar.HOUR_OF_DAY, 3);
@@ -197,47 +183,7 @@ public class BasicActivity extends BaseActivity {
         return events;
     }
 
-    public void getCalendar(){
 
-        mSavedEvents = new ArrayList<HashMap<String, String>>();
-        mSavedEvents.clear();
-
-        for(int i=0;i<userinfo.size(); i++) {
-            Log.i("infori", String.valueOf(userinfo.size()));
-            userdb.child(userinfo.get(i).getUserID()).
-                    child("calendar").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.i("onDataChange", String.valueOf(userinfo.size()));
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        HashMap<String, String> temp = new HashMap<String, String>();
-                        temp.put("year" + ds.getValue(CalendarList.class).getStartyear()
-                                        + "month" + ds.getValue(CalendarList.class).getStartmonth()
-                                        + "day" + ds.getValue(CalendarList.class).getStartday(),
-                                ds.getValue(CalendarList.class).getStarthour()
-                                        + ":" + ds.getValue(CalendarList.class).getStartminute()
-                                        + "-" + ds.getValue(CalendarList.class).getEndhour()
-                                        + ":" + ds.getValue(CalendarList.class).getEndminute());
-
-                        mSavedEvents.add(temp);
-                        Log.i("usercalenadr2", mSavedEvents.toString());
-                    }
-                    Log.i("endfor",String.valueOf(mSavedEvents.size()));
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-
-        }
-        Log.i("complete", String.valueOf(mSavedEvents.size()));
-        mergeCalendar();
-    }
-
-    public void mergeCalendar(){
-        Log.i("dkssud",String.valueOf(mSavedEvents.size()));
-    }
 
 
 }
