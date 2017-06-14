@@ -34,31 +34,33 @@
         />
 
     <Button
-        android:id="@+id/kakao_link"
-        android:layout_width="wrap_content"
+        android:id="@+id/button5"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="136dp"
-        android:text="Button"
-        android:layout_below="@+id/bar82"
-        android:layout_alignStart="@+id/meetsetting" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="51dp"
-        app:srcCompat="@drawable/kakaolink_btn_small"
-        android:layout_marginStart="11dp"
-        android:layout_below="@+id/bar82"
-        android:layout_toEndOf="@+id/kakao_link" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="카카오톡으로 친구 초대하기"
         android:layout_marginTop="18dp"
-        android:layout_alignTop="@+id/imageButton"
-        android:layout_alignEnd="@+id/meetsetting" />
+        android:text="카카오톡으로초대하기"
+        android:layout_below="@+id/bar82"
+        android:layout_centerHorizontal="true" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#99000000"
+        android:layout_below="@+id/button5"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/bar83"
+        />
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/memberlistview"
+        android:layout_below="@id/bar83"
+        android:layout_marginRight="30sp"
+        android:layout_marginLeft="30sp">
+    </ListView>
 
 </RelativeLayout>

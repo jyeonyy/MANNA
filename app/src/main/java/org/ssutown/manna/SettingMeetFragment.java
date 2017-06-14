@@ -1,6 +1,7 @@
 package org.ssutown.manna;
 
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -9,8 +10,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.kakao.kakaolink.*;
 import com.kakao.kakaolink.KakaoLink;
 import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
@@ -31,6 +37,9 @@ import com.kakao.util.helper.log.Logger;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.ssutown.manna.MeetingSetting.MemberListAdapter;
+import org.ssutown.manna.meeting.User;
+
 import static android.content.ContentValues.TAG;
 
 
@@ -43,18 +52,46 @@ public class SettingMeetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.settingmeet_fragment, container, false);
 
-        Button kakao_link = (Button)view.findViewById(R.id.kakao_link);
+        Button kakao_link = (Button)view.findViewById(R.id.button5);
 
         meeting_id = ((MeetingActivity)getActivity()).meeting_id;
         meeting_name = ((MeetingActivity)getActivity()).meeting_name;
 
         Log.d(TAG, "onCreateView: " + meeting_id + " , " + meeting_name);
+
         kakao_link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sendDefaultFeedTemplate();
             }
         });
+
+        final MemberListAdapter adapter;
+        adapter = new MemberListAdapter();
+        final ListView listView = (ListView)view.findViewById(R.id.memberlistview);
+        listView.setAdapter(adapter);
+
+        adapter.addItem("미팅 멤버 목록");
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference user = database.getReference();
+
+        user.child("MeetingDetails").child(meeting_id).child("Users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.clear();
+                adapter.addItem("미팅 멤버 목록");
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    adapter.addItem(ds.getValue(User.class).getUserID());
+                }adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         return view;
 
@@ -85,10 +122,7 @@ public class SettingMeetFragment extends Fragment {
 
             @Override
             public void onSuccess(KakaoLinkResponse result) {
-                Toast.makeText(getActivity(),"초대성공이요",Toast.LENGTH_SHORT).show();
-               // Intent i = getActivity().getIntent();
-               // Uri uri=i.getData();
-               // Toast.makeText(getActivity(),uri.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"초대에 성공하였습니다",Toast.LENGTH_SHORT).show();
             }
         });
 
