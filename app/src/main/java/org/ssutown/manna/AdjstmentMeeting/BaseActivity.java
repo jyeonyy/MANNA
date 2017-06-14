@@ -258,13 +258,14 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         int endmonth = Integer.valueOf(endmonth1[1]);
         int endday = Integer.valueOf(endday1[1]);
         int endhour = Integer.valueOf(endhour1[1]);
-        final String value = event.getName()+": "+startmonth+"/"+startday+" "+starthour+"-"+endhour;
+        final String value = event.getName()+": "+startmonth+"/"+startday+" "+starthour+"-"+endhour+" 미팅";
 
         alert_confirm.setMessage("이 날로 지정하겠습니까?").setCancelable(false).setPositiveButton("확인",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
+
                         AnnounceListItem announce = new AnnounceListItem(userID, value);
                         Toast.makeText(getApplicationContext(),announce.getContent(),Toast.LENGTH_SHORT).show();
                         String meetingid = MeetingActivity.getMeeting_id();
