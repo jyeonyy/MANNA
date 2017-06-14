@@ -49,6 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference userdb = database.getReference("userList");
 
+    int and= 0 ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,11 +130,10 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
             }
         });
     }
-    int temp= 0 ;
+
     public void getCalendar(){
 
         for(int i=0;i<userinfo.size();i++) {
-            temp = i;
             Log.i("infori", String.valueOf(userinfo.size()));
             userdb.child(userinfo.get(i).getUserID()).
                     child("calendar").addValueEventListener(new ValueEventListener() {
@@ -153,8 +153,9 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
                         mSavedEvents.add(temp);
                         Log.i("usercalenadr2", mSavedEvents.toString());
                     }
-                    Log.i("endfor", String.valueOf(mSavedEvents.size()));
-                    if((userinfo.size()-1) == temp){
+                    Log.i("endfor", String.valueOf(and));
+                    and++;
+                    if(and == userinfo.size()){
                         mergeCalendar();
                     }
                 }
@@ -169,6 +170,47 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
 
     public void mergeCalendar(){
         Log.i("dkssud",String.valueOf(mSavedEvents.size()));
+        String a[] = {"year2017month07day11", "year2017month07day12"};
+        // 여기는 나중에 날짜 받으면 수정해주면 될듯
+        int[] count;
+        count = new int[24];
+
+        int daysum = 2;
+        Log.i("inmergeCalendar", a[0]);
+        Log.i("inmergeCalendar", a[1]);
+        for(int i = 0;i<1;i++){
+            Log.i("infori", String.valueOf(i));
+            Log.i("infori", String.valueOf(mSavedEvents.size()));
+            for(int j=0;j<mSavedEvents.size(); j++){
+                Log.i("inforj", String.valueOf(mSavedEvents.size()));
+                String yearmonthday[] = mSavedEvents.get(j).toString().split("=");
+                yearmonthday[0] = yearmonthday[0].replace("{", "");
+                Log.i("mSavedEvents", yearmonthday[0]);
+                Log.i("a[]", a[i]);
+
+                if(yearmonthday[0].equals(a[i])){
+                    //종일 이벤트는 처리 안해줌
+                    String dayParsetime[] = mSavedEvents.get(j).toString().split("=");
+                    String startParseend[] = dayParsetime[1].split("-");
+                    String starttime[] = startParseend[0].split(":");
+                    String endtime[] = startParseend[1].split(":");
+                    int starthour = Integer.valueOf(starttime[0]);
+                    endtime[0] = endtime[0].replace("}", "");
+                    int endhour = Integer.valueOf(endtime[0]);
+
+                    for(int k=starthour; k<=endhour; k++) {
+                        count[k]++;
+                    }
+                    for(int alal = 0;alal<24;alal++){
+                        Log.i("dkssud", String.valueOf(count[alal]));
+                    }
+
+                }
+            }
+        }
+
+
+
     }
 
     protected String getEventTitle(Calendar time) {
