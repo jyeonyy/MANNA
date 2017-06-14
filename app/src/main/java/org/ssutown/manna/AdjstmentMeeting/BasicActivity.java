@@ -1,11 +1,22 @@
 package org.ssutown.manna.AdjstmentMeeting;
 
-import com.alamkanak.weekview.WeekViewEvent;
+import android.util.Log;
 
+import com.alamkanak.weekview.WeekViewEvent;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.ssutown.manna.GoogleCalendar.CalendarList;
+import org.ssutown.manna.MeetingActivity;
 import org.ssutown.manna.R;
+import org.ssutown.manna.meeting.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -15,12 +26,218 @@ import java.util.List;
  */
 public class BasicActivity extends BaseActivity {
 
+    ArrayList<User> userinfo = MeetingActivity.getUserlist();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference userdb = database.getReference("userList");
+    protected static ArrayList<HashMap<String, String>> mSavedEvents;
+
     @Override
     public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         // Populate the week view with some events.
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
+        getCalendar();
+
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.MINUTE, 0);
+        startTime.set(Calendar.MONTH, newMonth - 1);
+        startTime.set(Calendar.YEAR, newYear);
+        Calendar endTime = (Calendar) startTime.clone();
+        endTime.add(Calendar.HOUR, 1);
+        endTime.set(Calendar.MONTH, newMonth - 1);
+        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
+        event.setColor(getResources().getColor(R.color.event_color_01));
+        events.add(event);
+
+        startTime = Calendar.getInstance();
+        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.MINUTE, 30);
+        startTime.set(Calendar.MONTH, newMonth-1);
+        startTime.set(Calendar.YEAR, newYear);
+        endTime = (Calendar) startTime.clone();
+        endTime.set(Calendar.HOUR_OF_DAY, 4);
+        endTime.set(Calendar.MINUTE, 30);
+        endTime.set(Calendar.MONTH, newMonth-1);
+        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
+        event.setColor(getResources().getColor(R.color.event_color_02));
+        events.add(event);
+
+
+        // problem!
+        startTime = Calendar.getInstance();
+        startTime.set(Calendar.HOUR_OF_DAY,8);
+        startTime.set(Calendar.MINUTE,30);
+        startTime.set(Calendar.MONTH, newMonth - 1);
+        startTime.set(Calendar.YEAR, newYear);
+        endTime = (Calendar)startTime.clone();
+        endTime.set(Calendar.HOUR_OF_DAY,9);
+        endTime.set(Calendar.MINUTE,30);
+        endTime.set(Calendar.MONTH,newMonth-1);
+        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
+        event.setColor(getResources().getColor(R.color.event_color_04));
+        events.add(event);
+
+//        startTime = Calendar.getInstance();
+//        startTime.set(Calendar.DAY_OF_MONTH, 15);
+//        startTime.set(Calendar.HOUR_OF_DAY, 3);
+//        startTime.set(Calendar.MINUTE, 0);
+//        startTime.set(Calendar.MONTH, newMonth-1);
+//        startTime.set(Calendar.YEAR, newYear);
+//        endTime = (Calendar) startTime.clone();
+//        endTime.add(Calendar.HOUR_OF_DAY, 3);
+//        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime);
+//        event.setColor(getResources().getColor(R.color.event_color_04));
+//        events.add(event);
+
+        startTime = Calendar.getInstance();
+        startTime.set(Calendar.HOUR_OF_DAY, 4);
+        startTime.set(Calendar.MINUTE, 20);
+        startTime.set(Calendar.MONTH, newMonth-1);
+        startTime.set(Calendar.YEAR, newYear);
+        endTime = (Calendar) startTime.clone();
+        endTime.set(Calendar.HOUR_OF_DAY, 5);
+        endTime.set(Calendar.MINUTE, 0);
+        event = new WeekViewEvent(10, getEventTitle(startTime), startTime, endTime);
+        event.setColor(getResources().getColor(R.color.event_color_03));
+        events.add(event);
+
+        startTime = Calendar.getInstance();
+        startTime.set(Calendar.HOUR_OF_DAY, 5);
+        startTime.set(Calendar.MINUTE, 30);
+        startTime.set(Calendar.MONTH, newMonth-1);
+        startTime.set(Calendar.YEAR, newYear);
+        endTime = (Calendar) startTime.clone();
+        endTime.add(Calendar.HOUR_OF_DAY, 2);
+        endTime.set(Calendar.MONTH, newMonth-1);
+        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime);
+        event.setColor(getResources().getColor(R.color.event_color_02));
+        events.add(event);
+
+        startTime = Calendar.getInstance();
+        startTime.set(Calendar.HOUR_OF_DAY, 5);
+        startTime.set(Calendar.MINUTE, 0);
+        startTime.set(Calendar.MONTH, newMonth - 1);
+        startTime.set(Calendar.YEAR, newYear);
+        startTime.add(Calendar.DATE, 1);
+        endTime = (Calendar) startTime.clone();
+        endTime.add(Calendar.HOUR_OF_DAY, 3);
+        endTime.set(Calendar.MONTH, newMonth - 1);
+        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime);
+        event.setColor(getResources().getColor(R.color.event_color_03));
+        events.add(event);
+
+//        startTime = Calendar.getInstance();
+//        startTime.set(Calendar.DAY_OF_MONTH, 1);
+//        startTime.set(Calendar.HOUR_OF_DAY, 3);
+//        startTime.set(Calendar.MINUTE, 0);
+//        startTime.set(Calendar.MONTH, newMonth-1);
+//        startTime.set(Calendar.YEAR, newYear);
+//        endTime = (Calendar) startTime.clone();
+//        endTime.add(Calendar.HOUR_OF_DAY, 3);
+//        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
+//        event.setColor(getResources().getColor(R.color.event_color_01));
+//        events.add(event);
+
+//        startTime = Calendar.getInstance();
+//        startTime.set(Calendar.DAY_OF_MONTH, startTime.getActualMaximum(Calendar.DAY_OF_MONTH));
+//        startTime.set(Calendar.HOUR_OF_DAY, 15);
+//        startTime.set(Calendar.MINUTE, 0);
+//        startTime.set(Calendar.MONTH, newMonth-1);
+//        startTime.set(Calendar.YEAR, newYear);
+//        endTime = (Calendar) startTime.clone();
+//        endTime.add(Calendar.HOUR_OF_DAY, 3);
+//        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
+//        event.setColor(getResources().getColor(R.color.event_color_02));
+//        events.add(event);
+
+//        //AllDay event
+//        startTime = Calendar.getInstance();
+//        startTime.set(Calendar.HOUR_OF_DAY, 0);
+//        startTime.set(Calendar.MINUTE, 0);
+//        startTime.set(Calendar.MONTH, newMonth-1);
+//        startTime.set(Calendar.YEAR, newYear);
+//        endTime = (Calendar) startTime.clone();
+//        endTime.add(Calendar.HOUR_OF_DAY, 23);
+//        event = new WeekViewEvent(7, getEventTitle(startTime),null, startTime, endTime, true);
+//        event.setColor(getResources().getColor(R.color.event_color_04));
+//        events.add(event);
+//        events.add(event);
+//
+//        startTime = Calendar.getInstance();
+//        startTime.set(Calendar.DAY_OF_MONTH, 8);
+//        startTime.set(Calendar.HOUR_OF_DAY, 2);
+//        startTime.set(Calendar.MINUTE, 0);
+//        startTime.set(Calendar.MONTH, newMonth-1);
+//        startTime.set(Calendar.YEAR, newYear);
+//        endTime = (Calendar) startTime.clone();
+//        endTime.set(Calendar.DAY_OF_MONTH, 10);
+//        endTime.set(Calendar.HOUR_OF_DAY, 23);
+//        event = new WeekViewEvent(8, getEventTitle(startTime),null, startTime, endTime, true);
+//        event.setColor(getResources().getColor(R.color.event_color_03));
+//        events.add(event);
+//
+//        // All day event until 00:00 next day
+//        startTime = Calendar.getInstance();
+//        startTime.set(Calendar.DAY_OF_MONTH, 10);
+//        startTime.set(Calendar.HOUR_OF_DAY, 0);
+//        startTime.set(Calendar.MINUTE, 0);
+//        startTime.set(Calendar.SECOND, 0);
+//        startTime.set(Calendar.MILLISECOND, 0);
+//        startTime.set(Calendar.MONTH, newMonth-1);
+//        startTime.set(Calendar.YEAR, newYear);
+//        endTime = (Calendar) startTime.clone();
+//        endTime.set(Calendar.DAY_OF_MONTH, 11);
+//        event = new WeekViewEvent(8, getEventTitle(startTime), null, startTime, endTime, true);
+//        event.setColor(getResources().getColor(R.color.event_color_01));
+//        events.add(event);
+
+
+
         return events;
     }
+
+    public void getCalendar(){
+
+        mSavedEvents = new ArrayList<HashMap<String, String>>();
+        mSavedEvents.clear();
+
+        for(int i=0;i<userinfo.size(); i++) {
+            Log.i("infori", String.valueOf(userinfo.size()));
+            userdb.child(userinfo.get(i).getUserID()).
+                    child("calendar").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.i("onDataChange", String.valueOf(userinfo.size()));
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        HashMap<String, String> temp = new HashMap<String, String>();
+                        temp.put("year" + ds.getValue(CalendarList.class).getStartyear()
+                                        + "month" + ds.getValue(CalendarList.class).getStartmonth()
+                                        + "day" + ds.getValue(CalendarList.class).getStartday(),
+                                ds.getValue(CalendarList.class).getStarthour()
+                                        + ":" + ds.getValue(CalendarList.class).getStartminute()
+                                        + "-" + ds.getValue(CalendarList.class).getEndhour()
+                                        + ":" + ds.getValue(CalendarList.class).getEndminute());
+
+                        mSavedEvents.add(temp);
+                        Log.i("usercalenadr2", mSavedEvents.toString());
+                    }
+                    Log.i("endfor",String.valueOf(mSavedEvents.size()));
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+        Log.i("complete", String.valueOf(mSavedEvents.size()));
+        mergeCalendar();
+    }
+
+    public void mergeCalendar(){
+        Log.i("dkssud",String.valueOf(mSavedEvents.size()));
+    }
+
 
 }
