@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Random;
 
 /**
  * Created by YNH on 2017. 5. 30..
@@ -38,11 +37,11 @@ public class AllMeetingCalendarFragment extends Fragment implements View.OnClick
     private AllMeetingCalendarAdapter mMeetingCalendarAdapter;
 
     // Saved Events Adapter
-    protected static AllSavedEventsAdapter mSavedEventsAdapter;
+    protected static AllCalendarEventsAdapter mSavedEventsAdapter;
     protected static ListView mSavedEventsListView;
 
-    protected static ArrayList<HashMap<String, Integer>> mSavedEventsPerDay;
-    protected static ArrayList<Integer> mSavedEventDays;
+    public static ArrayList<HashMap<String, String>> mSavedEventsPerDay = new ArrayList<HashMap<String, String>>();
+    public static ArrayList<String> mSavedEventDays = new ArrayList<String>();
 
     protected static int mNumEventsOnDay = 0;
 
@@ -123,7 +122,7 @@ public class AllMeetingCalendarFragment extends Fragment implements View.OnClick
         super.onActivityCreated(savedInstanceState);
 
         if (mSavedEventsListView != null) {
-            mSavedEventsAdapter = new AllSavedEventsAdapter(getActivity());
+            mSavedEventsAdapter = new AllCalendarEventsAdapter();
             mSavedEventsListView.setAdapter(mSavedEventsAdapter);
             mSavedEventsListView.setOnItemClickListener(this);
             Log.d("EVENTS_ADAPTER", "set adapter");
@@ -188,67 +187,82 @@ public class AllMeetingCalendarFragment extends Fragment implements View.OnClick
         // For loop adding each event date to ArrayList
         // Also get ArrayList<SavedEvents>
 
-        mSavedEventsPerDay = new ArrayList<HashMap<String, Integer>>();
+//        mSavedEventsPerDay = new ArrayList<HashMap<String, String>>();
 
         /**
          * Make sure to use this variable name or update in CalendarAdapter 'setSavedEvent'
          */
-        mSavedEventDays = new ArrayList<Integer>();
+//        mSavedEventDays = new ArrayList<String>();
 
         // This is just used for testing purposes to show saved events on the calendar
-        Random random = new Random();
-        int randomNumOfEvents = random.nextInt(10 - 1) + 1;
+//        Random random = new Random();
+//        int randomNumOfEvents = random.nextInt(10 - 1) + 1;
+//
+//        for (int i = 0; i < randomNumOfEvents; i++) {
+//            int day = random.nextInt(AllMeetingCalendar.mNumDaysInMonth - 1) + 1;
+//            int eventPerDay = random.nextInt(5 - 1) + 1;
+//
+//            HashMap<String, Integer> dayInfo = new HashMap<String, Integer>();
+//            dayInfo.put("day" + day, eventPerDay);
+//
+//            mSavedEventDays.add(day);
+//            mSavedEventsPerDay.add(dayInfo);
+//
+//            Log.d("EVENTS_PER DAY", String.valueOf(dayInfo));
+//        }
 
-        for (int i = 0; i < randomNumOfEvents; i++) {
-            int day = random.nextInt(AllMeetingCalendar.mNumDaysInMonth - 1) + 1;
-            int eventPerDay = random.nextInt(5 - 1) + 1;
-
-            HashMap<String, Integer> dayInfo = new HashMap<String, Integer>();
-            dayInfo.put("day" + day, eventPerDay);
-
-            mSavedEventDays.add(day);
-            mSavedEventsPerDay.add(dayInfo);
-
-            Log.d("EVENTS_PER DAY", String.valueOf(dayInfo));
-        }
-
-        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));
+//        Log.d("SAVED_EVENT_DATES", String.valueOf(mSavedEventDays));
     }
 
     protected static void showSavedEventsListView(int position) {
         Boolean savedEventsOnThisDay = false;
         int selectedDate = -1;
+        int selectedMonth= -1;
+        int selectedYear= -1;
+        String a="";
 
         if (AllMeetingCalendar.mFirstDay != -1 && mSavedEventDays != null && mSavedEventDays.size
                 () > 0) {
             selectedDate = position - (6 + AllMeetingCalendar.mFirstDay);
-            Log.d("SELECTED_SAVED_DATE", String.valueOf(selectedDate));
+            selectedMonth = AllMeetingCalendar.mMonth+1;
+            selectedYear = AllMeetingCalendar.mYear;
+            if ((selectedMonth <10) && (selectedDate < 10)){
+                a = "year"+selectedYear+"month0"+selectedMonth+"day0"+selectedDate;
+
+            }else if((selectedMonth<10)){
+                a = "year"+selectedYear+"month0"+selectedMonth+"day"+selectedDate;
+            }else if(selectedDate < 10){
+                a = "year"+selectedYear+"month"+selectedMonth+"day0"+selectedDate;
+            }else {
+                a = "year"+selectedYear+"month"+selectedMonth+"day"+selectedDate;
+            }
 
             for (int i = 0; i < mSavedEventDays.size(); i++) {
-                if (selectedDate == mSavedEventDays.get(i)) {
-                    savedEventsOnThisDay = true;
+                String rea[] = mSavedEventDays.get(i).split("start");
+                Log.i("allfragment", rea[0]);
+
+                if (a.equals(rea[0])) {
+                    savedEventsOnThisDay = true;//일정이 저장된 날과 선택된 날이 같으면 true로 바꿔준다.
+
                 }
             }
-        }
-
-        Log.d("SAVED_EVENTS_BOOL", String.valueOf(savedEventsOnThisDay));
-
-        if (savedEventsOnThisDay) {
-            Log.d("POS", String.valueOf(selectedDate));
-            if (mSavedEventsPerDay != null && mSavedEventsPerDay.size() > 0) {
-                for (int i = 0; i < mSavedEventsPerDay.size(); i++) {
-                    HashMap<String, Integer> x = mSavedEventsPerDay.get(i);
-                    if (x.containsKey("day" + selectedDate)) {
-                        mNumEventsOnDay = mSavedEventsPerDay.get(i).get("day" + selectedDate);
-                        Log.d("NUM_EVENT_ON_DAY", String.valueOf(mNumEventsOnDay));
-                    }
-                }
-            }
-        } else {
-            mNumEventsOnDay = -1;
         }
 
         if (mSavedEventsAdapter != null && mSavedEventsListView != null) {
+            mSavedEventsAdapter.clear();
+            for(int i=0;i<mSavedEventDays.size(); i++){
+                String rea[] = mSavedEventDays.get(i).split("start");
+                String temp[] = rea[1].split("end");
+                String start = temp[0];
+                String end = temp[1];
+                Log.i("allfragment:start", start);
+                Log.i("allfragment: end", end);
+
+                if(rea[0].equals(a)){
+                    mSavedEventsAdapter.addItem("미팅 확정", start+"시 부터 "+end+"시 까지");
+                    Log.i("adaptertest", "gg");
+                }
+            }
             mSavedEventsAdapter.notifyDataSetChanged();
 
             // Scrolls back to top of ListView before refresh

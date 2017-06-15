@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.ssutown.manna.AllMeetingSchedule.AllMeetingCalendarFragment;
 import org.ssutown.manna.GoogleCalendar.CalendarList;
 import org.ssutown.manna.MeetingActivity;
 import org.ssutown.manna.Meeting_details.AnnounceListItem;
@@ -246,9 +247,11 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         String startday1[] = starttemp[11].split("=");
         String starthour1[] = starttemp[16].split("=");
 
+
         int startmonth = Integer.valueOf(startmonth1[1])+1;
         int startday = Integer.valueOf(startday1[1]);
         int starthour = Integer.valueOf(starthour1[1]);
+
 
         String endtemp[] = event.getEndTime().toString().split(",");
         String endmonth1[] = endtemp[8].split("=");
@@ -260,6 +263,21 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         int endhour = Integer.valueOf(endhour1[1]);
         final String value = event.getName()+": "+startmonth+"/"+startday+" "+starthour+"-"+endhour+" 미팅";
 
+
+        String a1;
+        if ((startmonth <10) && (startday < 10)){
+            a1 = "year2017"+"month0"+startmonth+"day0"+startday+"start"+starthour+"end"+endhour;
+
+        }else if((startmonth<10)){
+              a1 = "year2017"+"month0"+startmonth+"day"+startday+"start"+starthour+"end"+endhour;
+        }else if(startday < 10){
+             a1 = "year2017"+"month"+startmonth+"day0"+startday+"start"+starthour+"end"+endhour;
+        }else {
+             a1 = "year2017"+"month"+startmonth+"day"+startday+"start"+starthour+"end"+endhour;
+        }
+
+        final String a = a1;
+
         alert_confirm.setMessage("이 날로 지정하겠습니까?").setCancelable(false).setPositiveButton("확인",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -270,6 +288,10 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
                         Toast.makeText(getApplicationContext(),announce.getContent(),Toast.LENGTH_SHORT).show();
                         String meetingid = MeetingActivity.getMeeting_id();
                         databaseReference.child("MeetingDetails").child(meetingid).child("Announcement").push().setValue(announce);
+                        HashMap<String, String> temp = new HashMap<String, String>();
+                        temp.put(a, value);
+                        AllMeetingCalendarFragment.mSavedEventsPerDay.add(temp);
+                        AllMeetingCalendarFragment.mSavedEventDays.add(a);
 
                     }
                 }).setNegativeButton("취소",

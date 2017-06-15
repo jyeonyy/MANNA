@@ -189,15 +189,38 @@ public class AllMeetingCalendarAdapter extends BaseAdapter {
             int startingPosition = mWeekDayNames - mGridViewIndexOffset + AllMeetingCalendar.mFirstDay;
 //            Log.d("SAVED_EVENT_STARTING_POS", String.valueOf(startingPosition));
             if (position > startingPosition) {
-                for (int i = 0; i < AllMeetingCalendarFragment.mSavedEventDays.size(); i++) {
-                    int savedEventPosition = startingPosition + AllMeetingCalendarFragment.mSavedEventDays.get(i);
+                for(int i=0;i<AllMeetingCalendarFragment.mSavedEventDays.size(); i++){
+                    int realyear = AllMeetingCalendar.mYear;
+                    int realmonth = AllMeetingCalendar.mMonth+1;
 
-                    Log.d("POSITION", String.valueOf(position));
-                    Log.d("SAVED_POSITION", String.valueOf(savedEventPosition));
+                    String[] temp1 = AllMeetingCalendarFragment.mSavedEventDays.get(i).split("month");
+                    String[] temp2 = temp1[1].split("day");
+                    String month = temp2[0];
+                    String[] temp3 = temp2[1].split("start");
+                    String day = temp3[0];
+                    String[] temp4 = temp3[1].split("end");
+                    String start = temp4[0];
+                    String end = temp4[1];
+
+                    int savedEventPosition = -1;
+                    if(realmonth == Integer.valueOf(month)){
+                        savedEventPosition = startingPosition + Integer.valueOf(day);
+                    }
+
                     if (position == savedEventPosition) {
                         mHolder.mSavedEventImageView.setVisibility(View.VISIBLE);
                     }
+
                 }
+
+
+//                for (int i = 0; i < AllMeetingCalendarFragment.mSavedEventDays.size(); i++) {
+//                    int savedEventPosition = startingPosition + AllMeetingCalendarFragment.mSavedEventDays.get(i);
+//
+//                    Log.d("POSITION", String.valueOf(position));
+//                    Log.d("SAVED_POSITION", String.valueOf(savedEventPosition));
+
+//                }
             } else {
                 mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
             }

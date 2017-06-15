@@ -184,25 +184,6 @@ public class MaterialCalendarAdapter extends BaseAdapter {
         // Reset saved position indicator
         mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
 
-//        if (MaterialCalendar.mFirstDay != -1 && MaterialCalendarFragment.mSavedEventDays != null &&
-//                MaterialCalendarFragment.mSavedEventDays.size() > 0) {
-//
-//            int startingPosition = mWeekDayNames - mGridViewIndexOffset + MaterialCalendar.mFirstDay;
-//            Log.d("SAVEDEVENTSTARTING_POS", String.valueOf(startingPosition));
-//            if (position > startingPosition) {
-//                for (int i = 0; i < MaterialCalendarFragment.mSavedEventDays.size(); i++) {
-//                    int savedEventPosition = startingPosition + MaterialCalendarFragment.mSavedEventDays.get(i);
-//
-//                    Log.d("POSITION", String.valueOf(position));
-//                    Log.d("SAVED_POSITION", String.valueOf(savedEventPosition));
-//                    if (position == savedEventPosition) {
-//                        mHolder.mSavedEventImageView.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            } else {
-//                mHolder.mSavedEventImageView.setVisibility(View.INVISIBLE);
-//            }
-//        }
         if (MaterialCalendar.mFirstDay != -1 && MaterialCalendarFragment.mSaveTestday != null &&
                 MaterialCalendarFragment.mSaveTestday.size() > 0) {
 
