@@ -95,6 +95,8 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         mSavedEvents = new ArrayList<HashMap<String, String>>();
         mSavedEvents.clear();
         getCalendar();
+
+
         View.OnClickListener listener = new View.OnClickListener()
         {
             @Override
@@ -184,19 +186,20 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
         Log.i("dkssud",String.valueOf(mSavedEvents.size()));
         String a[] = {"year2017month07day11", "year2017month07day12"};
         // 여기는 나중에 날짜 받으면 수정해주면 될듯
-        int[] count;
-        count = new int[24];
+
+
         mergeCalendars = new ArrayList<MergeCalendar>();
         mergeCalendars.clear();
-
+        int[] count;
         int daysum = 2;
-        Log.i("inmergeCalendar", a[0]);
-        Log.i("inmergeCalendar", a[1]);
         for(int i = 0;i<2;i++){
+            count = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+//            count = new int[24];
             Log.i("infori", String.valueOf(i));
             Log.i("infori", String.valueOf(mSavedEvents.size()));
             for(int j=0;j<mSavedEvents.size(); j++){
                 Log.i("inforj", String.valueOf(mSavedEvents.size()));
+                //여기서 string잘못뽑아서 에러날수도 있어
                 String yearmonthday[] = mSavedEvents.get(j).toString().split("=");
                 yearmonthday[0] = yearmonthday[0].replace("{", "");
                 Log.i("mSavedEvents", yearmonthday[0]);
@@ -211,11 +214,14 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
                     int starthour = Integer.valueOf(starttime[0]);
                     endtime[0] = endtime[0].replace("}", "");
                     int endhour = Integer.valueOf(endtime[0]);
-
-                    for(int k=starthour; k<=endhour; k++) {
+                    Log.i("forhyemin", "i: "+String.valueOf(i)+ "j :"+String.valueOf(j)+
+                            "starthour: "+String.valueOf(starthour)+"endhour: "+String.valueOf(endhour));
+                    for(int k=starthour; k<endhour; k++) {
                         count[k]++;
                     }
-
+//                    MergeCalendar mergecal = new MergeCalendar(count, a[i]);
+//                    mergeCalendars.add(mergecal);
+//                    Log.i("forhyemin1", String.valueOf(mergeCalendars.size()));
 
                 }
             }
@@ -227,11 +233,17 @@ public abstract class BaseActivity extends AppCompatActivity implements WeekView
 
         complete = true;
 
-        for(int i=0;i<mergeCalendars.size();i++){
-            Log.i("forhyemin", String.valueOf(mergeCalendars.get(i).getCount()));
-            Log.i("forhyemin", mergeCalendars.get(i).getDate());
-        }
+        int dkssud1[] = mergeCalendars.get(0).getCount();
+        int dkssud2[] = mergeCalendars.get(1).getCount();
 
+        Log.i("forhyemin", mergeCalendars.get(0).getDate());
+        for(int i=0;i<24;i++) {
+            Log.i("forhyemin 1번째 i : ", String.valueOf(i) + "count : " + String.valueOf(dkssud1[i]));
+        }
+        Log.i("forhyemin", mergeCalendars.get(1).getDate());
+        for(int i=0;i<24;i++) {
+            Log.i("forhyemin 2번째 i : ", String.valueOf(i) + "count : " + String.valueOf(dkssud2[i]));
+        }
     }
 
     protected String getEventTitle(Calendar time) {
