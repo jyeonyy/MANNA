@@ -30,13 +30,13 @@ MANNA
 ## 실행 화면
 
 1. 홈 화면
-![Alt text](./picture/home.png "Optional title")
+![Alt text](./home.png "Optional title")
 
 2. 구글 연동 화면
-![Alt text](./picture/googlelogin.png "Optional title")
+![Alt text](./googlelogin.png "Optional title")
 
 3. 캘린더 화면
-![Alt text](./picture/calendar.png "Optional title")
+![Alt text](./calendar.png "Optional title")
 
 4. 팀원들과의 스케줄 통합한 화면
-![Alt text](./picture/integrate.png "Optional title")
+![Alt text](./integrate.png "Optional title")
